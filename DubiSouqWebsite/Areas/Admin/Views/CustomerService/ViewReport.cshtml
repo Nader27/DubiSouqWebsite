@@ -1,0 +1,65 @@
+﻿@model IEnumerable<DubiSouqWebsite.Models.report>
+@{
+    ViewBag.Title = "View Report";
+}
+
+<h2>View Report</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.user.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="6">No Report found </td>
+        </tr>
+
+    }
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.user.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
+        </td>
+        @{
+            string x = item.Description;
+            if (x != null && x.Length > 30)
+            {
+                x = x.Substring(0, 30);
+                x += "...";
+            }
+        }
+        <td>
+            @Html.Raw(x)
+        </td>
+        <td>
+            @Html.ActionLink("Detail", "ReportDetails", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DubiSouqWebsite.Models.order>
+
+@{
+    ViewBag.Title = "View Orders";
+}
+
+<h2>View Orders</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.order_status.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.payment_method1.Method)
+        </th>
+        <th></th>
+    </tr>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="7">No Order found </td>
+        </tr>
+
+    }
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.order_status.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.payment_method1.Method)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "OrderDetails", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

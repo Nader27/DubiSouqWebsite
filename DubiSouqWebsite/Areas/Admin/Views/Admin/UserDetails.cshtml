@@ -1,0 +1,98 @@
+﻿@model DubiSouqWebsite.Models.BaseViewModels
+
+@{
+    ViewBag.Title = "User Details";
+}
+
+<h2>User Details</h2>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.user.ID)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Mobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.Mobile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Picture)
+        </dt>
+
+        <dd>
+            <img src="~/@Model.user.Picture" width="250" height="250" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user.user_type.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.user_type.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.Address1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address.Address1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address.Zipcode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address.Zipcode)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditUser", new { id = Model.user.ID }) |
+    @Html.ActionLink("Back to List", "UserIndex")
+</p>

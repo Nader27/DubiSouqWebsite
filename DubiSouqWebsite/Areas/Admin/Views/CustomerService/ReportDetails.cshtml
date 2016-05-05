@@ -1,0 +1,81 @@
+﻿@model DubiSouqWebsite.Models.report
+
+@{
+    ViewBag.Title = "Report Details";
+}
+
+<h2>Report Details</h2>
+
+<div>
+    <h4>report @Html.DisplayFor(model => model.ID)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user.Mobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user.Mobile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.product.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.product.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.product.category.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.product.category.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.product.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.product.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.product.Sale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.product.Sale)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "ViewReport")
+</p>

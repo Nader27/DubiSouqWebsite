@@ -1,0 +1,223 @@
+﻿@using DubiSouqWebsite.Models
+@model DubiSouqWebsite.Models.order
+@{
+    ViewBag.Title = "Checkout";
+    Entities db = new Entities();
+    double total = 0;
+}
+<section class="breadcumb_top_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="bread_top_box">
+                    <h2>Checkout</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="breadcumb_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="bread_box">
+                    <ul class="breadcumb">
+                        <li><a href="@Url.Action("Index", "Home" )">home <span>|</span></a></li>
+                        <li><a href="category-1.html">Shop <span>|</span></a></li>
+                        <li><a href="@Url.Action("Cart", "Home" )">Cart <span>|</span></a></li>
+                        <li class="active"><a href="@Url.Action("Checkout", "Home" )">checkout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="checkout_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-8 col-xs-12">
+                <div class="checkout_left">
+                    <h2>Billing Address</h2>
+                    <div class="dotted_line"></div>
+
+                    <div class="checkout_form">
+                        <div class="country_select">
+                            <p>Country</p>
+                            <select class="selectpicker sel_state">
+                                <option>Sate/Country</option>
+                                <option>Bangladesh</option>
+                                <option>USA</option>
+                                <option>UK</option>
+                                <option>Canda</option>
+                                <option>Australia</option>
+                            </select>
+                        </div>
+                        <div class="c_name_box">
+                            <div class="c_name_box_left">
+                                <p>First Name <span>*</span></p>
+                                <input type="text">
+                            </div>
+                            <div class="c_name_box_right">
+                                <p>Last Name <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="company_name">
+                            <p>Company Name <span>*</span></p>
+                            <input type="text">
+                        </div>
+                        <div class="c_address">
+                            <p>Address <span>*</span></p>
+                            <input type="text" placeholder="Street Address">
+                        </div>
+                        <div class="c_state_box">
+                            <div class="c_state_box_left">
+                                <p>Town/City <span>*</span></p>
+                                <input type="text">
+                            </div>
+                            <div class="c_state_box_right">
+                                <p>Postcode/Zip <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="c_mail_box">
+                            <div class="c_mail_box_left">
+                                <p>Email <span>*</span></p>
+                                <input type="text">
+                            </div>
+                            <div class="c_mail_box_right">
+                                <p>Phone <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Create An Account
+                            </label><br>
+                            <label>
+                                <input type="checkbox"> Shipping to a Different Address
+                            </label>
+                        </div>
+
+
+                    </div>
+
+                    <h2>Shiiping Address</h2>
+                    <div class="dotted_line"></div>
+
+                    <div class="shipping_form">
+                        <div class="country_select country_select2">
+                            <p>Country</p>
+                            <select class="selectpicker sel_state">
+                                <option>Sate/Country</option>
+                                <option>Bangladesh</option>
+                                <option>USA</option>
+                                <option>UK</option>
+                                <option>Canda</option>
+                                <option>Australia</option>
+                            </select>
+                        </div>
+                        <div class="c_name_box">
+                            <div class="c_name_box_left">
+                                <p>First Name <span>*</span></p>
+                                <input type="text">
+                            </div>
+                            <div class="c_name_box_right">
+                                <p>Last Name <span>*</span></p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="company_name">
+                            <p>Company Name <span>*</span></p>
+                            <input type="text">
+                        </div>
+                        <div class="c_address">
+                            <p>Address <span>*</span></p>
+                            <input type="text" placeholder="Street Address">
+                        </div>
+                        <div class="s_town">
+                            <p>Town/City <span>*</span></p>
+                            <input type="text" placeholder="Town/City">
+                        </div>
+                        <div class="s_order">
+                            <p>Order Notes <span>*</span></p>
+                            <textarea name="" cols="30" rows="10"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <div class="checkout_right">
+                    <h4>Review of Your Order</h4>
+
+                    <div class="product_form_total">
+                        <div class="c_main_item">
+                            <p>Product</p>
+                            <span>Total</span>
+                        </div>
+                        @foreach (cart_item item in ShoppingCart.GetCartItems())
+                        {
+                            product PROD = db.products.SingleOrDefault(u => u.ID == item.Product_ID);
+                            <div class="c_single_item">
+                                <p>@PROD.Name x @item.Quantity</p>
+                                <span>@( (PROD.Price / 100) * (100 - PROD.Sale) * item.Quantity)</span>
+                                @{
+                                    total += ((PROD.Price / 100) * (100 - PROD.Sale) * item.Quantity) ?? 0;
+                                }
+                            </div>
+                                    }
+                        <div class="c_single_item sp_single_item">
+                            <p></p>
+                        </div>
+                        <div class="c_single_item">
+                            <p>subtotal</p>
+                            <span>@total EGP</span>
+                        </div>
+                        <div class="c_single_item sp_single_item">
+                            <p>Shipping Charge</p>
+                            @if (total > 1000)
+                            {
+                                <span>Free</span>
+                            }
+                            else
+                            {
+                                <span>Pay 50 EGP</span>
+                                total += 50;
+                            }
+                        </div>
+                        <div class="c_total_item sp_single_item">
+                            <p>Order Total</p>
+                            <span>@total EGP</span>
+                        </div>
+                        @using (Html.BeginForm("Checkout", "Home", FormMethod.Post, new { @class = "form-horizontal", id = "checkoutform", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="c_payment">
+                                @Html.DropDownListFor(model => model.Payment_Method, ViewBag.payment_method as SelectList, "Select Payment Method", new { @class = "selectpicker sel_state" })
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="licence"> I have Read & Accept <span>Terms & Conditions</span>
+                                </label>
+                            </div>
+                        <input id="orderbtn"  type="submit"  value="Place order now" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type='text/javascript'>
+$(document).ready(function(){
+    $('#licence').click(function () {
+        if($(this).attr('checked') == false){
+            $('#orderbtn').attr("disabled", "disabled");
+        } else {
+            $('#orderbtn').removeAttr('disabled');
+        }
+    });
+});
+</script>

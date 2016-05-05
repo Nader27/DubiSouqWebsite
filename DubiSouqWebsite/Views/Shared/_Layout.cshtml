@@ -1,0 +1,530 @@
+﻿@using DubiSouqWebsite.Models;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DubiSouq.com</title>
+    <!-- fonts files -->
+    <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,400italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+
+    <!-- Font awesome css -->
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/jquery-ui/jquery-ui.css">
+
+    <!-- Owl carousel css -->
+    <link rel="stylesheet" href="~/Content/OwlCarousel/owl.carousel.css">
+    <link rel="stylesheet" href="~/Content/OwlCarousel/owl.theme.css">
+    <link rel="stylesheet" href="~/Content/OwlCarousel/owl.transitions.css">
+
+    <!-- bx-slider css -->
+    <link rel="stylesheet" href="~/Content/bxslider/jquery.bxslider.css">
+
+    <!-- bootstrap select css -->
+    <link rel="stylesheet" href="~/Content/bootstrap/bootstrap-select.min.css">
+
+    <!-- lightbox css -->
+    <link rel="stylesheet" href="~/Content/lightbox.css">
+
+    <!-- Revolution slider css -->
+    <link href="~/Scripts/rs-plugin/css/settings.css" rel="stylesheet" />
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="~/Content/bootstrap/bootstrap.min.css">
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="~/style.css">
+    <link rel="stylesheet" href="~/Content/responsive.css">
+
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+</head>
+<body>
+    <div class="header_top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="header_top_left">
+                        <img src="~/images/car.png" alt="Header Car Icon" />
+                        <p>get free! shipping on order over <span>1000 LE</span></p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="header_top_right floatright">
+                        @Html.Partial("_LoginPartial")
+                        <nav class="currency alignleft">
+                            <ul>
+                                <li>
+                                    <a href="#">EGP</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="top-flag alignleft">
+                            <img src="~/images/flag.png" alt="Flags" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <div class="header_left floatleft">
+                        <a class="fa fa-search" onclick="javascript: document.getElementById('searchform').submit()"></a>
+                        @using (Html.BeginForm("Index", "Shop", FormMethod.Get, new { id = "searchform" }))
+                        {
+                            <input type="text" placeholder="search" name="search" />
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-5 col-xs-12">
+                    <div class="header_center">
+                        <a href="@Url.Action("Home", "Home")"><img src="~/images/logo.png" alt="Site Logo" /></a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-12">
+                    <div class="header_right floatright">
+                        <ul class="checkout">
+                            <li><a href="@Url.Action("wishlist","Shop")"><i class="fa fa-heart-o"></i>wishlist</a></li>
+                            <li class="mobi_right_li"><a href="@Url.Action("Cart","Shop")"><i class="fa fa-shopping-cart"></i>checklist</a></li>
+                        </ul>
+                        <div class="w_likes">
+                            <span id="wishcount">@ShoppingCart.GetwhishCount()</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav_area" id="nav">
+        <div class="container">
+            <div class="nav_left floatleft">
+                <a href="@Url.Action("Home","Shop")">category<i class="fa fa-bars"></i></a>
+                <div class="cat_mega_menu">
+                    <div class="cat_left">
+                        <h5>Clothing</h5>
+                        <div class="cat_menu_line"></div>
+                        <ul class="cat_nav">
+                            <li><a href="@Url.Action("Index","Shop",new { id=4 })">Shirts</a></li>
+                            <li><a href="@Url.Action("Index","Shop",new { id=5 })">Pants</a></li>
+                        </ul>
+                    </div>
+                    <div class="cat_middle">
+                        <h5>Electronics</h5>
+                        <div class="cat_menu_line"></div>
+                        <ul class="cat_nav">
+                            <li><a href="@Url.Action("Index","Shop",new { id=6 })">Mobile Phones</a></li>
+                            <li><a href="@Url.Action("Index","Shop",new { id=7 })">Laptops</a></li>
+                        </ul>
+                    </div>
+                    <div class="cat_middle_right">
+                        <h5>Books</h5>
+                        <div class="cat_menu_line"></div>
+                        <ul class="cat_nav">
+                            <li><a href="@Url.Action("Index","Shop",new { id=8 })">Business Books</a></li>
+                            <li><a href="@Url.Action("Index","Shop",new { id=9 })">Lifestyle Books</a></li>
+                        </ul>
+                    </div>
+                    <div class="cat_img">
+                        <img src="~/images/menu_cat.png" alt="" />
+                    </div>
+                </div>
+            </div>
+            <div class="nav_center">
+                <nav class="mainmenu">
+                    <ul id="nav">
+                        <li id="home">
+                            @Html.ActionLink("Home", "Home", "Home")
+                        </li>
+                        <li id="Shop">
+                            @Html.ActionLink("Shop", "Home", "Shop")
+                        </li>
+                        <li id="offers">
+                            @Html.ActionLink("Offers", "Home", "Offers")
+                        </li>
+                        <li id="faq">
+                            @Html.ActionLink("FAQ", "FAQ", "Home")
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="cartmenu" class="nav_right floatright">
+                @{
+                    List<cart_item> CARTITEMS = ShoppingCart.GetCartItems();
+                    var count = ShoppingCart.GetCount();
+                }
+                <a href="#"><img src="~/images/bag.png" alt="Bag" /><span id="cart-count">cart: @count items</span></a>
+                <div class="cart_menu">
+                    @foreach (cart_item item in CARTITEMS)
+                    {
+                        <div class="cart_items" id="row-@item.Product_ID">
+                            <div class="c_item_img floatleft">
+                                <a href="#"><img src="~/@item.product.product_picture.FirstOrDefault().Picture" alt="" height="70" width="70" /></a>
+                            </div>
+                            <div class="c_item_totals floatleft">
+                                <div class="c_item_totals_detail floatleft">
+                                    <a href=""><h5>@item.product.Name</h5></a>
+                                    <span>@item.Quantity x @( (item.product.Price / 100) * (100 - item.product.Sale)) EGP </span>
+                                </div>
+                                <div class="close_icon_cart floatleft">
+                                    <a href="#" class="RemoveLink" data-id="@item.Product_ID">
+                                        <img src="~/images/close.png" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="cart_totals">
+                        <div class="c_totals_left floatleft">
+                            @if (ShoppingCart.GetTotal() >= 1000)
+                            {
+                                <p id="shipment">Free Shipment</p>
+                            }
+                            else
+                            {
+                                <p id="shipment">Paid Shipmet</p>
+                            }
+                        </div>
+                        <div class="c_totals_right floatleft">
+                            <p id="cart-total">total  @ShoppingCart.GetTotal() EGP</p>
+                        </div>
+                    </div>
+                    <div class="cart_view_bottom">
+                        <div class="c_totals_left floatleft">
+                            <a href="@Url.Action("Cart","Shop")">View Cart</a>
+                        </div>
+                        <div class="c_totals_right floatleft">
+                            <a href="@Url.Action("Checkout","Shop")">Check Out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MOBILE ONLY CONTENT -->
+            <div class="only-for-mobile">
+                <ul class="ofm">
+                    <li class="m_nav"><i class="fa fa-bars"></i> Navigation</li>
+                </ul>
+                <!-- MOBILE MENU -->
+                <div class="mobi-menu">
+                    <div id='cssmenu'>
+                        <ul>
+                            <li>
+                                <a href='@Url.Action("Home", "Home")'><span>Home</span></a>
+                            </li>
+                            <li class='has-sub'>
+                                <a href='#'><span>category</span></a>
+                                <ul>
+                                    <li class='has-sub'>
+                                        <a href='#'><span>Clothing</span></a>
+                                        <ul>
+                                            <li><a href="@Url.Action("Index","Shop",new { id=4 })"><span>Shirts</span></a></li>
+                                            <li class="last"><a href="@Url.Action("Index","Shop",new { id=5 })"><span>Pants</span></a></li>
+                                        </ul>
+                                    </li>
+                                    <li class='has-sub'>
+                                        <a href='#'><span>Electronics</span></a>
+                                        <ul>
+                                            <li><a href="@Url.Action("Index","Shop",new { id=6 })"><span>Mobile Phones</span></a></li>
+                                            <li class='last'><a href="@Url.Action("Index","Shop",new { id=7 })"><span>Labtops</span></a></li>
+                                        </ul>
+                                    </li>
+                                    <li class='has-sub'>
+                                        <a href='#'><span>Books</span></a>
+                                        <ul>
+                                            <li><a href="@Url.Action("Index","Shop",new { id=8 })"><span>Business Books</span></a></li>
+                                            <li class='last'><a href="@Url.Action("Index","Shop",new { id=9 })"><span>Lifestyle Books</span></a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="img-nav">
+                                        <div class="container">
+                                            <div class="clearfix"></div>
+                                            <div class="space20"></div>
+                                            <div class="clearfix"></div>
+                                            <div class="row in1">
+                                                <div class="col-md-6">
+                                                    <a href="#"><img src="images/menu_cat.png" class="img-responsive" alt="" /></a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="space20"></div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="space20"></div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href='@Url.Action("Home", "Shop")'><span>shop</span></a>
+                            </li>
+                            <li>
+                                <a href='@Url.Action("Home", "Offers")'><span>Offers</span></a>
+                            </li>
+                            <li>
+                                <a href='@Url.Action("FAQ", "Home")'><span>FAQ</span></a>
+                            </li>
+                            <li>
+                                <a href='@Url.Action("Cart", "Shop")'><span>cart</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- MOBILE ONLY CONTENT -->
+        </div>
+    </div>
+    @RenderBody()
+    <footer class="entire_footer_area">
+        <div class="footer_top_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                        <div class="footer_top_left">
+                            <a href="#"><i class="fa fa-envelope"></i>signup newsletter</a>
+                            <input type="text" placeholder="" />
+                            <input type="submit" value="submit" />
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-sm-6 col-xs-12">
+                        <div class="footer_top_right">
+                            <ul id="payment">
+                                <li>
+                                    <a href="https://www.paypal.com/">
+                                        <img src="~/images/pay1.png" alt="" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.discover.com/">
+                                        <img src="~/images/pay2.png" alt="" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.visa.com/">
+                                        <img src="~/images/pay3.png" alt="" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.mastercard.com/">
+                                        <img src="~/images/pay4.png" alt="" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.visa.com/">
+                                        <img src="~/images/pay5.png" alt="" />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="single_widget">
+                            <h5>information</h5>
+                            <div class="wid_line"></div>
+                            <ul class="widget_nav">
+                                <li><a href="#">New Products</a></li>
+                                <li><a href="#">Top Seller</a></li>
+                                <li><a href="#">Special</a></li>
+                                <li><a href="#">Manufactures</a></li>
+                                <li><a href="#">Suppliers</a></li>
+                                <li><a href="#">Our Stores</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="single_widget">
+                            <h5>my account</h5>
+                            <div class="wid_line"></div>
+                            <ul class="widget_nav">
+                                <li><a href="#">My Account</a></li>
+                                <li><a href="#">Personal Information</a></li>
+                                <li><a href="#">Addresses</a></li>
+                                <li><a href="#">Discounts</a></li>
+                                <li><a href="#">Order History</a></li>
+                                <li><a href="#">Your Vouchers</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="single_widget">
+                            <h5>customer service</h5>
+                            <div class="wid_line"></div>
+                            <ul class="widget_nav">
+                                <li><a href="#">Help & Contact</a></li>
+                                <li><a href="#">Shipping & Taxes</a></li>
+                                <li><a href="#">Return Policy</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Affliates</a></li>
+                                <li><a href="#">Legal Notice</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="single_widget">
+                            <h5>contact Info</h5>
+                            <div class="wid_line"></div>
+                            <address>
+                                Address : Helwan University,Faculty of computer &Aacute; Information Science<br>
+                                Egypt<br>
+                                Phone : (010) 654 966 89<br>
+                                Email : FCI@fcih.edu.eg
+                            </address>
+                            <ul class="wid_social">
+                                <li><a class="fa fa-facebook" href="https://Facebook.com/"></a></li>
+                                <li><a class="fa fa-twitter" href="https://Twitter.com/"></a></li>
+                                <li><a class="fa fa-google-plus" href="https://plus.google.com/"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer_bottom_area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="footer_bottom">
+                            <p>Copyright &copy; 2016 <a href="http://fcih.helwan.edu.eg/">FCIH</a>. All Rights Reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Files -->
+
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery ajax/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery validate/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery validate/jquery.validate.min.js"></script>
+    <script>
+        $(function () {
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 5000,
+                values: [1000, 3000],
+                slide: function (event, ui) {
+                    $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+                }
+            });
+            $("#amount").val($("#slider-range").slider("values", 0) +
+              " - " + $("#slider-range").slider("values", 1));
+        });
+    </script>
+    <script src="~/Scripts/owl.carousel.min.js"></script>
+    <script src="~/Scripts/lightbox/lightbox-2.6.min.js"></script>
+    <script src="~/Scripts/jquery.elevatezoom.js"></script>
+    <script src="~/Scripts/bootstrap/bootstrap-select.min.js"></script>
+    <script src="~/Scripts/rs-plugin/js/jquery.themepunch.plugins.min.js"></script>
+    <script src="~/Scripts/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+    <script src="~/Scripts/rs-plugin/rs.home.js"></script>
+    <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+    @*<script>
+        $('#nav').affix({
+            offset: {
+                top: $('.header').height() + $('.header_top').height()
+            }
+        });
+    </script>*@
+    <script type='text/javascript'>
+        $(window).load(function () {
+            $(function () {
+                $(".dropdown-menu").on("click", "li")
+            })
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".RemoveLink").click(function (e) {
+                e.preventDefault();
+                // Get the id from the link
+                var recordToDelete = $(this).attr("data-id");
+                if (recordToDelete != '') {
+                    // Perform the ajax post
+                    $.post("/Shop/RemoveFromCart", { "id": recordToDelete },
+                        function (data) {
+                            // Successful requests get here
+                            // Update the page elements
+                            $('#row-' + data.Id).fadeOut('slow');
+                            $('#cart-total').text("total " + data.CartTotal + " EGP");
+                            $('#cart-count').text('cart: ' + data.CartCount + ' items');
+                            $('#count').text(data.CartCount);
+                            $().text();
+                            if (data.CartTotal < 1000)
+                                $('#shipment').text('Paid Shipment');
+                            else
+                                $('#shipment').text('Free Shipment');
+                        });
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $("#addtowish").click(function (e) {
+                e.preventDefault();
+                // Get the id from the link
+                var recordToAdd = $(this).attr("data-id");
+                if (recordToAdd != '') {
+                    // Perform the ajax post
+                    $.post("/Shop/Addtowish/"+recordToAdd,
+                        function (data) {
+                            // Successful requests get here
+                            // Update the page elements
+                            $('#wishcount').text(data.wishcount);
+                        });
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            // Document.ready -> link up remove event handler
+            $(".RemovewishLink").click(function (e) {
+                e.preventDefault();
+                // Get the id from the link
+                var recordToDelete = $(this).attr("data-id");
+                if (recordToDelete != '') {
+                    // Perform the ajax post
+                    $.post("/Shop/RemoveFromwish", { "id": recordToDelete },
+                        function (data) {
+                            // Successful requests get here
+                            // Update the page elements
+                            $('#wishrow-' + data.Id).fadeOut('slow');
+                            $('#wishcount').text(data.wishcount);
+                        });
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+    </script>
+    <!--Opacity & Other IE fix for older browser-->
+    <!--[if lte IE 8]>
+        <script type="text/javascript" src="js/ie-opacity-polyfill.js"></script>
+    <![endif]-->
+    <script src="~/Scripts/main.js"></script>
+    <!--Opacity & Other IE fix for older browser-->
+    <!--[if lte IE 8]>
+        <script type="text/javascript" src="js/ie-opacity-polyfill.js"></script>
+    <![endif]-->
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

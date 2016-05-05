@@ -1,0 +1,138 @@
+﻿@using DubiSouqWebsite.Models;
+@{
+    ViewBag.Title = "Cart";
+    List<cart_item> Cart = ViewBag.Cart as List<cart_item>;
+}
+<section class="breadcumb_top_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="bread_top_box">
+                    <h2>Shoping Cart</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="breadcumb_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="bread_box">
+                    <ul class="breadcumb">
+                        <li><a href="@Url.Action("Home","Home")">home <span>|</span></a></li>
+                        <li><a href="@Url.Action("Home","Shop")">Shop <span>|</span></a></li>
+                        <li class="active"><a href="#">cart</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="main_cart_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-8 col-xs-12">
+                <div class="main_cart_left">
+                    <div class="cart_heading">
+                        <div class="h_item1">
+                            <p>product</p>
+                        </div>
+                        <div class="h_item2">
+                            <p>Price</p>
+                        </div>
+                        <div class="h_item3">
+                            <p>Quantity</p>
+                        </div>
+                        <div class="h_item4">
+                            <p>total</p>
+                        </div>
+                    </div>
+                    @foreach (cart_item item in Cart)
+                    {
+                        <div class="cart_item" id="rrow-@item.Product_ID">
+                            <div class="cart_item_img">
+                                <img src="~/@item.product.product_picture.FirstOrDefault().Picture" alt="" height="80" width="80" />
+                                <p>@item.product.Name<br>@item.product.category.Name</p>
+                            </div>
+                            <div class="cart_price">
+                                @if (item.product.Sale > 0)
+                                {
+                                    <p>
+                                        @((item.product.Price / 100) * (100 - item.product.Sale)) EGP
+                                        <span><del>@item.product.Price EGP</del></span>
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>@item.product.Price EGP</p>
+                                }
+                            </div>
+                            <div class="cart_quantity">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-minus"></i></a></li>
+                                    <li><a href="#" id="count">@item.Quantity</a></li>
+                                    <li>@Ajax.ActionLink("+", "AddToCart", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })</li>
+                                </ul>
+                            </div>
+                            <div class="cart_total">
+                                <p>
+                                    @(item.Quantity * item.product.Price) EGP &emsp;&emsp;
+                                    <span><a href="#" class="RemoveLink" data-id="@item.Product_ID"><i class="fa fa-close"></i></a></span>
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <div class="main_cart_right">
+                    <div class="product_form_total">
+
+
+                        <div class="panel-group" id="home-accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#home-accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Cart totals
+                                            <span class="floatright"><i class="fa fa-plus"></i></span>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="panel-body cart_p_body">
+                                        <div class="c_single_item">
+                                            <p>SubTotal</p>
+                                            <span>@ViewBag.Total EGB</span>
+                                        </div>
+                                        <div class="c_single_item cart_last_total">
+                                            <p>Shipping Charge</p>
+                                            <span>Free</span>
+                                        </div>
+                                        <div class="c_total_item sp_single_item">
+                                            <p>Total</p>
+                                            <span>
+                                                @if (ViewBag.Total >= 1000)
+                                                {
+                                                    @ViewBag.Total
+                                                }
+                                                else
+                                                {
+                                                    @(ViewBag.Total + 50)
+                                                }
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="@Url.Action("Checkout", "Shop")" class="cart_update">Proceed To Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

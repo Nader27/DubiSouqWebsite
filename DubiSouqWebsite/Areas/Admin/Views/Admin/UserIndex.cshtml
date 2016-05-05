@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DubiSouqWebsite.Models.user>
+
+@{
+    ViewBag.Title = "View Users";
+}
+
+<h2>View Users</h2>
+
+<p>
+    @Html.ActionLink("Add New User", "AddUser")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.user_type.Name)
+        </th>
+        <th></th>
+    </tr>
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="6">No User found </td>
+        </tr>
+
+    }
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mobile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.user_type.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditUser", new { id=item.ID }) |
+            @Html.ActionLink("Details", "UserDetails", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "DeleteUser", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>

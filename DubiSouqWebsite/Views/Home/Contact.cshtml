@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+
+<section class="contact_p_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="contact_box_left">
+                    <h4>Leave A message</h4>
+                    <div class="multi_line"></div>
+                </div>
+                <form action="SendMailer2Controller/Index" method="post">
+                    <div class="input_form">
+                        <div class="input_left">
+                            <input type="text" placeholder="Name *" required name="name" />
+                            <input type="text" placeholder="Your Email *" required name="email" />
+                            <input type="text" placeholder="Phone *" required name="phone" />
+                        </div>
+                        <div class="input_right">
+                            <textarea name="message" placeholder="Message" required></textarea>
+                        </div>
+                    </div>
+                    <div class="submit_btn form-group submitRow">
+                        <input type="submit" name="submit" value="Submit form" />
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="contact_box_right">
+                    <h5>Address</h5>
+                    <p>Helwan University, Faculty of computer A Information Science <br>Egypt</p>
+                    <div class="dotted_line"></div>
+
+                    <h5>Contact info</h5>
+                    <p>FCI@fcih.edu.eg</p>
+                    <a href="tel:(010) 654 966 89">(010) 654 966 89</a>
+                    <div class="dotted_line"></div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

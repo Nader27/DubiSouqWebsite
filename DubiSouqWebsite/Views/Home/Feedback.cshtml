@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Feedback";
+}
+
+<section class="contact_p_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="contact_box_left">
+                    <h4>Leave A Feedback</h4>
+                    <div class="multi_line"></div>
+                </div>
+                <form action="http://premiumlayers.com/demos/nimis/contact_process.php" method="post">
+                    <div class="input_form" style="width:100%; margin-left:10%" >
+                        <div class="input_left" >
+                            <h3>1. Overall, how well does our website meet your needs?</h3>
+                            <input type="radio" name="Q1" value="Extremely well" required> Extremely well<br>
+                            <input type="radio" name="Q1" value="Very well"> Very well<br>
+                            <input type="radio" name="Q1" value="Somewhat well"> Somewhat well<br>
+                            <input type="radio" name="Q1" value="Not so well"> Not so well<br>
+                            <input type="radio" name="Q1" value="Not at all well"> Not at all well<br><br>
+
+                            <h3>3. Did it take you more or less time than you expected to find what you were looking for on our website?</h3>
+                            <input type="radio" name="Q3" value="A lot less time" required> A lot less time<br>
+                            <input type="radio" name="Q3" value="A little less time"> A little less time<br>
+                            <input type="radio" name="Q3" value="About what i expected"> About what i expected<br>
+                            <input type="radio" name="Q3" value="A little more time"> A little more time<br>
+                            <input type="radio" name="Q3" value="A lot more time"> A lot more time<br><br>
+
+                        </div>
+
+                        <div class="input_right" style="padding-left:15%">
+                            <h3>2. How easy was it to find what you were looking for on our website?</h3>
+                            <input type="radio" name="Q2" value="Extremely easy" required> Extremely easy<br>
+                            <input type="radio" name="Q2" value="Very easy"> Very easy<br>
+                            <input type="radio" name="Q2" value="Somewhat easy"> Somewhat easy<br>
+                            <input type="radio" name="Q2" value="Not so easy"> Not so easy<br>
+                            <input type="radio" name="Q2" value="Not at all easy"> Not at all easy<br><br>
+
+                            <h3>4. Do you have any other comments about how we can improve our website?</h3>
+                            <textarea name="Q4" placeholder="Message"></textarea>
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="submit_btn form-group submitRow">
+                        <input type="submit" name="submit" value="Send" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

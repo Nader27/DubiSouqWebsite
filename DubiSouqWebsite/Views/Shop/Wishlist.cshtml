@@ -1,0 +1,96 @@
+﻿@using DubiSouqWebsite.Models;
+@{
+    ViewBag.Title = "Wishlist";
+    List<whish_list> Wishlist = ViewBag.Wishlist as List<whish_list>;
+}
+<section class="breadcumb_top_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="bread_top_box">
+                    <h2>WishList</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="breadcumb_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="bread_box">
+                    <ul class="breadcumb">
+                        <li><a href="@Url.Action("Home","Home")">home <span>|</span></a></li>
+                        <li><a href="@Url.Action("Home","Shop")">Shop <span>|</span></a></li>
+                        <li class="active"><a href="#">WishList</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="main_cart_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-8 col-xs-12">
+                <div class="main_cart_left">
+                    <div class="cart_heading">
+                        <div class="h_item1">
+                            <p>product</p>
+                        </div>
+                        <div class="h_item2">
+                            <p>Price</p>
+                        </div>
+                        <div class="h_item3">
+                            <p>Quantity</p>
+                        </div>
+                        <div class="h_item4">
+                            <p>Add To Cart</p>
+                        </div>
+                    </div>
+                    @foreach (whish_list item in Wishlist)
+                    {
+                    <div class="cart_item" id="wishrow-@item.Product_ID">
+                        <div class="cart_item_img">
+                            <img src="~/@item.product.product_picture.FirstOrDefault().Picture" alt="" height="70" width="70" />
+                            <p>@item.product.Name<br>@item.product.category.Name</p>
+                        </div>
+                        <div class="cart_price">
+                            @if (item.product.Sale > 0)
+                            {
+                                <p>
+                                    @((item.product.Price / 100) * (100 - item.product.Sale)) EGP
+                                    <span><del>@item.product.Price EGP</del></span>
+                                </p>
+                            }
+                            else
+                            {
+                                <p>@item.product.Price EGP</p>
+                            }
+                        </div>
+                        <div class="cart_quantity">
+                            <ul>
+                                @if (item.product.Quantity > 0)
+                                {
+                                <li><a href="#">@item.product.Quantity Left</a></li>
+                                }
+                                else
+                                {
+                                <li><a href="#">SoldOut</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="cart_total">
+                            <p>@Ajax.ActionLink("Add to cart", "AddToCart", new { id = item.Product_ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })     &emsp;&emsp;  
+                            <span><a href="#" class="RemovewishLink" data-id="@item.Product_ID"><i class="fa fa-close"></i></a></span></p>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
