@@ -1,0 +1,60 @@
+﻿@model DubiSouqWebsite.Models.BaseViewModels
+@{
+    Layout = "";
+}
+@using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        @Html.TextBoxFor(model => model.user.Name, new { @class = "form-control", @placeholder = "Full Name" })
+    </div>
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-at"></i></span>
+        @Html.TextBoxFor(model => model.user.Email, new { @class = "form-control", @placeholder = "Email" })
+    </div>
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+        @Html.PasswordFor(model => model.user.Password, new { @class = "form-control", @placeholder = "Password" })
+    </div>
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+        @Html.PasswordFor(model => model.user.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+    </div>
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-mobile fa-x"></i></span>
+        @Html.TextBoxFor(model => model.user.Mobile, new { @class = "form-control", @placeholder = "Mobile" })
+    </div>
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+        @Html.TextBoxFor(model => model.address.Zipcode, new { @class = "form-control", @placeholder = "ZipCode" })
+    </div>
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-map"></i></span>
+        @Html.TextAreaFor(model => model.address.Address1, new { @class = "form-control", @placeholder = "Enter Your Address", @style = "resize:none;", @row = "2" })
+    </div>
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-map"></i></span>
+        @Html.TextBoxFor(model => model.address.Country, new { @class = "form-control", @placeholder = "Country" })
+    </div>
+    <span class="help-block"></span>
+    <div class="input-group margin-bottom-sm">
+        <span class="input-group-addon"><i class="fa fa-map"></i></span>
+        @Html.TextBoxFor(model => model.address.City, new { @class = "form-control", @placeholder = "City" })
+    </div>
+    <span class="help-block"></span>
+    <button name="submit" class="btn btn-lg btn-primary btn-block" type="submit">
+        Register
+    </button>
+    <span class="help-block"></span>
+    <span class="help-block"></span>
+}

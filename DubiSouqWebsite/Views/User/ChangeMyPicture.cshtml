@@ -1,0 +1,38 @@
+﻿@model DubiSouqWebsite.Models.user
+
+@{
+    ViewBag.Title = "Change Picture";
+}
+
+<h2>Edit User Information</h2>
+<div class="container center_div">
+    <div class="col-md-6 col-md-offset-3">
+        @using (Html.BeginForm("ChangePicture", "CustomerService", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
+            <span class="help-block"></span>
+            <div class="input-group margin-bottom-sm">
+                <span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
+                <input type="file" class="form-control" name="file">
+            </div>
+            <span class="help-block"></span>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
+                <img src="~/@Model.Picture" width="250" height="250">
+            </div>
+            <span class="help-block"></span>
+            <button name="submit" class="btn btn-lg btn-primary btn-block" type="submit">
+                Upload
+            </button>
+        }
+
+        <div>
+            @Html.ActionLink("Back to Account", "Account")
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

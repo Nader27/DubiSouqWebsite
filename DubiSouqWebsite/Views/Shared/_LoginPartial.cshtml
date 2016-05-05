@@ -1,6 +1,5 @@
-﻿@using Newtonsoft.Json
+﻿
 @using DubiSouqWebsite.Models;
-@model DubiSouqWebsite.Models.BaseViewModels
 @if (Request.Cookies["user"] != null && Session["user"] == null)
 {
     string email = Request.Cookies["user"].Value;
@@ -20,14 +19,14 @@
         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Welcome @USER.Name</a></li>
             <li role="presentation" class="divider"></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Edit","User")">Edit Account</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("ChangeMyPassword","User")">Change Password</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("changeMyAddress","User")">Address Information</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Edit", "User")">Edit Account</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("ChangeMyPassword", "User")">Change Password</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("changeMyAddress", "User")">Address Information</a></li>
             <li role="presentation" class="divider"></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Cart","Shop")">My Shopping Cart</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("whishlist","Shop")">My Wish List</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Orders","User")">Order History</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("contact","User")">Contact US</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Cart", "Shop")">My Shopping Cart</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("whishlist", "Shop")">My Wish List</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Orders", "User")">Order History</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("contact", "User")">Contact US</a></li>
             <li role="presentation" class="divider"></li>
             @using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
             {
@@ -49,62 +48,7 @@ else
                     <h4 class="modal-title">Register</h4>
                 </div>
                 <div class="modal-body">
-                    @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary("", new { @class = "text-danger" })
-                        <span class="help-block"></span>
-                        <div class="input-group margin-bottom-sm">
-                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            @Html.TextBoxFor(model => model.user.Name, new { @class = "form-control", @placeholder = "Full Name" })
-                        </div>
-                        <span class="help-block"></span>
-                        <div class="input-group margin-bottom-sm">
-                            <span class="input-group-addon"><i class="fa fa-at"></i></span>
-                            @Html.TextBoxFor(model => model.user.Email, new { @class = "form-control", @placeholder = "Email" })
-                        </div>
-                            <span class="help-block"></span>
-                            <div class="input-group margin-bottom-sm">
-                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                @Html.PasswordFor(model => model.user.Password, new { @class = "form-control", @placeholder = "Password" })
-                            </div>
-                            <span class="help-block"></span>
-                            <div class="input-group margin-bottom-sm">
-                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                @Html.PasswordFor(model => model.user.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
-                            </div>
-                            <span class="help-block"></span>
-                            <div class="input-group margin-bottom-sm">
-                                <span class="input-group-addon"><i class="fa fa-mobile fa-x"></i></span>
-                                @Html.TextBoxFor(model => model.user.Mobile, new { @class = "form-control", @placeholder = "Mobile" })
-                            </div>
-                            <span class="help-block"></span>
-                            <div class="input-group margin-bottom-sm">
-                                <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-                                @Html.TextBoxFor(model => model.address.Zipcode, new { @class = "form-control", @placeholder = "ZipCode" })
-                            </div>
-                            <span class="help-block"></span>
-                            <div class="input-group margin-bottom-sm">
-                                <span class="input-group-addon"><i class="fa fa-map"></i></span>
-                                @Html.TextAreaFor(model => model.address.Address1, new { @class = "form-control", @placeholder = "Enter Your Address", @style = "resize:none;", @row = "2" })
-                            </div>
-                            <span class="help-block"></span>
-                            <div class="input-group margin-bottom-sm">
-                                <span class="input-group-addon"><i class="fa fa-map"></i></span>
-                                @Html.TextBoxFor(model => model.address.Country, new { @class = "form-control", @placeholder = "Country" })
-                            </div>
-                            <span class="help-block"></span>
-                            <div class="input-group margin-bottom-sm">
-                                <span class="input-group-addon"><i class="fa fa-map"></i></span>
-                                @Html.TextBoxFor(model => model.address.City, new { @class = "form-control", @placeholder = "City" })
-                            </div>
-                            <span class="help-block"></span>
-                            <button name="submit" class="btn btn-lg btn-primary btn-block" type="submit">
-                                Register
-                            </button>
-                            <span class="help-block"></span>
-                            <span class="help-block"></span>
-                    }
+                    @{Html.RenderAction("RegisterForm","Home"); }
                 </div>
             </div>
         </div>
@@ -119,40 +63,7 @@ else
                     <h4 class="modal-title">Login</h4>
                 </div>
                 <div class="modal-body">
-                    @using (Html.BeginForm("Login", "User", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.user.Email, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(m => m.user.Email, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.user.Email, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.user.Password, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                @Html.PasswordFor(m => m.user.Password, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.user.Password, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.RememberMe, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-10">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                            </div>
-                        </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Log in" class="btn btn-lg btn-primary btn-block" />
-                                </div>
-                            </div>
-                            @* Enable this once you have account confirmation enabled for password reset functionality
-                                <p>
-                                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                                </p>*@
-                    }
+                    @{Html.RenderAction("LoginForm", "Home"); }
                 </div>
             </div>
         </div>

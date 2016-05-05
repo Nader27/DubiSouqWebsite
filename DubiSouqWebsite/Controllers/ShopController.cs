@@ -72,23 +72,20 @@ namespace DubiSouqWebsite.Controllers
                 ViewBag.Parent_Category = categoory.Name;
             ViewBag.category = categoory;
             ViewBag.categories = categories;
-            ViewBag.products = products;
-            return View();
+            return View(products);
         }
 
-        // AJAX: /Shop/AddToCart/5
+        //AJAX: /Shop/AddToCart/5
         public PartialViewResult AddToCart(int id)
         {
             ShoppingCart.AddToCart(id);
             return PartialView();
         }
 
-        // AJAX: /Shop/RemoveFromCart/5
+        //AJAX: /Shop/RemoveFromCart/5
         [HttpPost]
         public ActionResult RemoveFromCart(int id)
         {
-            if (Session["user"] == null)
-                return RedirectToAction("Login", "User");
             Entities db = new Entities();
             ShoppingCart.RemoveFromCart(id);
             var results = new ShoppingCartViewModel
@@ -104,7 +101,7 @@ namespace DubiSouqWebsite.Controllers
         public ActionResult Checkout()
         {
             if (Session["user"] == null)
-                return RedirectToAction("Login", "User");
+                return RedirectToAction("Index", "User");
             Entities db = new Entities();
             ViewBag.Payment_Method = new SelectList(db.payment_method, "ID", "Method");
             return View();
@@ -114,7 +111,7 @@ namespace DubiSouqWebsite.Controllers
         public ActionResult Cart()
         {
             if (Session["user"] == null)
-                return RedirectToAction("Login", "User");
+                return RedirectToAction("Index", "User");
             ViewBag.Cart = ShoppingCart.GetCartItems();
             ViewBag.Total = ShoppingCart.GetTotal();
             return View();
@@ -124,17 +121,17 @@ namespace DubiSouqWebsite.Controllers
         public ActionResult Wishlist()
         {
             if (Session["user"] == null)
-                return RedirectToAction("Login", "User");
+                return RedirectToAction("Index", "User");
             ViewBag.Wishlist = ShoppingCart.Getwishlist();
             return View();
         }
 
-        // AJAX: /Shop/Addtowish/5
+        //AJAX: /Shop/Addtowish/5
         [HttpPost]
         public ActionResult Addtowish(int id)
         {
             if (Session["user"] == null)
-                return RedirectToAction("Login", "User");
+                return RedirectToAction("Index", "User");
             product addedproduct = db.products.Find(id);
             ShoppingCart.AddToWish(id);
             user USER = Session["user"] as user;
@@ -146,7 +143,7 @@ namespace DubiSouqWebsite.Controllers
             return Json(results);
         }
 
-        // AJAX: /Shop/RemoveFromwish/5
+        //AJAX: /Shop/RemoveFromwish/5
         [HttpPost]
         public ActionResult RemoveFromwish(int id)
         {
@@ -164,8 +161,11 @@ namespace DubiSouqWebsite.Controllers
             return Json(results);
         }
 
+        //GET: /Shop/Product_Details/5
         public ActionResult Product_Details(int? id)
         {
+            if (Session["user"] == null)
+                return RedirectToAction("Index", "User");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

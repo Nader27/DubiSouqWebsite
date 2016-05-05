@@ -640,7 +640,6 @@
     <Content Include="Views\Home\shirts.cshtml" />
     <Content Include="Views\Home\Shop.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\UploadProfileImage.cshtml" />
@@ -654,6 +653,13 @@
     <Content Include="Views\Home\Redirect.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shop\Product_Details.cshtml" />
+    <Content Include="Views\User\ChangeMyAddress.cshtml" />
+    <Content Include="Views\User\ChangeMyEmail.cshtml" />
+    <Content Include="Views\User\ChangeMyPassword.cshtml" />
+    <Content Include="Views\User\ChangeMyPicture.cshtml" />
+    <Content Include="Views\User\Account.cshtml" />
+    <Content Include="Views\Home\LoginForm.cshtml" />
+    <Content Include="Views\Home\RegisterForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

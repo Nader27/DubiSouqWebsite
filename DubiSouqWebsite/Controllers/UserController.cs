@@ -2,52 +2,54 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.IO;
 
 namespace DubiSouqWebsite.Controllers
 {
     public class UserController : Controller
     {
+        private Entities db = new Entities();
 
-        // GET: User
+        //GET: /User
         public ActionResult Index()
         {
-            return View();
+            if (Request.Cookies["user"] != null && Session["user"] == null)
+            {
+                string email = Request.Cookies["user"].Value;
+                user us = db.users.Single(u => u.Email == email);
+                Session["user"] = us;
+            }
+            if (Session["user"] == null)
+                return RedirectToAction("Login");
+            else
+                return RedirectToAction("Home","Home");
         }
 
-        //
         // GET: /User/Login
         [AllowAnonymous]
         public ActionResult Login()
         {
+            if (Request.Cookies["user"] != null && Session["user"] == null)
+            {
+                string email = Request.Cookies["user"].Value;
+                user us = db.users.Single(u => u.Email == email);
+                Session["user"] = us;
+            }
             if (Session["user"] == null)
-            {
                 return View();
-            }
             else
-            {
                 return RedirectToAction("Home", "Home");
-            }
         }
 
-        // GET: /User/Login
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            if (Session["user"] == null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Home", "Home");
-            }
-        }
-
+        //POST: /User/Login
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(BaseViewModels model)
         {
             Entities db = new Entities();
@@ -91,6 +93,66 @@ namespace DubiSouqWebsite.Controllers
             return View(model);
         }
 
+        //GET: /User/Register
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            if (Request.Cookies["user"] != null && Session["user"] == null)
+            {
+                string email = Request.Cookies["user"].Value;
+                user us = db.users.Single(u => u.Email == email);
+                Session["user"] = us;
+            }
+            if (Session["user"] == null)
+                return View();
+            else
+                return RedirectToAction("Home", "Home");
+        }
+
+        //POST: /User/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(BaseViewModels model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Entities db = new Entities();
+                    if (db.users.FirstOrDefault(m => m.Email == model.user.Email) == null)
+                    {
+                        model.user.Active = true;
+                        model.user.Type_id = 1;
+                        db.users.Add(model.user);
+                        db.SaveChanges();
+                        model.address.User_ID = db.users.Max(m => m.ID);
+                        db.addresses.Add(model.address);
+                        db.SaveChanges();
+                        int ID = db.users.Max(u => u.ID);
+                        ReportModel.CreateUserReport(ID,5,ID,model.user.Email);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("user.Email", "Email Already used");
+                        return View(model);
+                    }
+                }
+                catch
+                {
+                    return View(model);
+                }
+                if (ViewBag.ReturnUrl != null)
+                    return RedirectToRoute(ViewBag.ReturnUrl);
+                else return RedirectToAction("Home", "Home");
+            }
+            return View(model);
+        }
+
+        //POST: /User/Logout
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
@@ -122,146 +184,184 @@ namespace DubiSouqWebsite.Controllers
             {
                 Session["admin"] = null;
             }
-            return RedirectToAction("Index", "Home", new { Area = "" });
+            return RedirectToAction("Home", "Home", new { Area = "" });
         }
 
-        //POST: /User/Register
+        // GET: /User/Account
+        public ActionResult Account()
+        {
+            if (Session["user"] == null)
+                return RedirectToAction("index");
+            user user = Session["user"] as user;
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: /User/Account
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(BaseViewModels model)
+        public ActionResult Account([Bind(Include = "ID,Name,Mobile")] user user)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    Entities db = new Entities();
-                    if (db.users.FirstOrDefault(m => m.Email == model.user.Email) == null)
-                    {
-                        model.user.Active = true;
-                        model.user.Type_id = 1;
-                        db.users.Add(model.user);
-                        db.SaveChanges();
-                        model.address.User_ID = db.users.Max(m => m.ID);
-                        db.addresses.Add(model.address);
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("user.Email", "Email Already used");
-                        return View(model);
-                    }
-                }
-                catch
-                {
-                    return View(model);
-                }
-                if (ViewBag.ReturnUrl != null)
-                    return RedirectToRoute(ViewBag.ReturnUrl);
-                else return RedirectToAction("Home", "Home");
+                user _user = db.users.Find(user.ID);
+                user.Token = _user.Token;
+                user.Picture = _user.Picture;
+                user.Password = _user.Password;
+                user.ConfirmPassword = _user.Password;
+                user.Type_id = _user.Type_id;
+                user.Active = _user.Active;
+                user.Email = _user.Email;
+                db.Entry(_user).CurrentValues.SetValues(user);
+                db.SaveChanges();
+                Session["user"] = _user;
+                return RedirectToAction("Account");
             }
-            return View(model);
+            return View(user);
         }
 
-        [HttpGet]
-        public ActionResult UploadProfileImage()
+        // GET: /User/ChangeMyPassword
+        public ActionResult ChangeMyPassword()
         {
-            try
+            if (Session["user"] == null)
+                return RedirectToAction("index");
+            user user = Session["user"] as user;
+            if (user == null)
             {
-                if (Session["user"] == null)
-                    return RedirectToAction("login");
-                user sess = Session["user"] as user;
-                if (sess.Type_id != 1)
-                    return RedirectToAction("editprofile", "Admin", new { id = (Session["user"] as user).ID });
-                Entities db = new Entities();
-                user us = db.users.Single(use => use.ID == sess.ID);
-                return View(us);
+                return HttpNotFound();
             }
-            catch
-            {
-                return RedirectToAction("index", "Error", new { error = "Edit Failed" });
-            }
+            return View(user);
         }
 
+        // POST: /User/ChangeMyPassword
         [HttpPost]
-        public ActionResult UploadProfileImage(int id, HttpPostedFileBase file)
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeMyPassword([Bind(Include = "ID,Password,ConfirmPassword")] user user)
+        {
+            if (ModelState.IsValid)
+            {
+                user _user = db.users.Find(user.ID);
+                _user.Password = user.Password;
+                _user.ConfirmPassword = user.ConfirmPassword;
+                db.Entry(_user).State = EntityState.Modified;
+                db.SaveChanges();
+                Session["user"] = _user;
+                return RedirectToAction("Account");
+            }
+            return View(user);
+        }
+
+        // GET: /User/ChangeMyEmail
+        public ActionResult ChangeMyEmail()
+        {
+            if (Session["user"] == null)
+                return RedirectToAction("index");
+            user user = Session["user"] as user;
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: /User/ChangeMyEmail
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeMyEmail([Bind(Include = "ID,Email")] user user)
+        {
+            if (ModelState.IsValid)
+            {
+                user _user = db.users.Find(user.ID);
+                _user.Email = user.Email;
+                db.Entry(_user).State = EntityState.Modified;
+                db.SaveChanges();
+                Session["user"] = _user;
+                return RedirectToAction("Account");
+            }
+            return View(user);
+        }
+
+        // GET: /User/ChangeMyPicture
+        public ActionResult ChangeMyPicture()
+        {
+            if (Session["user"] == null)
+                return RedirectToAction("index");
+            user user = Session["user"] as user;
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: /User/ChangeMyPicture
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeMyPicture([Bind(Include = "ID")] user user, HttpPostedFileBase file)
         {
             if (file != null)
             {
-                string pic = System.IO.Path.GetFileName(file.FileName);
-                string path = System.IO.Path.Combine(Server.MapPath("~/images/profile"), pic);
+                if (!HttpPostedFileBaseExtensions.IsImage(file))
+                {
+                    ModelState.AddModelError("", "File is not an Image");
+                    return View(user);
+                }
+                string ext = Path.GetExtension(file.FileName);
+                string filename = user.ID.ToString() + ext;
+                string path = Path.Combine(Server.MapPath("~/images/Profile/"), filename);
                 // file is uploaded
                 file.SaveAs(path);
-                Entities db = new Entities();
-                user us = db.users.Single(use => use.ID == id);
-                us.Picture = "images/profile/" + pic;
-                us.ConfirmPassword = us.Password;
-                db.Entry(us).CurrentValues.SetValues(us);
+                user _user = db.users.Find(user.ID);
+                _user.Picture = "images/Profile/" + filename;
+                db.Entry(_user).CurrentValues.SetValues(_user);
                 db.SaveChanges();
-                // save the image path path to the database or you can send image 
-                // directly to database
-                // in-case if you want to store byte[] ie. for DB
-                //using (MemoryStream ms = new MemoryStream())
-                //{
-                //   file.InputStream.CopyTo(ms);
-                //   byte[] array = ms.GetBuffer();
-                //}
-
+                Session["user"] = _user;
+                return RedirectToAction("ChangeMyPicture");
             }
-            // after successfully uploading redirect the user
-            return RedirectToAction("editprofile", "Admin", new { id = id });
+            return View(user);
         }
 
-        [HttpGet]
-        public ActionResult Edit()
+        // GET: /User/ChangeMyAddress
+        public ActionResult ChangeMyAddress()
         {
-            try
+            if (Session["user"] == null)
+                return RedirectToAction("index");
+            user user = Session["user"] as user;
+            if (user == null)
             {
-                if (Session["user"] == null)
-                    return RedirectToAction("login");
-                user sess = Session["user"] as user;
-                if (sess.Type_id != 1)
-                    return RedirectToAction("editprofile", "Admin", new { id = (Session["user"] as user).ID });
-                Entities db = new Entities();
-                user us = db.users.Single(use => use.ID == sess.ID);
-                address add = db.addresses.Single(use => use.User_ID == sess.ID);
-                BaseViewModels bvm = new BaseViewModels();
-                bvm.address = add;
-                bvm.user = us;
-                return View(bvm);
+                return HttpNotFound();
             }
-            catch
-            {
-                return RedirectToAction("index", "Error", new { error = "Edit Failed" });
-            }
+            address address = db.addresses.SingleOrDefault(u => u.User_ID == user.ID);
+            return View(address);
         }
 
+        // POST: /User/ChangeMyAddress
         [HttpPost]
-        public ActionResult Edit(BaseViewModels model)
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeMyAddress([Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)
         {
-            try
+            if (ModelState.IsValid)
             {
-                Entities db = new Entities();
-                user us = db.users.Single(use => use.ID == model.user.ID);
-                model.user.ID = us.ID;
-                model.user.Email = us.Email;
-                model.user.Password = us.Password;
-                model.user.ConfirmPassword = us.Password;
-                model.user.Picture = us.Picture;
-                model.user.Type_id = us.Type_id;
-                model.user.Active = us.Active;
-                model.user.Token = us.Token;
-                db.Entry(us).CurrentValues.SetValues(model.user);
+                address _address = db.addresses.Find(address.ID);
+                address.User_ID = _address.User_ID;
+                db.Entry(_address).CurrentValues.SetValues(address);
                 db.SaveChanges();
-                address add = db.addresses.Single(use => use.User_ID == model.user.ID);
-                db.Entry(add).CurrentValues.SetValues(model.address);
-                db.SaveChanges();
-                return RedirectToAction("Home", "Home");
+                ReportModel.CreateAdminReport((Session["user"] as user).ID, 12, _address.User_ID, _address.user.Email);
+                return RedirectToAction("Account");
             }
-            catch
+            return View(address);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                return View(model);
+                db.Dispose();
             }
+            base.Dispose(disposing);
         }
 
     }

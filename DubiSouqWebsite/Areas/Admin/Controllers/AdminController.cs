@@ -46,7 +46,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
                 }
         }
 
-        // GET: Admin/Admin/UserIndex
+        // GET: /Admin/Admin/UserIndex
         public ActionResult UserIndex(string search = "")
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -60,7 +60,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(users);
         }
 
-        // GET: Admin/Admin/UserDetails/5
+        // GET: /Admin/Admin/UserDetails/5
         public ActionResult UserDetails(int? id)
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -81,7 +81,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(model);
         }
 
-        // GET: Admin/Admin/AddUser
+        // GET: /Admin/Admin/AddUser
         public ActionResult AddUser()
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -90,7 +90,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/Admin/AddUser
+        // POST: /Admin/Admin/AddUser
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddUser([Bind(Include = "ID,Name,Email,Mobile,Password,ConfirmPassword,Active,Type_id")] user user)
@@ -108,7 +108,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Admin/Admin/EditUser/5
+        // GET: /Admin/Admin/EditUser/5
         public ActionResult EditUser(int? id)
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -126,7 +126,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Admin/EditUser/5
+        // POST: /Admin/Admin/EditUser/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditUser([Bind(Include = "ID,Name,Mobile,Active,Type_id")] user user)
@@ -148,7 +148,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Admin/Admin/ChangePassword/5
+        // GET: /Admin/Admin/ChangePassword/5
         public ActionResult ChangePassword(int? id)
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -165,7 +165,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Admin/ChangePassword/5
+        // POST: /Admin/Admin/ChangePassword/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword([Bind(Include = "ID,Password,ConfirmPassword")] user user)
@@ -180,10 +180,10 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
                 ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, _user.ID, _user.Email);
                 return RedirectToAction("EditUser", new { id = user.ID });
             }
-            return RedirectToAction("EditUser", new { id = user.ID });
+            return View(user);
         }
 
-        // GET: Admin/Admin/ChangeEmail/5
+        // GET: /Admin/Admin/ChangeEmail/5
         public ActionResult ChangeEmail(int? id)
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -200,7 +200,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Admin/ChangeEmail/5
+        // POST: /Admin/Admin/ChangeEmail/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeEmail([Bind(Include = "ID,Email")] user user)
@@ -217,7 +217,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Admin/Admin/ChangePicture/5
+        // GET: /Admin/Admin/ChangePicture/5
         public ActionResult ChangePicture(int? id)
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -261,7 +261,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Admin/Admin/ChangeAddress/5
+        // GET: /Admin/Admin/ChangeAddress/5
         public ActionResult ChangeAddress(int? id)
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -279,7 +279,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(address);
         }
 
-        // POST: Admin/Admin/ChangeAddress/5
+        // POST: /Admin/Admin/ChangeAddress/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeAddress([Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)
@@ -296,7 +296,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(address);
         }
 
-        // GET: Admin/Inventory/DeleteUser/5
+        // GET: /Admin/Inventory/DeleteUser/5
         public ActionResult DeleteUser(int? id)
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -313,7 +313,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Inventory/DeleteUser/5
+        // POST: /Admin/Inventory/DeleteUser/5
         [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmedUser(int id)
@@ -325,7 +325,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Admin/CustomerService/ViewReport
+        // GET: /Admin/CustomerService/ViewReport
         public ActionResult ViewReport(string search = "")
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -338,7 +338,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(reports);
         }
 
-        // GET: Admin/CustomerService/ReportDetails/5
+        // GET: /Admin/CustomerService/ReportDetails/5
         public ActionResult ReportDetails(int? id)
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 3)
@@ -355,7 +355,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(report);
         }
 
-        // GET: Admin/Admin/EditMyUser
+        // GET: /Admin/Admin/EditMyUser
         public ActionResult EditMyUser()
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id == 1)
@@ -369,7 +369,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Admin/EditMyUser/5
+        // POST: /Admin/Admin/EditMyUser
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditMyUser([Bind(Include = "ID,Name,Mobile")] user user)
@@ -394,7 +394,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Admin/Admin/ChangeMyPassword
+        // GET: /Admin/Admin/ChangeMyPassword
         public ActionResult ChangeMyPassword()
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id == 1)
@@ -407,7 +407,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Admin/ChangeMyPassword
+        // POST: /Admin/Admin/ChangeMyPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeMyPassword([Bind(Include = "ID,Password,ConfirmPassword")] user user)
@@ -421,12 +421,12 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
                 db.SaveChanges();
                 Session["admin"] = _user;
                 ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, _user.ID, _user.Email);
-                return RedirectToAction("EditMyUser", new { id = user.ID });
+                return RedirectToAction("EditMyUser");
             }
-            return RedirectToAction("EditUser", new { id = user.ID });
+            return View(user);
         }
 
-        // GET: Admin/Admin/ChangeMyEmail
+        // GET: /Admin/Admin/ChangeMyEmail
         public ActionResult ChangeMyEmail()
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id == 1)
@@ -439,7 +439,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Admin/ChangeMyEmail
+        // POST: /Admin/Admin/ChangeMyEmail
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeMyEmail([Bind(Include = "ID,Email")] user user)
@@ -470,7 +470,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Admin/ChangeMyPicture
+        // POST: /Admin/Admin/ChangeMyPicture
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeMyPicture([Bind(Include = "ID")] user user, HttpPostedFileBase file)
@@ -498,7 +498,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Admin/Admin/ChangeMyAddress
+        // GET: /Admin/Admin/ChangeMyAddress
         public ActionResult ChangeMyAddress()
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id == 1)
@@ -512,7 +512,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(address);
         }
 
-        // POST: Admin/Admin/ChangeMyAddress
+        // POST: /Admin/Admin/ChangeMyAddress
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangeMyAddress([Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)

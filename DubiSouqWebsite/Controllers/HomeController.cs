@@ -43,7 +43,15 @@ namespace DubiSouqWebsite.Controllers
         {
             return View();
         }
+        public ActionResult LoginForm()
+        {
+            return View();
+        }
 
+        public ActionResult RegisterForm()
+        {
+            return View();
+        }
 
 
     }
