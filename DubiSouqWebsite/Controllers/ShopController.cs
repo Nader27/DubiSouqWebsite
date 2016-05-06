@@ -16,16 +16,16 @@ namespace DubiSouqWebsite.Controllers
         private Entities db = new Entities();
 
         //GET: /Shop/Index/id?(search="5",page="0",sort="5",amount="5-6")
-        public ActionResult Index(int? id, string search = "", int page = 0 ,string sort = "abc",string amount="")
+        public ActionResult Index(int? id, string search = "", int page = 0, string sort = "abc", string amount = "")
         {
             List<product> products = new List<product>();
             if (id == null)
                 products = db.products.Include(p => p.category).Include(p => p.product_picture).Where(p => p.Type_ID == 1).ToList();
             else
-                products = db.products.Include(p => p.category).Include(p => p.product_picture).Where(p => p.Type_ID == 1).Where(p=>p.Category_ID == id).ToList();
+                products = db.products.Include(p => p.category).Include(p => p.product_picture).Where(p => p.Type_ID == 1).Where(p => p.Category_ID == id).ToList();
             if (search != "")
                 products = products.Where(p => p.Name.Contains(search) || p.category.Name.Contains(search) || p.Description.Contains(search)).ToList();
-            if(amount != "")
+            if (amount != "")
             {
                 string[] s = amount.Split('-');
                 int start = int.Parse(s[0]);
@@ -66,7 +66,7 @@ namespace DubiSouqWebsite.Controllers
             //////////////////////////////
             category categoory = db.categories.SingleOrDefault(u => u.ID == id);
             List<category> categories = db.categories.Where(u => u.Parent_Category == categoory.Parent_Category).ToList();
-            if(categoory.category2 != null)
+            if (categoory.category2 != null)
                 ViewBag.Parent_Category = categoory.category2.Name;
             else
                 ViewBag.Parent_Category = categoory.Name;
@@ -78,23 +78,35 @@ namespace DubiSouqWebsite.Controllers
         //AJAX: /Shop/AddToCart/5
         public PartialViewResult AddToCart(int id)
         {
-            ShoppingCart.AddToCart(id);
-            return PartialView();
+            int quantity = 1;
+            if (Request["quantity"] != null)
+                quantity = int.Parse(Request["quantity"]);
+            ShoppingCart.AddToCart(id, quantity);
+            return PartialView("CartMenu");
         }
 
         //AJAX: /Shop/RemoveFromCart/5
-        [HttpPost]
-        public ActionResult RemoveFromCart(int id)
+        public ActionResult RemoveFromCart(int id,int quantity = 1)
         {
-            Entities db = new Entities();
-            ShoppingCart.RemoveFromCart(id);
-            var results = new ShoppingCartViewModel
+            if (quantity == 0)
+                quantity = db.cart_item.Find(id).Quantity;
+            ShoppingCart.RemoveFromCart(id, quantity);
+            cart_item cart_item = db.cart_item.SingleOrDefault(c => c.ID == id);
+            var results = new ShoppingCartViewModel();
+            if (cart_item != null)
             {
-                CartTotal = ShoppingCart.GetTotal(),
-                CartCount = ShoppingCart.GetCount(),
-                Id = id
-            };
-            return Json(results);
+                return PartialView("CartMenu");
+            }
+            else
+            {
+                results = new ShoppingCartViewModel
+                {
+                    CartTotal = ShoppingCart.GetTotal(),
+                    CartCount = ShoppingCart.GetCount(),
+                    Id = id
+                };
+                return Json(results);
+            }
         }
 
         //GET: /Shop/Checkout
@@ -152,7 +164,7 @@ namespace DubiSouqWebsite.Controllers
             Entities db = new Entities();
             ShoppingCart.RemoveFromWishlist(id);
             user USER = Session["user"] as user;
-            List<whish_list> wl = db.whish_list.Where(W=>W.User_ID == USER.ID).ToList();
+            List<whish_list> wl = db.whish_list.Where(W => W.User_ID == USER.ID).ToList();
             var results = new ShoppingCartViewModel
             {
                 wishcount = wl.Count,

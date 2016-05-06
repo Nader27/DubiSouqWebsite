@@ -123,6 +123,7 @@ namespace DubiSouqWebsite.Controllers
                 {
                     model.user.Active = true;
                     model.user.Type_id = 1;
+                    model.user.Picture = "images/Profile/default.png";
                     db.users.Add(model.user);
                     db.SaveChanges();
                     model.address.User_ID = db.users.Max(m => m.ID);

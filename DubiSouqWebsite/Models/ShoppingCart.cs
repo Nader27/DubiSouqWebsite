@@ -7,7 +7,7 @@ namespace DubiSouqWebsite.Models
 {
     public static partial class ShoppingCart
     {
-        public static void AddToCart(int id)
+        public static void AddToCart(int id,int quantity)
         {
             Entities db = new Entities();
             user USER = HttpContext.Current.Session["user"] as user;
@@ -17,21 +17,21 @@ namespace DubiSouqWebsite.Models
                 var cartItem = db.cart_item.SingleOrDefault(c => c.Product_ID == id);
                 if (cartItem != null)
                 {
-                    cartItem.Quantity++;
+                    cartItem.Quantity+=quantity;
                     db.SaveChanges();
                     return;
                 }
             }
             cart_item cart = new cart_item();
             cart.Product_ID = id;
-            cart.Quantity = 1;
+            cart.Quantity = quantity;
             cart.user_ID = USER.ID;
             db.cart_item.Add(cart);
             db.SaveChanges();
             return;
         }
 
-        public static void RemoveFromCart(int id)
+        public static void RemoveFromCart(int id , int quantity)
         {
             Entities db = new Entities();
             user USER = HttpContext.Current.Session["user"] as user;
@@ -41,7 +41,9 @@ namespace DubiSouqWebsite.Models
                 var cartItem = db.cart_item.SingleOrDefault(c => c.Product_ID == id);
                 if (cartItem != null)
                 {
-                    db.cart_item.Remove(cartItem);
+                    cartItem.Quantity -= quantity;
+                    if(cartItem.Quantity == 0)
+                        db.cart_item.Remove(cartItem);
                     db.SaveChanges();
                 }
             }
@@ -181,6 +183,7 @@ namespace DubiSouqWebsite.Models
         public decimal CartTotal { get; set; }
         public int CartCount { get; set; }
         public int Id { get; set; }
+        public int itemcount { get; set; }
         public int wishcount { get; set; }
     }
 }

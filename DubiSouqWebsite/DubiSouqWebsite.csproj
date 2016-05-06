@@ -717,7 +717,7 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shop\Shop.cshtml" />
-    <Content Include="Views\Shop\AddToCart.cshtml" />
+    <Content Include="Views\Shop\CartMenu.cshtml" />
     <Content Include="Scripts\jquery\jquery-2.2.2.min.map" />
     <Content Include="Scripts\jquery\jquery.min.map" />
     <Content Include="Views\Shop\Wishlist.cshtml" />

@@ -72,16 +72,30 @@
                             </div>
                             <div class="cart_quantity">
                                 <ul>
-                                    <li><a href="#"><i class="fa fa-minus"></i></a></li>
-                                    <li><a href="#" id="count">@item.Quantity</a></li>
-                                    <li>@Ajax.ActionLink("+", "AddToCart", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })</li>
+                                    <li>@Ajax.ActionLink("-", "RemoveFromCart", new { id = item.Product_ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })</li>
+                                    <li><a href="#" id="@item.Product_ID-count">@item.Quantity</a></li>
+                                    <li>@Ajax.ActionLink("+", "AddToCart", new { id = item.Product_ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })</li>
                                 </ul>
                             </div>
                             <div class="cart_total">
-                                <p>
-                                    @(item.Quantity * item.product.Price) EGP &emsp;&emsp;
-                                    <span><a href="#" class="RemoveLink" data-id="@item.Product_ID"><i class="fa fa-close"></i></a></span>
-                                </p>
+                                @if (item.product.Sale > 0)
+                                {
+                                    <p>
+                                        <span id="new-@item.Product_ID">@(item.Quantity * (item.product.Price / 100) * (100 - item.product.Sale)) EGP</span>
+                                        <span id="old-@item.Product_ID"><del>@(item.Quantity * item.product.Price) EGP</del></span>
+                                        &emsp;&emsp;
+                                        <span><a href="#" class="RemoveLink" data-id="@item.Product_ID"><i class="fa fa-close"></i></a></span>
+                                    </p>
+
+                                }
+                                else
+                                {
+                                    <p>
+                                        <span id="old-@item.Product_ID">@(item.Quantity * item.product.Price) EGP</span>
+                                        &emsp; &emsp;
+                                        <span><a href="#" class="RemoveLink" data-id="@item.Product_ID"><i class="fa fa-close"></i></a></span>
+                                    </p>
+                                }
                             </div>
                         </div>
                     }
@@ -106,15 +120,22 @@
                                     <div class="panel-body cart_p_body">
                                         <div class="c_single_item">
                                             <p>SubTotal</p>
-                                            <span>@ViewBag.Total EGB</span>
+                                            <span id="carttotal">@ViewBag.Total EGP</span>
                                         </div>
                                         <div class="c_single_item cart_last_total">
-                                            <p>Shipping Charge</p>
-                                            <span>Free</span>
+                                            <p id="charge">Shipping Charge</p>
+                                            @if (ViewBag.Total >= 1000)
+                                            {
+                                                <span>Free</span>
+                                            }
+                                            else
+                                            {
+                                                <span>50 EGP</span>
+                                            }
                                         </div>
                                         <div class="c_total_item sp_single_item">
                                             <p>Total</p>
-                                            <span>
+                                            <span id="total">
                                                 @if (ViewBag.Total >= 1000)
                                                 {
                                                     @ViewBag.Total

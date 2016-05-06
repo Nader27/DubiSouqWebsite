@@ -162,11 +162,11 @@
                     {
                         <div class="cart_items" id="row-@item.Product_ID">
                             <div class="c_item_img floatleft">
-                                <a href="#"><img src="~/@item.product.product_picture.FirstOrDefault().Picture" alt="" height="70" width="70" /></a>
+                                <a href="@Url.Action("Product_Details", new { id = item.Product_ID })"><img src="~/@item.product.product_picture.FirstOrDefault().Picture" alt="" height="70" width="70" /></a>
                             </div>
                             <div class="c_item_totals floatleft">
                                 <div class="c_item_totals_detail floatleft">
-                                    <a href=""><h5>@item.product.Name</h5></a>
+                                    <a href="@Url.Action("Product_Details", new { id = item.Product_ID })"><h5>@item.product.Name</h5></a>
                                     <span>@item.Quantity x @( (item.product.Price / 100) * (100 - item.product.Sale)) EGP </span>
                                 </div>
                                 <div class="close_icon_cart floatleft">
@@ -456,7 +456,7 @@
                 var recordToDelete = $(this).attr("data-id");
                 if (recordToDelete != '') {
                     // Perform the ajax post
-                    $.post("/Shop/RemoveFromCart", { "id": recordToDelete },
+                    $.post("/Shop/RemoveFromCart", { "id": recordToDelete ,"quantity": 0},
                         function (data) {
                             // Successful requests get here
                             // Update the page elements
