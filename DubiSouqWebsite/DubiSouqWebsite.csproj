@@ -715,7 +715,6 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\User\UploadProfileImage.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shop\Shop.cshtml" />
     <Content Include="Views\Shop\AddToCart.cshtml" />
@@ -726,11 +725,6 @@
     <Content Include="Views\Home\Redirect.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shop\Product_Details.cshtml" />
-    <Content Include="Views\User\ChangeMyAddress.cshtml" />
-    <Content Include="Views\User\ChangeMyEmail.cshtml" />
-    <Content Include="Views\User\ChangeMyPassword.cshtml" />
-    <Content Include="Views\User\ChangeMyPicture.cshtml" />
-    <Content Include="Views\User\ChangeMyProfile.cshtml" />
     <Content Include="Views\Home\LoginForm.cshtml" />
     <Content Include="Views\Home\RegisterForm.cshtml" />
     <Content Include="Scripts\rs-plugin\font\revicons90c6.eot" />
