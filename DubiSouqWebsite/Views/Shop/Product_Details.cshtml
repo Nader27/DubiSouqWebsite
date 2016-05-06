@@ -10,8 +10,8 @@
                 <div class="bread_box">
                     <ul class="breadcumb">
                         <li><a href="@Url.Action("Home","Home")">Home<span>|</span></a></li>
-                        <li><a href="@Url.Action("Index", new { id = Model.Category_ID })">Shop<span>|</span></a></li>
-                        <li><a href="@Url.Action("Home")">Category<span>|</span></a></li>
+                        <li><a href="@Url.Action("Home")">Shop<span>|</span></a></li>
+                        <li><a href="@Url.Action("Index", new { id = Model.Category_ID })">Category<span>|</span></a></li>
                         <li class="active"><a href="#">@Model.Name</a></li>
                     </ul>
                 </div>
@@ -44,12 +44,21 @@
                                     </ul>
                                     <!-- Tab panes -->
                                     <div class="tab-content">
-                                        @foreach (var item in Model.product_picture)
+                                        @if (Model.product_picture.FirstOrDefault() != null)
                                         {
-                                            <div role="tabpanel" class="tab-pane active" id="@item.ID">
+                                            <div role="tabpanel" class="tab-pane active" id="@Model.product_picture.FirstOrDefault().ID">
                                                 <div class="single_p_image">
-                                                    <a href="~/@item.Picture" data-lightbox="image-1" data-title="My caption"><img src="~/images/product-plus.png" alt="" /></a>
-                                                    <img id="zoom_02" src="~/@item.Picture" height="800" width="300" data-zoom-image="/@item.Picture" alt="" />
+                                                    <a href="~/@Model.product_picture.FirstOrDefault().Picture" data-lightbox="image-1" data-title="My caption"><img src="~/images/product-plus.png" alt="" /></a>
+                                                    <img id="zoom_02" src="~/@Model.product_picture.FirstOrDefault().Picture" height="800" width="300" data-zoom-image="/@Model.product_picture.FirstOrDefault().Picture" alt="" />
+                                                </div>
+                                            </div>
+                                        }
+                                        @for (int i = 1; i < Model.product_picture.Count; i++)
+                                        {
+                                            <div role="tabpanel" class="tab-pane" id="@Model.product_picture.ElementAt(i).ID">
+                                                <div class="single_p_image">
+                                                    <a href="~/@Model.product_picture.ElementAt(i).Picture" data-lightbox="image-1" data-title="My caption"><img src="~/images/product-plus.png" alt="" /></a>
+                                                    <img id="zoom_02" src="~/@Model.product_picture.ElementAt(i).Picture" height="800" width="300" data-zoom-image="/@Model.product_picture.ElementAt(i).Picture" alt="" />
                                                 </div>
                                             </div>
                                         }
@@ -80,7 +89,7 @@
                                         <li><a class="fa fa-star-o" href="#"></a></li>
                                         <li><a class="fa fa-star-o" href="#"></a></li>
                                     </ul>
-                                    <p>(5 Review)</p>
+                                    <p>(@Model.reviews.Count Review)</p>
                                 </div>
                             </div>
 
@@ -96,27 +105,7 @@
                                     </div>
                                     <div id="collapseOneP" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOneP">
                                         <div class="panel-body product_ac_body">
-                                            <p>Pellentesque habitant morbi tristique senectus et netus et males suada fames acila turpis egestas. Vestibulum tortor quam, feugialth vitae, ultricies eget, tempor sitare amet, ante. Donec eu libero sitkar amet quam.</p>
-                                            <ul id="product_accord_nav">
-                                                <li><a href="#">Tristique senectus et netus aspernatur aut.</a></li>
-                                                <li><a href="#">Labore doloam aliquam quaerat voluptatem.</a></li>
-                                                <li><a href="#">Nisi ut aliquid ex ea commodi consequatue.</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default product_default">
-                                    <div class="panel-heading product_accordion_heading" role="tab" id="headingTwoP">
-                                        <h4 class="panel-title product_accordion_head">
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#home-accordion-single" href="#collapseTwoP" aria-expanded="false" aria-controls="collapseTwoP">
-                                                size & fit
-                                                <span class="floatright"><i class="fa fa-plus"></i></span>
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapseTwoP" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwoP">
-                                        <div class="panel-body fit">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+                                            @Model.Description
                                         </div>
                                     </div>
                                 </div>
@@ -124,57 +113,28 @@
                                     <div class="panel-heading product_accordion_heading" role="tab" id="headingThreeP">
                                         <h4 class="panel-title product_accordion_head">
                                             <a class="collapsed" data-toggle="collapse" data-parent="#home-accordion-single" href="#collapseThreeP" aria-expanded="false" aria-controls="collapseThreeP">
-                                                delivery & returns
+                                                Delivery
                                                 <span class="floatright"><i class="fa fa-plus"></i></span>
                                             </a>
                                         </h4>
                                     </div>
                                     <div id="collapseThreeP" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThreeP">
                                         <div class="panel-body product_accordion_head">
-                                            <div class="single_color sp_single_col">
-                                                <div class="color_heading"><h5>Colors</h5></div>
-                                                <div class="color_detail">
-                                                    <div class="panel-body colors_cat">
-                                                        <ul id="cat_color">
-                                                            <li><a class="col-7" href="#"></a></li>
-                                                            <li><a class="col-8" href="#"></a></li>
-                                                            <li><a class="col-9" href="#"></a></li>
-                                                            <li><a class="col-10" href="#"></a></li>
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="single_color">
-                                                <div class="color_heading"><h5>Select size</h5></div>
-                                                <div class="color_detail">
-                                                    <div class="color_size_detail">
-                                                        <ul id="color_size">
-                                                            <li><a href="#">xs</a></li>
-                                                            <li><a href="#">s</a></li>
-                                                            <li><a href="#">m</a></li>
-                                                            <li><a href="#">l</a></li>
-                                                            <li><a href="#">xl</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="single_color">
                                                 <div class="color_heading"><h5>Quantity</h5></div>
                                                 <div class="color_detail">
-                                                    <div class="size_down">
-                                                        <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity[113]" max="119" min="0" step="1">
-                                                    </div>
-                                                    <div class="size_cart">
-                                                        <a href="#">Add to cart</a>
-                                                    </div>
-                                                    <div class="size_heart">
-                                                        <a href="#"><img src="~/images/Product-Details-heart.png" alt="" /></a>
-                                                    </div>
-                                                    <div class="size_heart">
-                                                        <a href="#"><img src="~/images/Product-Details-arrow.png" alt="" /></a>
-                                                    </div>
-
+                                                    @using (Html.BeginForm("AddToCart", "Shop", new { id = Model.ID }, FormMethod.Get, new { id="QuantityForm" }))
+                                                    {
+                                                        <div class="size_down">
+                                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" max="@Model.Quantity" min="0" step="1">
+                                                        </div>
+                                                        <div class="size_cart">
+                                                            <a href="#" onclick="javascript: document.getElementById('QuantityForm').submit()">Add to cart</a>
+                                                        </div>
+                                                        <div class="size_heart">
+                                                            <a href="@Url.Action("Addtowish")"><img src="~/images/Product-Details-heart.png" alt="" /></a>
+                                                        </div>
+                                                    }
                                                 </div>
                                             </div>
 
@@ -199,7 +159,6 @@
                     <div role="tabpanel">
                         <ul class="nav nav-tabs tab-product" role="tablist">
                             <li role="presentation" class="active"><a href="#home2" aria-controls="home2" role="tab" data-toggle="tab">Description</a></li>
-                            <li role="presentation"><a href="#profile2" aria-controls="profile2" role="tab" data-toggle="tab">ADDITIONAL INFORMATION</a></li>
                             <li role="presentation"><a href="#messages2" aria-controls="messages2" role="tab" data-toggle="tab">Review (2)</a></li>
                         </ul>
                         <div class="tab-content tab-p-details">
@@ -207,21 +166,14 @@
                                 <h2>Description</h2>
                                 <div class="multi_line"></div>
                                 <p>
-                                    Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enimsal ipsam salamthi voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptateras sequi nesciunt resmla Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquae eius modi tempora inciduntia ut labore et dolore magnam aliquam quaerat voluptatem.
-                                </p>
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="profile2">
-                                <h2>Additional Information</h2>
-                                <div class="multi_line"></div>
-                                <p>
-                                    Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enimsal ipsam salamthi voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptateras sequi nesciunt resmla Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquae eius modi tempora inciduntia ut labore et dolore magnam aliquam quaerat voluptatem.
+                                    @Model.Description
                                 </p>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="messages2">
                                 <div class="review_comments">
                                     <div class="review_heading">
                                         <div class="review_heading_left">
-                                            <h2><span>2 Review for </span> "Gray Structured T-Shirt"</h2>
+                                            <h2><span>2 Review for </span> "@Model.Description"</h2>
                                             <div class="multi_line"></div>
                                         </div>
                                         <div class="review_heading_right">

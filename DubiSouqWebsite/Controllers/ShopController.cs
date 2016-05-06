@@ -164,8 +164,6 @@ namespace DubiSouqWebsite.Controllers
         //GET: /Shop/Product_Details/5
         public ActionResult Product_Details(int? id)
         {
-            if (Session["user"] == null)
-                return RedirectToAction("Index", "User");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

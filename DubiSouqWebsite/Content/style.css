@@ -17,7 +17,7 @@ body {
 }
 
 body {
-	background-image: url("~/images/Shopping.jpg");
+	background-image: url("../images/Shopping.jpg");
     background-size: cover;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
@@ -38,7 +38,7 @@ body {
 }
 @font-face {
     font-family: Allena;
-    src: url(Content/ALLENAB_.TTF);
+    src: url(ALLENAB_.TTF);
 }
 h1 {
   color: #fff;

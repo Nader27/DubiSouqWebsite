@@ -27,7 +27,15 @@ namespace DubiSouqWebsite.Controllers
             if (Session["user"] == null)
                 return RedirectToAction("Login");
             else
-                return RedirectToAction("Home","Home");
+                return RedirectToAction("Home", "Home");
+        }
+
+        //GET: /User/Account
+        public ActionResult Account()
+        {
+            if (Session["user"] == null)
+                return RedirectToAction("Login");
+            return View();
         }
 
         // GET: /User/Login
@@ -52,43 +60,45 @@ namespace DubiSouqWebsite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(BaseViewModels model)
         {
-            Entities db = new Entities();
-            user myUser = db.users.SingleOrDefault(u => u.Email == model.user.Email
-                 && u.Password == model.user.Password && u.Active);
-            if (myUser != null)
+            if (ModelState.IsValid)
             {
-                if (model.RememberMe == true)
+                user myUser = db.users.SingleOrDefault(u => u.Email == model.user.Email
+                     && u.Password == model.user.Password && u.Active);
+                if (myUser != null)
                 {
-                    if (myUser.Type_id == 1)
+                    if (model.RememberMe == true)
                     {
-                        HttpCookie cookie = Request.Cookies["user"];
-                        cookie = new HttpCookie("user", myUser.Email);
-                        Response.SetCookie(cookie);
-                        Session["user"] = myUser;
+                        if (myUser.Type_id == 1)
+                        {
+                            HttpCookie cookie = Request.Cookies["user"];
+                            cookie = new HttpCookie("user", myUser.Email);
+                            Response.SetCookie(cookie);
+                            Session["user"] = myUser;
+                        }
+                        else
+                        {
+                            HttpCookie cookie = Request.Cookies["admin"];
+                            cookie = new HttpCookie("admin", myUser.Email);
+                            Response.SetCookie(cookie);
+                            Session["admin"] = myUser;
+                        }
                     }
                     else
                     {
-                        HttpCookie cookie = Request.Cookies["admin"];
-                        cookie = new HttpCookie("admin", myUser.Email);
-                        Response.SetCookie(cookie);
-                        Session["admin"] = myUser;
+                        if (myUser.Type_id == 1)
+                            Session["user"] = myUser;
+                        else
+                            Session["admin"] = myUser;
                     }
+                    if (myUser.Type_id == 1)
+                        return RedirectToAction("Home", "Home");
+                    else
+                        return RedirectToAction("Index", "Admin", new { Area = "Admin" });
                 }
                 else
                 {
-                    if (myUser.Type_id == 1)
-                        Session["user"] = myUser;
-                    else
-                        Session["admin"] = myUser;
+                    ModelState.AddModelError("", "Login data is incorrect!");
                 }
-                if (myUser.Type_id == 1)
-                    return RedirectToAction("Home", "Home");
-                else
-                    return RedirectToAction("Index", "Admin", new { Area = "Admin" });
-            }
-            else
-            {
-                ModelState.AddModelError("", "Login data is incorrect!");
             }
             return View(model);
         }
@@ -117,34 +127,24 @@ namespace DubiSouqWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                if (db.users.FirstOrDefault(m => m.Email == model.user.Email) == null)
                 {
-                    Entities db = new Entities();
-                    if (db.users.FirstOrDefault(m => m.Email == model.user.Email) == null)
-                    {
-                        model.user.Active = true;
-                        model.user.Type_id = 1;
-                        db.users.Add(model.user);
-                        db.SaveChanges();
-                        model.address.User_ID = db.users.Max(m => m.ID);
-                        db.addresses.Add(model.address);
-                        db.SaveChanges();
-                        int ID = db.users.Max(u => u.ID);
-                        ReportModel.CreateUserReport(ID,5,ID,model.user.Email);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("user.Email", "Email Already used");
-                        return View(model);
-                    }
+                    model.user.Active = true;
+                    model.user.Type_id = 1;
+                    db.users.Add(model.user);
+                    db.SaveChanges();
+                    model.address.User_ID = db.users.Max(m => m.ID);
+                    db.addresses.Add(model.address);
+                    db.SaveChanges();
+                    int ID = db.users.Max(u => u.ID);
+                    ReportModel.CreateUserReport(ID, 5, ID, model.user.Email);
                 }
-                catch
+                else
                 {
+                    ModelState.AddModelError("user.Email", "Email Already used");
                     return View(model);
                 }
-                if (ViewBag.ReturnUrl != null)
-                    return RedirectToRoute(ViewBag.ReturnUrl);
-                else return RedirectToAction("Home", "Home");
+                return RedirectToAction("Home", "Home");
             }
             return View(model);
         }
@@ -187,23 +187,17 @@ namespace DubiSouqWebsite.Controllers
             return RedirectToAction("Home", "Home", new { Area = "" });
         }
 
-        // GET: /User/Account
-        public ActionResult Account()
+        // GET: /User/ChangeMyProfile
+        public PartialViewResult ChangeMyProfile()
         {
-            if (Session["user"] == null)
-                return RedirectToAction("index");
             user user = Session["user"] as user;
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            return PartialView(user);
         }
 
-        // POST: /User/Account
+        // POST: /User/ChangeMyProfile
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Account([Bind(Include = "ID,Name,Mobile")] user user)
+        public ActionResult ChangeMyProfile([Bind(Include = "ID,Name,Mobile")] user user)
         {
             if (ModelState.IsValid)
             {
@@ -218,22 +212,18 @@ namespace DubiSouqWebsite.Controllers
                 db.Entry(_user).CurrentValues.SetValues(user);
                 db.SaveChanges();
                 Session["user"] = _user;
+                TempData["success"] = "Your Balance is now zero";
                 return RedirectToAction("Account");
             }
-            return View(user);
+            return new EmptyResult();
         }
 
         // GET: /User/ChangeMyPassword
-        public ActionResult ChangeMyPassword()
+        public PartialViewResult ChangeMyPassword()
         {
-            if (Session["user"] == null)
-                return RedirectToAction("index");
+
             user user = Session["user"] as user;
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            return PartialView(user);
         }
 
         // POST: /User/ChangeMyPassword
@@ -251,20 +241,14 @@ namespace DubiSouqWebsite.Controllers
                 Session["user"] = _user;
                 return RedirectToAction("Account");
             }
-            return View(user);
+            return new EmptyResult();
         }
 
         // GET: /User/ChangeMyEmail
-        public ActionResult ChangeMyEmail()
+        public PartialViewResult ChangeMyEmail()
         {
-            if (Session["user"] == null)
-                return RedirectToAction("index");
             user user = Session["user"] as user;
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            return PartialView(user);
         }
 
         // POST: /User/ChangeMyEmail
@@ -281,20 +265,14 @@ namespace DubiSouqWebsite.Controllers
                 Session["user"] = _user;
                 return RedirectToAction("Account");
             }
-            return View(user);
+            return new EmptyResult();
         }
 
         // GET: /User/ChangeMyPicture
-        public ActionResult ChangeMyPicture()
+        public PartialViewResult ChangeMyPicture()
         {
-            if (Session["user"] == null)
-                return RedirectToAction("index");
             user user = Session["user"] as user;
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
+            return PartialView(user);
         }
 
         // POST: /User/ChangeMyPicture
@@ -307,7 +285,7 @@ namespace DubiSouqWebsite.Controllers
                 if (!HttpPostedFileBaseExtensions.IsImage(file))
                 {
                     ModelState.AddModelError("", "File is not an Image");
-                    return View(user);
+                    return PartialView(user);
                 }
                 string ext = Path.GetExtension(file.FileName);
                 string filename = user.ID.ToString() + ext;
@@ -319,23 +297,17 @@ namespace DubiSouqWebsite.Controllers
                 db.Entry(_user).CurrentValues.SetValues(_user);
                 db.SaveChanges();
                 Session["user"] = _user;
-                return RedirectToAction("ChangeMyPicture");
+                return RedirectToAction("Account");
             }
-            return View(user);
+            return new EmptyResult();
         }
 
         // GET: /User/ChangeMyAddress
-        public ActionResult ChangeMyAddress()
+        public PartialViewResult ChangeMyAddress()
         {
-            if (Session["user"] == null)
-                return RedirectToAction("index");
             user user = Session["user"] as user;
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
             address address = db.addresses.SingleOrDefault(u => u.User_ID == user.ID);
-            return View(address);
+            return PartialView(address);
         }
 
         // POST: /User/ChangeMyAddress
@@ -352,7 +324,7 @@ namespace DubiSouqWebsite.Controllers
                 ReportModel.CreateAdminReport((Session["user"] as user).ID, 12, _address.User_ID, _address.user.Email);
                 return RedirectToAction("Account");
             }
-            return View(address);
+            return new EmptyResult();
         }
 
         protected override void Dispose(bool disposing)

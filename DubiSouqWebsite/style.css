@@ -293,7 +293,7 @@ nav.currency {
 }
 
 .w_likes {
-    background: url("~/images/wishlist_bg.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("images/wishlist_bg.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 22px;
     left: 56px;
     position: absolute;
@@ -1573,7 +1573,7 @@ ul.wid_social {
     }
 
 .exclusive_area {
-    background: url("~/images/x-m.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+    background: url("images/x-m.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
     overflow: hidden;
     margin-top: 0;
 }
@@ -1945,7 +1945,7 @@ ul.wid_social {
 4. Checkout page CSS
 ===============================================*/
 .breadcumb_top_area {
-    background: url("~/images/breadcumb_bg.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+    background: url("images/breadcumb_bg.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
     padding: 92px 0;
     position: relative;
     z-index: -1;
@@ -2240,7 +2240,7 @@ ul.wid_social {
 ===============================================*/
 
 .error_slider_area {
-    background: url("~/images/404_slider.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
+    background: url("images/404_slider.jpg") no-repeat scroll center center / cover rgba(0, 0, 0, 0);
     padding: 90px 0;
     position: relative;
     z-index: -1;
@@ -2286,7 +2286,7 @@ ul.wid_social {
 6. blog_page_style
 ===============================================*/
 .blog_slider_area {
-    background: url("~/images/blog_bg.jpg") no-repeat scroll 0 0 / cover rgba(0, 0, 0, 0);
+    background: url("images/blog_bg.jpg") no-repeat scroll 0 0 / cover rgba(0, 0, 0, 0);
     padding: 92px 0;
     position: relative;
     z-index: -1;
@@ -2476,7 +2476,7 @@ ul.wid_social {
 
         .blog_categories ul li {
             border-bottom: 1px solid #ddd;
-            list-style-image: url("~/images/blog_li.png");
+            list-style-image: url("images/blog_li.png");
             padding-left: 6px;
         }
 
@@ -2794,7 +2794,7 @@ ul#single_blog_nav {
 8. contact page css
 ===============================================*/
 .contact_banner_area {
-    background: url("~/images/contact_bg.jpg") no-repeat scroll 0 0 / cover rgba(0, 0, 0, 0);
+    background: url("images/contact_bg.jpg") no-repeat scroll 0 0 / cover rgba(0, 0, 0, 0);
     padding: 92px 0;
     position: relative;
     z-index: -1;
@@ -3112,7 +3112,7 @@ ul#single_blog_nav {
 }
 
     .panel-body > ul#c_tab1 li, .panel-body > ul#c_tab2 li {
-        list-style-image: url("~/images/blog_li.png");
+        list-style-image: url("images/blog_li.png");
     }
 
         .panel-body > ul#c_tab1 li a, .panel-body > ul#c_tab2 li a {
@@ -3877,7 +3877,7 @@ h3.product {
 }
 
     .panel-body.product_ac_body ul li {
-        list-style-image: url("~/images/blog_li.png");
+        list-style-image: url("images/blog_li.png");
         margin-bottom: 10px;
     }
 
@@ -4354,7 +4354,7 @@ input[type="number"].hotfix::-webkit-inner-spin-button {
     }
 
 #cssmenu > ul > li.active > a > span::after, #cssmenu > ul > li.open > a > span::after {
-    background: url("~/images/minus.png") no-repeat scroll 50% 50% rgba(0, 0, 0, 0);
+    background: url("images/minus.png") no-repeat scroll 50% 50% rgba(0, 0, 0, 0);
     border: 1px solid transparent;
     border-radius: 50%;
     content: "";
@@ -4601,27 +4601,27 @@ input[type="number"].hotfix::-webkit-inner-spin-button {
 }
 
 .ie8 .breadcumb_top_area {
-    background-image: url("~/images/breadcumb_bg.jpg");
+    background-image: url("images/breadcumb_bg.jpg");
     background-repeat: no-repeat;
 }
 
 .ie8 .contact_banner_area {
-    background-image: url("~/images/contact_bg.jpg");
+    background-image: url("images/contact_bg.jpg");
     background-repeat: no-repeat;
 }
 
 .ie8 .blog_slider_area {
-    background: url("~/images/contact_bg.jpg");
+    background: url("images/contact_bg.jpg");
     background-repeat: no-repeat;
 }
 
 .ie8 .exclusive_area {
-    background: url(~/images/x-m.jpg);
+    background: url(images/x-m.jpg);
     background-repeat: no-repeat;
 }
 
 .ie8 .error_slider_area {
-    background: url("~/images/404_slider.jpg");
+    background: url("images/404_slider.jpg");
     background-repeat: no-repeat;
 }
 
