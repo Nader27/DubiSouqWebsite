@@ -98,7 +98,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 user.Token = null;
-                user.Picture = "";
+                user.Picture = "images/Profile/default.png";
                 db.users.Add(user);
                 db.SaveChanges();
                 ReportModel.CreateAdminReport((Session["admin"] as user).ID, 11, db.users.Max(u => u.ID), user.Email);
