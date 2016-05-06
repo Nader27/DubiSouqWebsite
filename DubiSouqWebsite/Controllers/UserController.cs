@@ -30,14 +30,6 @@ namespace DubiSouqWebsite.Controllers
                 return RedirectToAction("Home", "Home");
         }
 
-        //GET: /User/Account
-        public ActionResult Account()
-        {
-            if (Session["user"] == null)
-                return RedirectToAction("Login");
-            return View();
-        }
-
         // GET: /User/Login
         [AllowAnonymous]
         public ActionResult Login()
@@ -45,7 +37,7 @@ namespace DubiSouqWebsite.Controllers
             if (Request.Cookies["user"] != null && Session["user"] == null)
             {
                 string email = Request.Cookies["user"].Value;
-                user us = db.users.Single(u => u.Email == email);
+                user us = db.users.SingleOrDefault(u => u.Email == email);
                 Session["user"] = us;
             }
             if (Session["user"] == null)
@@ -187,17 +179,93 @@ namespace DubiSouqWebsite.Controllers
             return RedirectToAction("Home", "Home", new { Area = "" });
         }
 
-        // GET: /User/ChangeMyProfile
-        public PartialViewResult ChangeMyProfile()
+        //GET: /User/Account
+        public ActionResult Account(string id ="")
         {
+            if (Session["user"] == null)
+                return RedirectToAction("Login");
+            switch (id)
+            {
+                case "profile":
+                    ViewBag.Change = "ChangeMyProfile";
+                    break;
+                case "password":
+                    ViewBag.Change = "ChangeMyPassword";
+                    break;
+                case "picture":
+                    ViewBag.Change = "ChangeMyPicture";
+                    break;
+                case "email":
+                    ViewBag.Change = "ChangeMyEmail";
+                    break;
+                case "address":
+                    ViewBag.Change = "ChangeMyAddress";
+                    break;
+                default:
+                    break;
+            }
+            BaseViewModels model = new BaseViewModels();
             user user = Session["user"] as user;
-            return PartialView(user);
+            address address = db.addresses.FirstOrDefault(a => a.User_ID == user.ID);
+            model.user = user;
+            model.address = address;
+            return View(model);
         }
 
-        // POST: /User/ChangeMyProfile
+        //POST: /User/Account
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeMyProfile([Bind(Include = "ID,Name,Mobile")] user user)
+        public ActionResult Account(BaseViewModels model, HttpPostedFileBase file, string id)
+        {
+            if (Session["user"] == null)
+                return RedirectToAction("Login");
+            switch (id)
+            {
+                case "profile":
+                    ViewBag.Change = "ChangeMyProfile";
+                    if (ChangeMyProfile(model.user))
+                        TempData["profilesuccess"] = "Profile Updated Successfully";
+                    break;
+                case "password":
+                    ViewBag.Change = "ChangeMyPassword";
+                    if (ChangeMyPassword(model.user))
+                        TempData["passwordsuccess"] = "Password Updated Successfully";
+                    break;
+                case "picture":
+                    ViewBag.Change = "ChangeMyPicture";
+                    if (file != null)
+                    {
+                        if (!HttpPostedFileBaseExtensions.IsImage(file))
+                            ModelState.AddModelError("", "File is not an Image");
+                        if (ChangeMyPicture(model.user, file))
+                            TempData["picturesuccess"] = "Profile Picture Updated Successfully";
+                    }
+                    else
+                        ModelState.AddModelError("", "Select File to upload");
+                    break;
+                case "email":
+                    ViewBag.Change = "ChangeMyEmail";
+                    if (db.users.FirstOrDefault(m => m.Email == model.user.Email) != null)
+                        ModelState.AddModelError("user.Email", "Email Already used");
+                    if (ChangeMyEmail(model.user))
+                        TempData["emailsuccess"] = "Email Updated Successfully";
+                    break;
+                case "address":
+                    ViewBag.Change = "ChangeMyAddress";
+                    if (ChangeMyAddress(model.address))
+                        TempData["addresssuccess"] = "Address Updated Successfully";
+                    break;
+                default:
+                    break;
+            }
+            user user = Session["user"] as user;
+            address address = db.addresses.FirstOrDefault(a => a.User_ID == user.ID);
+            model.user = user;
+            model.address = address;
+            return View(model);
+        }
+
+        private bool ChangeMyProfile([Bind(Include = "user")] user user)
         {
             if (ModelState.IsValid)
             {
@@ -212,24 +280,12 @@ namespace DubiSouqWebsite.Controllers
                 db.Entry(_user).CurrentValues.SetValues(user);
                 db.SaveChanges();
                 Session["user"] = _user;
-                TempData["success"] = "Your Balance is now zero";
-                return RedirectToAction("Account");
+                return true;
             }
-            return new EmptyResult();
+            return false;
         }
 
-        // GET: /User/ChangeMyPassword
-        public PartialViewResult ChangeMyPassword()
-        {
-
-            user user = Session["user"] as user;
-            return PartialView(user);
-        }
-
-        // POST: /User/ChangeMyPassword
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangeMyPassword([Bind(Include = "ID,Password,ConfirmPassword")] user user)
+        private bool ChangeMyPassword([Bind(Include = "ID,Password,ConfirmPassword")] user user)
         {
             if (ModelState.IsValid)
             {
@@ -239,22 +295,12 @@ namespace DubiSouqWebsite.Controllers
                 db.Entry(_user).State = EntityState.Modified;
                 db.SaveChanges();
                 Session["user"] = _user;
-                return RedirectToAction("Account");
+                return true;
             }
-            return new EmptyResult();
+            return false;
         }
 
-        // GET: /User/ChangeMyEmail
-        public PartialViewResult ChangeMyEmail()
-        {
-            user user = Session["user"] as user;
-            return PartialView(user);
-        }
-
-        // POST: /User/ChangeMyEmail
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangeMyEmail([Bind(Include = "ID,Email")] user user)
+        private bool ChangeMyEmail([Bind(Include = "ID,Email")] user user)
         {
             if (ModelState.IsValid)
             {
@@ -263,30 +309,21 @@ namespace DubiSouqWebsite.Controllers
                 db.Entry(_user).State = EntityState.Modified;
                 db.SaveChanges();
                 Session["user"] = _user;
-                return RedirectToAction("Account");
+                if (Request.Cookies["user"] != null)
+                {
+                    HttpCookie cookie = Request.Cookies["user"];
+                    cookie = new HttpCookie("user", _user.Email);
+                    Response.SetCookie(cookie);
+                }
+                return true;
             }
-            return new EmptyResult();
+            return false;
         }
 
-        // GET: /User/ChangeMyPicture
-        public PartialViewResult ChangeMyPicture()
-        {
-            user user = Session["user"] as user;
-            return PartialView(user);
-        }
-
-        // POST: /User/ChangeMyPicture
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangeMyPicture([Bind(Include = "ID")] user user, HttpPostedFileBase file)
+        private bool ChangeMyPicture([Bind(Include = "ID")] user user, HttpPostedFileBase file)
         {
             if (file != null)
             {
-                if (!HttpPostedFileBaseExtensions.IsImage(file))
-                {
-                    ModelState.AddModelError("", "File is not an Image");
-                    return PartialView(user);
-                }
                 string ext = Path.GetExtension(file.FileName);
                 string filename = user.ID.ToString() + ext;
                 string path = Path.Combine(Server.MapPath("~/images/Profile/"), filename);
@@ -295,25 +332,15 @@ namespace DubiSouqWebsite.Controllers
                 user _user = db.users.Find(user.ID);
                 _user.Picture = "images/Profile/" + filename;
                 db.Entry(_user).CurrentValues.SetValues(_user);
+                user = _user;
                 db.SaveChanges();
                 Session["user"] = _user;
-                return RedirectToAction("Account");
+                return true;
             }
-            return new EmptyResult();
+            return false;
         }
 
-        // GET: /User/ChangeMyAddress
-        public PartialViewResult ChangeMyAddress()
-        {
-            user user = Session["user"] as user;
-            address address = db.addresses.SingleOrDefault(u => u.User_ID == user.ID);
-            return PartialView(address);
-        }
-
-        // POST: /User/ChangeMyAddress
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangeMyAddress([Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)
+        private bool ChangeMyAddress([Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)
         {
             if (ModelState.IsValid)
             {
@@ -321,10 +348,9 @@ namespace DubiSouqWebsite.Controllers
                 address.User_ID = _address.User_ID;
                 db.Entry(_address).CurrentValues.SetValues(address);
                 db.SaveChanges();
-                ReportModel.CreateAdminReport((Session["user"] as user).ID, 12, _address.User_ID, _address.user.Email);
-                return RedirectToAction("Account");
+                return true;
             }
-            return new EmptyResult();
+            return false;
         }
 
         protected override void Dispose(bool disposing)

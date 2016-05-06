@@ -4,7 +4,7 @@
 {
     string email = Request.Cookies["user"].Value;
     Entities db = new Entities();
-    user us = db.users.Single(u => u.Email == email);
+    user us = db.users.SingleOrDefault(u => u.Email == email);
     Session["user"] = us;
 }
 @if (Session["user"] != null)
@@ -20,6 +20,7 @@
             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Welcome @USER.Name</a></li>
             <li role="presentation" class="divider"></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Account", "User")">Edit Account</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Account", "User", new { id="password" })">Change Password</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Account", "User")">Mange Order</a></li>
             <li role="presentation" class="divider"></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Cart", "Shop")">My Shopping Cart</a></li>

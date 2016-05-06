@@ -1,51 +1,249 @@
-﻿@{
+﻿@model DubiSouqWebsite.Models.BaseViewModels
+@{
     ViewBag.Title = "Edit Profile";
+    string change = ViewBag.change;
+    string profile ="";
+    string password ="";
+    string picture ="";
+    string email ="";
+    string address ="";
+    switch (change)
+    {
+        case "ChangeMyProfile":
+            profile = "active";
+            break;
+        case "ChangeMyPassword":
+            password = "active";
+            break;
+        case "ChangeMyPicture":
+            picture = "active";
+            break;
+        case "ChangeMyEmail":
+            email = "active";
+            break;
+        case "ChangeMyAddress":
+            address = "active";
+            break;
+
+    }
 }
 <div class="container center_div">
     <div role="tabpanel">
         <ul class="nav nav-tabs tab-product" role="tablist">
-            <li role="presentation" class="active"><a href="#ChangeMyProfile" aria-controls="ChangeMyProfile" role="tab" data-toggle="tab">Change Profile</a></li>
-            <li role="presentation"><a href="#ChangeMyAddress" aria-controls="ChangeMyAddress" role="tab" data-toggle="tab">Change Address</a></li>
-            <li role="presentation"><a href="#ChangeMyEmail" aria-controls="ChangeMyEmail" role="tab" data-toggle="tab">Change Email</a></li>
-            <li role="presentation"><a href="#ChangeMyPassword" aria-controls="ChangeMyPassword" role="tab" data-toggle="tab">Change Password</a></li>
-            <li role="presentation"><a href="#ChangeMyPicture" aria-controls="ChangeMyPicture" role="tab" data-toggle="tab">Change Picture</a></li>
+            <li role="presentation" class="@profile"><a href="#ChangeMyProfile" aria-controls="ChangeMyProfile" role="tab" data-toggle="tab">Change Profile</a></li>
+            <li role="presentation" class="@address"><a href="#ChangeMyAddress" aria-controls="ChangeMyAddress" role="tab" data-toggle="tab">Change Address</a></li>
+            <li role="presentation" class="@email"><a href="#ChangeMyEmail" aria-controls="ChangeMyEmail" role="tab" data-toggle="tab">Change Email</a></li>
+            <li role="presentation" class="@password"><a href="#ChangeMyPassword" aria-controls="ChangeMyPassword" role="tab" data-toggle="tab">Change Password</a></li>
+            <li role="presentation" class="@picture"><a href="#ChangeMyPicture" aria-controls="ChangeMyPicture" role="tab" data-toggle="tab">Change Picture</a></li>
         </ul>
         <div class="tab-content tab-p-details">
-            <div role="tabpanel" class="tab-pane active" id="ChangeMyProfile">
-                <h2>Account</h2>
+            <div role="tabpanel" class="tab-pane @profile" id="ChangeMyProfile">
+                <h2>Change Profile</h2>
                 <div class="multi_line"></div>
-                @{
-                    Html.RenderAction("ChangeMyProfile");
+                @if (TempData["Profilesuccess"] != null)
+                {
+                    <div class="alert-success">
+                        @Html.Encode(TempData["Profilesuccess"])
+                    </div><br />
+                }
+                @using (Html.BeginForm("Account","User", new { id = "profile" }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.user.ID)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.user.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.user.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.user.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.user.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.user.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.user.Mobile, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
                 }
             </div>
-            <div role="tabpanel" class="tab-pane" id="ChangeMyAddress">
+            <div role="tabpanel" class="tab-pane @address" id="ChangeMyAddress">
                 <h2>Change Address</h2>
                 <div class="multi_line"></div>
-                @{
-                    Html.RenderAction("ChangeMyAddress");
+                @if (TempData["addresssuccess"] != null)
+                {
+                <div class="alert-success">
+                    @Html.Encode(TempData["addresssuccess"])
+                </div><br />
+                }
+                @using (Html.BeginForm("Account", "User", new { id = "address" }, FormMethod.Post))
+                {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.address.ID)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.address.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.address.Country, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.address.Country, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.address.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.address.City, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.address.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.address.Address1, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.address.Address1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.address.Address1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.address.Zipcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.address.Zipcode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.address.Zipcode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                <br />
                 }
             </div>
-            <div role="tabpanel" class="tab-pane" id="ChangeMyEmail">
+            <div role="tabpanel" class="tab-pane @email" id="ChangeMyEmail">
                 <h2>Change Email</h2>
                 <div class="multi_line"></div>
-                @{
-                    Html.RenderAction("ChangeMyEmail");
+                @if (TempData["emailsuccess"] != null)
+                {
+                <div class="alert-success">
+                    @Html.Encode(TempData["emailsuccess"])
+                </div><br />
+                }
+                @using (Html.BeginForm("Account", "User", new { id = "email" }, FormMethod.Post))
+                {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.user.ID)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.user.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.user.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.user.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                <br />
                 }
             </div>
-            <div role="tabpanel" class="tab-pane" id="ChangeMyPassword">
+            <div role="tabpanel" class="tab-pane @password" id="ChangeMyPassword">
                 <h2>Change Password</h2>
                 <div class="multi_line"></div>
-                @{
-                    Html.RenderAction("ChangeMyPassword");
+                @if (TempData["passwordsuccess"] != null)
+                {
+                <div class="alert-success">
+                    @Html.Encode(TempData["passwordsuccess"])
+                </div><br />
+                }
+                @using (Html.BeginForm("Account", "User", new { id = "password" }, FormMethod.Post))
+                {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.user.ID)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.user.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.user.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.user.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.user.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.user.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.user.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                <br />
                 }
             </div>
-            <div role="tabpanel" class="tab-pane" id="ChangeMyPicture">
+            <div role="tabpanel" class="tab-pane @picture" id="ChangeMyPicture">
                 <h2>Change Picture</h2>
                 <div class="multi_line"></div>
-                @{
-                    Html.RenderAction("ChangeMyPicture");
+                @if (TempData["picturesuccess"] != null)
+                {
+                <div class="alert-success">
+                    @Html.Encode(TempData["picturesuccess"])
+                </div><br />
+                }
+                @using (Html.BeginForm("Account", "User", new { id = "picture" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.user.ID)
+                <span class="help-block"></span>
+                <div class="input-group margin-bottom-sm">
+                    <span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
+                    <input type="file" class="form-control" name="file">
+                </div>
+                <span class="help-block"></span>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
+                    <img src="~/@Model.user.Picture" width="250" height="250">
+                </div>
+                <span class="help-block"></span>
+                <input type="submit" value="Upload" class="btn btn-default" />
+                <br /><br /><br />
                 }
             </div>
         </div>
     </div>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
