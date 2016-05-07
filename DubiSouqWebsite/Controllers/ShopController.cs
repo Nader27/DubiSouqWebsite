@@ -15,6 +15,8 @@ namespace DubiSouqWebsite.Controllers
     {
         private Entities db = new Entities();
 
+
+
         //GET: /Shop/Index/id?(search="5",page="0",sort="5",amount="5-6")
         public ActionResult Index(int? id, string search = "", int page = 0, string sort = "abc", string amount = "")
         {
@@ -84,6 +86,9 @@ namespace DubiSouqWebsite.Controllers
             ShoppingCart.AddToCart(id, quantity);
             return PartialView("_CartMenu");
         }
+
+        //Note: Same as AddToCart but only works in Product_Details Page
+        //AJAX: /Shop/Product_Details/5
         [HttpPost]
         public PartialViewResult Product_Details(int id)
         {
@@ -94,6 +99,7 @@ namespace DubiSouqWebsite.Controllers
             return PartialView("_CartMenu");
         }
 
+        //AJAX: /Shop/RemoveOneFromCart/5
         public PartialViewResult RemoveOneFromCart(int id)
         {
             ShoppingCart.RemoveFromCart(id,1);
@@ -219,6 +225,8 @@ namespace DubiSouqWebsite.Controllers
             return View(product);
         }
 
+        //POST: /Shop/Review/5
+        [HttpPost]
         public ActionResult Review(int? id)
         {
             if (Session["user"] == null)

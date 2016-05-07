@@ -1,5 +1,11 @@
 ﻿@model DubiSouqWebsite.Models.product
 @using DubiSouqWebsite.Models
+@if (Session["user"] == null)
+{
+    <script type="text/javascript" language="javascript">
+    document.location = '@Url.Action("Login", "User")';
+    </script>
+}
 
 <div class="review_comments" id="review_comments">
     <div class="review_heading">

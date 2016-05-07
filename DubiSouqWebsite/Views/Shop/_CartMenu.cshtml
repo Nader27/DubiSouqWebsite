@@ -4,6 +4,12 @@
     var count = ShoppingCart.GetCount();
     var total = @ShoppingCart.GetTotal();
 }
+@if (Session["user"] == null)
+{
+    <script type="text/javascript" language="javascript">
+    document.location = '@Url.Action("Login", "User")';
+    </script>
+}
 <a href="#"><img src="~/images/bag.png" alt="Bag" /><span id="cart-count">cart: @count items</span></a>
 <div class="cart_menu" id="cart_menu">
     @foreach (cart_item item in CARTITEMS)
