@@ -256,6 +256,7 @@
                     <li class="divider"></li>
                     @using (Html.BeginForm("Logout", "User", new { area = "" }, FormMethod.Post, new { id = "logoutForm" }))
                     {
+                        @Html.AntiForgeryToken()
                         <li class="navbar-brand"><a style="text-decoration:none" href="javascript:document.getElementById('logoutForm').submit()">Logout</a></li>
                     }
                 </ul>

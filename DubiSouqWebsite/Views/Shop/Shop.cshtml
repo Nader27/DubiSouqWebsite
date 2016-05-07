@@ -16,7 +16,7 @@
     List<product_picture> PRODUCTPICS = ViewBag.products as List<product_picture>;
     category categ = ViewBag.categ as category;
     category parent = ViewBag.parent as category;
-    Dictionary<category,int> CATEGORIES = ViewBag.categories as Dictionary<category,int>;
+    Dictionary<category, int> CATEGORIES = ViewBag.categories as Dictionary<category, int>;
     ViewBag.Title = "Shop";
 
 }
@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="bread_top_box">
-                    <h2>@parent.Name</h2>
+                    <h2>Shop</h2>
                 </div>
             </div>
         </div>
@@ -38,188 +38,77 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="bread_box">
                     <ul class="breadcumb">
-                        <li><a href="index-2.html">home <span>|</span></a></li>
-                        <li><a href="category-1.html">Shop <span>|</span></a></li>
-                        <li><a href="category-2.html">Category <span>|</span></a></li>
-                        <li class="active"><a href="#">@categ.Name </a></li>
+                        <li><a href="@Url.Action("Home","Home")">Home <span>|</span></a></li>
+                        <li class="active"><a href="#">Shop</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="filter_area">
+<section class="promotion_area">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-8 col-xs-12">
-                <div class="filter_box_left">
-                    <p>FILTERING:</p>
-                    <div class="filter_cont">
-                        <ul>
-                            <li><a href="category-1.html">on</a></li>
-                            <li><img src="~/images/filter_ico.png" alt="" /></li>
-                            <li><a href="category-2.html">off</a></li>
-                        </ul>
-                    </div>
-                    <div class="s_results">
-                        <p><span>|</span> showing @(((ViewBag.MaxPage) * (ViewBag.page + 1)) + 1) - @if (ViewBag.productscount >= (ViewBag.MaxPage * (ViewBag.page + 1)) + ViewBag.size)
-                        { @(ViewBag.MaxPage * (ViewBag.page + 1)) }
-                        else
-                        {@ViewBag.productscount } of @ViewBag.productscount results</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-4 col-xs-12">
-                <div class="filter_box_right">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">sort by newness <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Top Seller </a></li>
-                        <li><a href="#">Most Popular</a></li>
-                        <li><a href="#">Alphabetically</a></li>
-                        <li><a href="#">Older First</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<section class="main_category_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-sm-4 col-xs-12">
-                <div class="main_category_left">
-
-                    <div class="panel-group" id="home-accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#home-accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        CATEGORIES
-                                        <span class="floatright"><i class="fa fa-minus"></i></span>
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="panel-body">
-                                    <ul id="c_tab1">
-                                        @foreach (KeyValuePair<category, int> catitem in CATEGORIES)
-                                        {
-                                            <li><a href="#">@catitem.Key.Name  (@catitem.Value)</a></li>
-                                        }
-                                        </ul>
+            <div class="col-md-12">
+                <div class="promo_inner">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="promotion_left">
+                                <div class="promotion_top">
+                                    <div class="images_box">
+                                        <img src="~/images/promo_img1.jpg" alt="" />
+                                    </div>
+                                    <div class="promo_text">
+                                        <h5>Electronics</h5>
+                                        <div class="p_line"></div>
+                                        <a href="@Url.Action("Index","Shop", new { id =7 })">Show More Products <i class="fa fa-caret-right"></i></a>
+                                    </div>
+                                    <div class="hover_images">
+                                        <img src="~/images/promo_img11.jpg" alt="" />
+                                    </div>
+                                </div>
+                                <div class="promotion_bottom">
+                                    <div class="images_box">
+                                        <img src="~/images/promo_img2.jpg" alt="" />
+                                    </div>
+                                    <div class="promo_text_bottom">
+                                        <h5>Shirts</h5>
+                                        <div class="p_line"></div>
+                                        <a href="@Url.Action("Index","Shop", new { id =4 })">Show More Products <i class="fa fa-caret-right"></i></a>
+                                    </div>
+                                    <div class="hover_images_bottom hover_images">
+                                        <img src="~/images/promo_img22.jpg" alt="" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="headingTwo">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#home-accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            PRICE FILTER
-                                            <span class="floatright"><i class="fa fa-plus"></i></span>
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                    <div class="panel-body">
-                                        <div id="slider-range"></div>
-                                        <div class="cat_filter_box">
-                                            <p>
-                                                <label for="amount">Filter</label>
-                                                <input type="text" id="amount" readonly style="border:0; color:#000; font-weight:bold;">
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-9 col-sm-8 col-xs-12">
-                    <div class="main_category_right">
-                        <div class="row">
-                            @foreach (product item in PRODUCTS)
-                            {
-                                <div class="col-md-4 col-sm-6 col-xs-12">
-                                    <div class="main_cat_item">
-                                        <div class="item">
-                                            <div class="item-img">
-                                                <img src="~/@getproductimage(item.ID)" alt="" />
-                                                <div class="tr-add-cart">
-                                                    <ul>
-                                                        <li><a class="fa fa-shopping-cart tr_cart" href="#"></a></li>
-                                                        <li>@Html.ActionLink("Add to cart", "AddToCart","Home", new { id = item.ID}, new { @class = "tr_text" })</li>
-                                                        <li><a class="fa fa-heart tr_heart" href="@Url.Action("Addtowish")"></a></li>
-                                                        <li><a class="fa fa-search tr_search" href="product-detail.html"></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="item-new">
-                                                <p>New</p>
-                                                <span> - @item.Sale %</span>
-                                            </div>
-                                            <div class="item-sub">
-                                                <a href="product-detail.html"><h5>@item.Name</h5></a>
-                                                @if (item.Sale > 0)
-                                                {
-                                                    <p>
-                                                        @((item.Price / 100) * (100 - item.Sale)) EGP
-                                                        <span><del>@item.Price EGP</del></span>
-                                                    </p>
-                                                }
-                                                else
-                                                {
-                                                    <p>@item.Price EGP</p>
-                                                }
-                                            </div>
-                                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="promotion_right">
+                                <div class="promotion_bottom promotion_bottom_t">
+                                    <div class="images_box">
+                                        <img src="~/images/promo_img3.jpg" alt="" />
+                                    </div>
+                                    <div class="promo_text promo_text_t">
+                                        <h5>Books</h5>
+                                        <div class="p_line"></div>
+                                        <a href="@Url.Action("Index","Shop", new { id =8 })">Show More Products <i class="fa fa-caret-right"></i></a>
+                                    </div>
+                                    <div class="hover_images_bottom hover_images">
+                                        <img src="~/images/promo_img33.jpg" alt="" />
                                     </div>
                                 </div>
-                            }
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="pagi_line"></div>
-                                <div class="pagi_ul">
-                                    <ul id="pagination">
-                                        @if (ViewBag.Page > 0)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page - 1 })">Previous</a></li>
-                                        }
-                                        @if (ViewBag.Page - 3 >= 0)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page - 3 })">@(ViewBag.page - 2)</a></li>
-                                        }
-                                        @if (ViewBag.Page - 2 >= 0)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page - 2 })">@(ViewBag.page - 1)</a></li>
-                                        }
-                                        @if (ViewBag.Page - 1 >= 0)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page - 1 })">@ViewBag.page</a></li>
-                                        }
-                                        <li><a href="@Url.Action("Index", new { page = ViewBag.Page })">@(ViewBag.page + 1)</a></li>
-                                        @if (ViewBag.Page + 1 <= ViewBag.MaxPage)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page + 1 })">@(ViewBag.page + 2)</a></li>
-                                        }
-                                        @if (ViewBag.Page + 2 <= ViewBag.MaxPage)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page + 2 })">@(ViewBag.page + 3)</a></li>
-                                        }
-                                        @if (ViewBag.Page + 3 <= ViewBag.MaxPage)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page + 3 })">@(ViewBag.page + 4)</a></li>
-                                        }
-                                        @if (ViewBag.Page + 4 <= ViewBag.MaxPage)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page + 4 })">@(ViewBag.page + 5)</a></li>
-                                        }
-                                        @if (ViewBag.Page < ViewBag.MaxPage)
-                                        {
-                                            <li><a href="@Url.Action("Index", new { page = ViewBag.Page + 1 })">Next</a></li>
-                                        }
-                                    </ul>
+                                <div class="promotion_top promotion_bottom_b">
+                                    <div class="images_box">
+                                        <img src="~/images/promo_img4.jpg" alt="" />
+                                    </div>
+                                    <div class="promo_text_bottom promo_text_b">
+                                        <h5>Pants</h5>
+                                        <div class="p_line"></div>
+                                        <a href="@Url.Action("Index","Shop", new { id =5 })">Show More Products <i class="fa fa-caret-right"></i></a>
+                                    </div>
+                                    <div class="hover_images">
+                                        <img src="~/images/promo_img44.jpg" alt="" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -227,4 +116,10 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $("li#Shop").addClass("current-page-item");
+    });
+</script>

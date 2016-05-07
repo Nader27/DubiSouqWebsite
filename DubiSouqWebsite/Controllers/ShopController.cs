@@ -15,7 +15,10 @@ namespace DubiSouqWebsite.Controllers
     {
         private Entities db = new Entities();
 
-
+        public ActionResult Shop()
+        {
+            return View();
+        }
 
         //GET: /Shop/Index/id?(search="5",page="0",sort="5",amount="5-6")
         public ActionResult Index(int? id, string search = "", int page = 0, string sort = "abc", string amount = "")

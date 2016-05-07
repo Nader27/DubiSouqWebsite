@@ -12,8 +12,8 @@
                 <div class="bread_box">
                     <ul class="breadcumb">
                         <li><a href="@Url.Action("Home","Home")">Home<span>|</span></a></li>
-                        <li><a href="@Url.Action("Home")">Shop<span>|</span></a></li>
-                        <li><a href="@Url.Action("Index", new { id = Model.Category_ID })">Category<span>|</span></a></li>
+                        <li><a href="@Url.Action("Shop")">Shop<span>|</span></a></li>
+                        <li><a href="@Url.Action("Index", new { id = Model.Category_ID })">@Model.category.Name<span>|</span></a></li>
                         <li class="active"><a href="#">@Model.Name</a></li>
                     </ul>
                 </div>
@@ -273,3 +273,8 @@
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function () {
+        $("li#Shop").addClass("current-page-item");
+    });
+</script>

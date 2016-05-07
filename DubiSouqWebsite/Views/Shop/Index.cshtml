@@ -24,7 +24,7 @@
                 <div class="bread_box">
                     <ul class="breadcumb">
                         <li><a href="@Url.Action("Home","Home")">Home <span>|</span></a></li>
-                        <li><a href="@Url.Action("Home")">Shop <span>|</span></a></li>
+                        <li><a href="@Url.Action("Shop")">Shop <span>|</span></a></li>
                         <li class="active"><a href="@Url.Action("Index","Shop",new { id=category.ID })">@category.Name</a></li>
                     </ul>
                 </div>
@@ -261,4 +261,9 @@
     if (sorthtml == null)
         sorthtml = "Alphabetically";
     ss.innerHTML = "Sort " + sorthtml + " <span class='caret'></span>";
+</script>
+<script>
+    $(document).ready(function () {
+        $("li#Shop").addClass("current-page-item");
+    });
 </script>
