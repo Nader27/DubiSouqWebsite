@@ -742,6 +742,7 @@
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\User\Account.cshtml" />
     <Content Include="Views\Shop\_Review.cshtml" />
+    <Content Include="Scripts\lightbox\lightbox.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2,7 +2,7 @@
 @using DubiSouqWebsite.Models
 
 @{
-    ViewBag.Title = "Product_Details";
+    ViewBag.Title = Model.Name;
     string red = "red";
 }
 <div class="breadcumb_area">
@@ -35,7 +35,7 @@
                                     <ul class="nav nav-tabs product_detail_zoom_tab" role="tablist">
                                         @foreach (var item in Model.product_picture)
                                         {
-                                            <li role='presentation' class="active">
+                                            <li role='presentation' @if (item == Model.product_picture.First()) { @String.Copy("class=active") }>
                                                 <a href="#@item.ID" aria-controls="@item.ID" role="tab" data-toggle="tab">
                                                     <div class="small_img">
                                                         <img src="~/@item.Picture" alt="" width="50" height="50" />
@@ -46,23 +46,19 @@
                                     </ul>
                                     <!-- Tab panes -->
                                     <div class="tab-content">
-                                        @if (Model.product_picture.FirstOrDefault() != null)
+                                        @foreach (var item in Model.product_picture)
                                         {
-                                            <div role="tabpanel" class="tab-pane active" id="@Model.product_picture.FirstOrDefault().ID">
+                                            <div role="tabpanel" class="tab-pane @if (item == Model.product_picture.First()) { @String.Copy("active") }" id="@item.ID">
                                                 <div class="single_p_image">
-                                                    <a href="~/@Model.product_picture.FirstOrDefault().Picture" data-lightbox="image-1" data-title="My caption"><img src="~/images/product-plus.png" alt="" /></a>
-                                                    <img id="zoom_02" src="~/@Model.product_picture.FirstOrDefault().Picture" height="800" width="300" data-zoom-image="/@Model.product_picture.FirstOrDefault().Picture" alt="" />
+                                                    <a href="~/@item.Picture" data-lightbox="image-1" data-title="My caption"><img src="~/images/product-plus.png" alt="" /></a>
+                                                    <img id="zoom_@item.ID" src="~/@item.Picture" height="800" width="300" data-zoom-image="/@item.Picture" alt="" />
                                                 </div>
                                             </div>
-                                        }
-                                        @for (int i = 1; i < Model.product_picture.Count; i++)
-                                        {
-                                            <div role="tabpanel" class="tab-pane" id="@Model.product_picture.ElementAt(i).ID">
-                                                <div class="single_p_image">
-                                                    <a href="~/@Model.product_picture.ElementAt(i).Picture" data-lightbox="image-1" data-title="My caption"><img src="~/images/product-plus.png" alt="" /></a>
-                                                    <img id="zoom_02" src="~/@Model.product_picture.ElementAt(i).Picture" height="800" width="300" data-zoom-image="/@Model.product_picture.ElementAt(i).Picture" alt="" />
-                                                </div>
-                                            </div>
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $("#zoom_@item.ID").elevateZoom({ tint: true, tintColour: '#FF6766', tintOpacity: 0.0, easing: true });
+                                                });
+                                            </script>
                                         }
                                     </div>
                                 </div>
@@ -128,16 +124,16 @@
                                             <div class="single_color">
                                                 <div class="color_heading"><h5>Quantity</h5></div>
                                                 <div class="color_detail">
-                                                    @using (Html.BeginForm("AddToCart", "Shop", new { id = Model.ID }, FormMethod.Get, new { id = "QuantityForm" }))
+                                                    @using (Ajax.BeginForm(new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace , HttpMethod = "POST" }))
                                                     {
                                                         <div class="size_down">
                                                             <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" max="@Model.Quantity" min="0" step="1">
                                                         </div>
                                                         <div class="size_cart">
-                                                            <a href="#" onclick="javascript: document.getElementById('QuantityForm').submit()">Add to cart</a>
+                                                            <button type="submit" style="padding: 0;border: none;background: none;">Add to cart</button>
                                                         </div>
                                                         <div class="size_heart">
-                                                            <a href="@Url.Action("Addtowish")"><img src="~/images/Product-Details-heart.png" alt="" /></a>
+                                                            <a id="addtowish" data-id="@Model.ID" href="#"><img src="~/images/Product-Details-heart.png" alt="" /></a>
                                                         </div>
                                                     }
                                                 </div>
@@ -203,11 +199,11 @@
                                             <ul id="review_heading_star">
                                                 @for (int i = 0; i < ViewBag.Rate; i++)
                                                 {
-                                                    <li><span class="fa fa-star"></span></li>
+                                                    <li><span class="fa fa-star "style="color:#ff6766"></span></li>
                                                 }
                                                 @for (int i = 5; i > ViewBag.Rate; i--)
                                                 {
-                                                    <li><span class="fa fa-star-o "></span></li>
+                                                    <li><span class="fa fa-star-o "style="color:red"></span></li>
                                                 }
                                             </ul>
                                         </div>
@@ -225,12 +221,12 @@
                                                     <ul id="single_review_star">
                                                         @for (int i = 0; i < item.Rate; i++)
                                                         {
-                                                            <li><span class="fa fa-star"></span></li>
+                                                            <li><span class="fa fa-star " style="color:#ff6766" ></span></li>
                                                         }
                                                     </ul>
                                                     <p>@item.Comment</p>
                                                     <div class="review_italic">
-                                                        <p><span>@item.user.Name,</span>@item.Date.Date</p>
+                                                        <p><span>@item.user.Name,</span>@item.Date.ToShortDateString()</p>
                                                     </div>
                                                 </div>
                                             </div>

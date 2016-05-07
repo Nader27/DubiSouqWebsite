@@ -84,6 +84,15 @@ namespace DubiSouqWebsite.Controllers
             ShoppingCart.AddToCart(id, quantity);
             return PartialView("_CartMenu");
         }
+        [HttpPost]
+        public PartialViewResult Product_Details(int id)
+        {
+            int quantity = 1;
+            if (Request["quantity"] != null)
+                quantity = int.Parse(Request["quantity"]);
+            ShoppingCart.AddToCart(id, quantity);
+            return PartialView("_CartMenu");
+        }
 
         public PartialViewResult RemoveOneFromCart(int id)
         {
