@@ -61,8 +61,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -489,13 +489,6 @@
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <EntityDeploy Include="Models\Database.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Database.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Database.edmx.diagram">
-      <DependentUpon>Database.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\Admin\DataTables Responsive\responsive.bootstrap.scss" />
     <Content Include="Content\Admin\DataTables Responsive\responsive.dataTables.scss" />
     <Content Include="Content\Admin\DataTables Responsive\responsive.foundation.scss" />
@@ -606,6 +599,13 @@
     <Content Include="Areas\Admin\Views\Admin\ChangeMyPicture.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\EditMyUser.cshtml" />
     <Content Include="Content\ALLENAB_.TTF" />
+    <EntityDeploy Include="Models\Database.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Database.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Database.edmx.diagram">
+      <DependentUpon>Database.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
@@ -717,7 +717,7 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shop\Shop.cshtml" />
-    <Content Include="Views\Shop\CartMenu.cshtml" />
+    <Content Include="Views\Shop\_CartMenu.cshtml" />
     <Content Include="Scripts\jquery\jquery-2.2.2.min.map" />
     <Content Include="Scripts\jquery\jquery.min.map" />
     <Content Include="Views\Shop\Wishlist.cshtml" />
@@ -741,6 +741,7 @@
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\User\Account.cshtml" />
+    <Content Include="Views\Shop\_Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

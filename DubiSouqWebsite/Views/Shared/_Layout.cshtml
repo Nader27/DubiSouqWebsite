@@ -408,7 +408,6 @@
     <script src="~/Scripts/jquery/jquery.min.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Scripts/jquery ajax/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Scripts/jquery validate/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/jquery validate/jquery.validate.min.js"></script>
     <script>
         $(function () {
@@ -456,7 +455,7 @@
                 var recordToDelete = $(this).attr("data-id");
                 if (recordToDelete != '') {
                     // Perform the ajax post
-                    $.post("/Shop/RemoveFromCart", { "id": recordToDelete ,"quantity": 0},
+                    $.post("/Shop/RemoveFromCart", { "id": recordToDelete},
                         function (data) {
                             // Successful requests get here
                             // Update the page elements
@@ -512,8 +511,6 @@
                 }
             });
         });
-    </script>
-    <script type="text/javascript">
     </script>
     <!--Opacity & Other IE fix for older browser-->
     <!--[if lte IE 8]>

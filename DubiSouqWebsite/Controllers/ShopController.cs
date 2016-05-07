@@ -82,31 +82,28 @@ namespace DubiSouqWebsite.Controllers
             if (Request["quantity"] != null)
                 quantity = int.Parse(Request["quantity"]);
             ShoppingCart.AddToCart(id, quantity);
-            return PartialView("CartMenu");
+            return PartialView("_CartMenu");
+        }
+
+        public PartialViewResult RemoveOneFromCart(int id)
+        {
+            ShoppingCart.RemoveFromCart(id,1);
+            return PartialView("_CartMenu");
         }
 
         //AJAX: /Shop/RemoveFromCart/5
-        public ActionResult RemoveFromCart(int id,int quantity = 1)
+        public ActionResult RemoveFromCart(int id)
         {
-            if (quantity == 0)
-                quantity = db.cart_item.Find(id).Quantity;
+            user user = Session["user"] as user;
+                int quantity = db.cart_item.SingleOrDefault(c => c.user_ID == user.ID && c.Product_ID == id).Quantity;
             ShoppingCart.RemoveFromCart(id, quantity);
-            cart_item cart_item = db.cart_item.SingleOrDefault(c => c.ID == id);
-            var results = new ShoppingCartViewModel();
-            if (cart_item != null)
+            var results = new ShoppingCartViewModel
             {
-                return PartialView("CartMenu");
-            }
-            else
-            {
-                results = new ShoppingCartViewModel
-                {
-                    CartTotal = ShoppingCart.GetTotal(),
-                    CartCount = ShoppingCart.GetCount(),
-                    Id = id
-                };
-                return Json(results);
-            }
+                CartTotal = ShoppingCart.GetTotal(),
+                CartCount = ShoppingCart.GetCount(),
+                Id = id
+            };
+            return Json(results);
         }
 
         //GET: /Shop/Checkout
@@ -160,7 +157,7 @@ namespace DubiSouqWebsite.Controllers
         public ActionResult RemoveFromwish(int id)
         {
             if (Session["user"] == null)
-                return RedirectToAction("Login", "User");
+                return RedirectToAction("Index", "User");
             Entities db = new Entities();
             ShoppingCart.RemoveFromWishlist(id);
             user USER = Session["user"] as user;
@@ -185,7 +182,70 @@ namespace DubiSouqWebsite.Controllers
             {
                 return HttpNotFound();
             }
+            int count = 0;
+            int total = 0;
+            foreach (review item in product.reviews)
+            {
+                if (item.Rate > 0)
+                {
+                    count++;
+                    total += item.Rate;
+                }
+            }
+            if (count != 0)
+                ViewBag.Rate = total / count;
+            else
+                ViewBag.Rate = 0;
+            if (Session["user"] == null)
+                ViewBag.UserRate = 0;
+            else
+            {
+                user USER = Session["user"] as user;
+                review review = db.reviews.SingleOrDefault(r => r.User_ID == USER.ID && r.Product_ID == product.ID);
+                if (review == null)
+                    ViewBag.UserRate = 0;
+                else
+                    ViewBag.UserRate = review.Rate;
+            }
             return View(product);
+        }
+
+        public ActionResult Review(int? id)
+        {
+            if (Session["user"] == null)
+                return RedirectToAction("Index", "User");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            product product = db.products.SingleOrDefault(p => p.ID == id);
+            if (product == null)
+            {
+               return HttpNotFound();
+            }
+            user USER = Session["user"] as user;
+            review review = db.reviews.SingleOrDefault(r => r.User_ID == USER.ID && r.Product_ID == product.ID);
+            if (review != null)
+            {
+                review.Title = Request["title"];
+                review.Comment = Request["comment"];
+                review.Rate = int.Parse(Request["rate"]);
+                review.Date = DateTime.Now;
+                db.Entry(review).State = EntityState.Modified;
+            }
+            else
+            {
+                review = new review();
+                review.User_ID = USER.ID;
+                review.Product_ID = id.Value;
+                review.Title = Request["title"];
+                review.Comment = Request["comment"];
+                review.Date = DateTime.Now;
+                review.Rate = int.Parse(Request["rate"]);
+                db.reviews.Add(review);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Product_Details", new { id=id });
         }
     }
 }

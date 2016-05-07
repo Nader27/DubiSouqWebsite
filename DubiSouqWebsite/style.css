@@ -4630,3 +4630,32 @@ input[type="number"].hotfix::-webkit-inner-spin-button {
         opacity: 0.5;
         filter: none !important;
     }
+
+.rating {
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+}
+
+.rating-input {
+    float: right;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+
+.rating-star,.rating:hover .rating-star:before  {
+    display: block;
+    float: right;
+    width: 16px;
+    height: 16px;
+    color: #ff6766;
+}
+
+    .rating-star:hover:before,
+    .rating-star:hover ~ .rating-star:before,
+    .rating-input:checked ~ .rating-star:before {
+        content: "\f005";
+    }

@@ -72,7 +72,7 @@
                             </div>
                             <div class="cart_quantity">
                                 <ul>
-                                    <li>@Ajax.ActionLink("-", "RemoveFromCart", new { id = item.Product_ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })</li>
+                                    <li>@Ajax.ActionLink("-", "RemoveOneFromCart", new { id = item.Product_ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })</li>
                                     <li><a href="#" id="@item.Product_ID-count">@item.Quantity</a></li>
                                     <li>@Ajax.ActionLink("+", "AddToCart", new { id = item.Product_ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })</li>
                                 </ul>
@@ -123,14 +123,14 @@
                                             <span id="carttotal">@ViewBag.Total EGP</span>
                                         </div>
                                         <div class="c_single_item cart_last_total">
-                                            <p id="charge">Shipping Charge</p>
+                                            <p>Shipping Charge</p>
                                             @if (ViewBag.Total >= 1000)
                                             {
-                                                <span>Free</span>
+                                                <span id="charge">Free</span>
                                             }
                                             else
                                             {
-                                                <span>50 EGP</span>
+                                                <span id="charge">50 EGP</span>
                                             }
                                         </div>
                                         <div class="c_total_item sp_single_item">
