@@ -136,6 +136,7 @@
     <Compile Include="Areas\Admin\Controllers\SalesPersonController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ordersController.cs" />
     <Compile Include="Controllers\SendMailer2Controller.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -169,6 +170,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Database.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Feedback.cs">
+      <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HttpPostedFileBaseExtensions.cs" />
     <Compile Include="Models\MailModel.cs" />
@@ -704,14 +708,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Shop\Cart.cshtml" />
     <Content Include="Views\Shop\Checkout.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
-    <Content Include="Views\Home\shirts.cshtml" />
-    <Content Include="Views\Home\Shop.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
@@ -722,7 +723,7 @@
     <Content Include="Scripts\jquery\jquery.min.map" />
     <Content Include="Views\Shop\Wishlist.cshtml" />
     <Content Include="Views\Home\Feedback.cshtml" />
-    <Content Include="Views\Home\Redirect.cshtml" />
+    <Content Include="Views\Shop\Redirect.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shop\Product_Details.cshtml" />
     <Content Include="Views\Home\LoginForm.cshtml" />
@@ -730,16 +731,6 @@
     <Content Include="Scripts\rs-plugin\font\revicons90c6.eot" />
     <Content Include="Scripts\rs-plugin\font\revicons90c6.ttf" />
     <Content Include="Scripts\rs-plugin\font\revicons90c6.woff" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\User\Account.cshtml" />
     <Content Include="Views\Shop\_Review.cshtml" />
     <Content Include="Scripts\lightbox\lightbox.min.map" />

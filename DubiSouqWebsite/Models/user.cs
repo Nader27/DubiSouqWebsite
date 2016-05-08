@@ -20,6 +20,7 @@ namespace DubiSouqWebsite.Models
         {
             this.addresses = new HashSet<address>();
             this.cart_item = new HashSet<cart_item>();
+            this.Feedbacks = new HashSet<Feedback>();
             this.orders = new HashSet<order>();
             this.products = new HashSet<product>();
             this.reports = new HashSet<report>();
@@ -43,6 +44,8 @@ namespace DubiSouqWebsite.Models
         public virtual ICollection<address> addresses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cart_item> cart_item { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order> orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

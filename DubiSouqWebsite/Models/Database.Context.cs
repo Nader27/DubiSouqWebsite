@@ -29,6 +29,7 @@ namespace DubiSouqWebsite.Models
         public virtual DbSet<address> addresses { get; set; }
         public virtual DbSet<cart_item> cart_item { get; set; }
         public virtual DbSet<category> categories { get; set; }
+        public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<order> orders { get; set; }
         public virtual DbSet<order_item> order_item { get; set; }
         public virtual DbSet<order_status> order_status { get; set; }

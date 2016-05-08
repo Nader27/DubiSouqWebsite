@@ -193,6 +193,7 @@
                         @using (Html.BeginForm("Checkout", "Home", FormMethod.Post, new { @class = "form-horizontal", id = "checkoutform", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="c_payment">
                                 @Html.DropDownListFor(model => model.Payment_Method, ViewBag.payment_method as SelectList, "Select Payment Method", new { @class = "selectpicker sel_state" })
                             </div>

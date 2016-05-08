@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DubiSouqWebsite.Models;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace DubiSouqWebsite.Controllers
 {
@@ -124,13 +125,28 @@ namespace DubiSouqWebsite.Controllers
             return Json(results);
         }
 
+
         //GET: /Shop/Checkout
         public ActionResult Checkout()
         {
             if (Session["user"] == null)
                 return RedirectToAction("Index", "User");
-            Entities db = new Entities();
             ViewBag.Payment_Method = new SelectList(db.payment_method, "ID", "Method");
+            return View();
+        }
+
+        //POST: /Shop/Checkout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Checkout([Bind(Include = "Payment_Method")] order order)
+        {
+            foreach (cart_item item in ShoppingCart.GetCartItems())
+            {
+                if (item.Quantity > item.product.Quantity)
+                {
+
+                }
+            }
             return View();
         }
 

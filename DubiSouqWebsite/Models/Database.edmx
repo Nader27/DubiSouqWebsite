@@ -42,6 +42,17 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Parent_Category" Type="int" />
         </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Feedback1" Type="int" Nullable="false" />
+          <Property Name="Feedback2" Type="int" Nullable="false" />
+          <Property Name="Feedback3" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="1000" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="order">
           <Key>
             <PropertyRef Name="ID" />
@@ -178,7 +189,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_address_user">
-          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="address" Type="Self.address" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
@@ -227,6 +240,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Feedback_user">
+          <End Role="user" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_order_item_order">
           <End Role="order" Type="Self.order" Multiplicity="1" />
           <End Role="order_item" Type="Self.order_item" Multiplicity="*" />
@@ -240,7 +267,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_order_item_Product">
-          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="order_item" Type="Self.order_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="product">
@@ -316,7 +345,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_product_product_type">
-          <End Role="product_type" Type="Self.product_type" Multiplicity="0..1" />
+          <End Role="product_type" Type="Self.product_type" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="product" Type="Self.product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="product_type">
@@ -378,7 +409,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_review_Product">
-          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="review" Type="Self.review" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="product">
@@ -414,7 +447,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_whish_list_Product">
-          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="whish_list" Type="Self.whish_list" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="product">
@@ -442,6 +477,7 @@
           <EntitySet Name="address" EntityType="Self.address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cart_item" EntityType="Self.cart_item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order_item" EntityType="Self.order_item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order_status" EntityType="Self.order_status" Schema="dbo" store:Type="Tables" />
@@ -474,6 +510,10 @@
           <AssociationSet Name="FK_category_category" Association="Self.FK_category_category">
             <End Role="category" EntitySet="category" />
             <End Role="category1" EntitySet="category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_user" Association="Self.FK_Feedback_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="Feedback" EntitySet="Feedback" />
           </AssociationSet>
           <AssociationSet Name="FK_order_item_order" Association="Self.FK_order_item_order">
             <End Role="order" EntitySet="order" />
@@ -592,6 +632,18 @@
           <NavigationProperty Name="category1" Relationship="Self.FK_category_category" FromRole="category" ToRole="category1" />
           <NavigationProperty Name="category2" Relationship="Self.FK_category_category" FromRole="category1" ToRole="category" />
           <NavigationProperty Name="products" Relationship="Self.FK_product_category" FromRole="category" ToRole="product" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Feedback1" Type="Int32" Nullable="false" />
+          <Property Name="Feedback2" Type="Int32" Nullable="false" />
+          <Property Name="Feedback3" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.FK_Feedback_user" FromRole="Feedback" ToRole="user" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -728,6 +780,7 @@
           <Property Name="Token" Type="Int32" />
           <NavigationProperty Name="addresses" Relationship="Self.FK_address_user" FromRole="user" ToRole="address" />
           <NavigationProperty Name="cart_item" Relationship="Self.FK_cart_item_user" FromRole="user" ToRole="cart_item" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_user" FromRole="user" ToRole="Feedback" />
           <NavigationProperty Name="orders" Relationship="Self.FK_order_user" FromRole="user" ToRole="order" />
           <NavigationProperty Name="products" Relationship="Self.FK_product_user" FromRole="user" ToRole="product" />
           <NavigationProperty Name="reports" Relationship="Self.FK_report_user" FromRole="user" ToRole="report" />
@@ -766,7 +819,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_address_user">
-          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="address" Type="Self.address" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
@@ -829,6 +884,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Feedback_user">
+          <End Role="user" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_order_item_order">
           <End Role="order" Type="Self.order" Multiplicity="1" />
           <End Role="order_item" Type="Self.order_item" Multiplicity="*" />
@@ -878,7 +947,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_order_item_Product">
-          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="order_item" Type="Self.order_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="product">
@@ -904,7 +975,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_product_product_type">
-          <End Role="product_type" Type="Self.product_type" Multiplicity="0..1" />
+          <End Role="product_type" Type="Self.product_type" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="product" Type="Self.product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="product_type">
@@ -942,7 +1015,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_review_Product">
-          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="review" Type="Self.review" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="product">
@@ -954,7 +1029,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_whish_list_Product">
-          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="whish_list" Type="Self.whish_list" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="product">
@@ -1030,6 +1107,7 @@
           <EntitySet Name="addresses" EntityType="Self.address" />
           <EntitySet Name="cart_item" EntityType="Self.cart_item" />
           <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
           <EntitySet Name="orders" EntityType="Self.order" />
           <EntitySet Name="order_item" EntityType="Self.order_item" />
           <EntitySet Name="order_status" EntityType="Self.order_status" />
@@ -1066,6 +1144,10 @@
           <AssociationSet Name="FK_product_category" Association="Self.FK_product_category">
             <End Role="category" EntitySet="categories" />
             <End Role="product" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Feedback_user" Association="Self.FK_Feedback_user">
+            <End Role="user" EntitySet="users" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
           </AssociationSet>
           <AssociationSet Name="FK_order_item_order" Association="Self.FK_order_item_order">
             <End Role="order" EntitySet="orders" />
@@ -1176,6 +1258,18 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Parent_Category" ColumnName="Parent_Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="DubiSouq.comModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Feedback1" ColumnName="Feedback1" />
+                <ScalarProperty Name="Feedback2" ColumnName="Feedback2" />
+                <ScalarProperty Name="Feedback3" ColumnName="Feedback3" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
