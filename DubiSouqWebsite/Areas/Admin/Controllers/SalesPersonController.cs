@@ -41,6 +41,19 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
             return View(products);
         }
 
+        // GET: Admin/SalesPerson/ProductsIndex
+        public ActionResult OffersIndex(string search = "")
+        {
+            if (Session["admin"] == null || (Session["admin"] as user).Type_id != 4)
+                return RedirectToAction("index", "Admin");
+            List<product> products = new List<product>();
+            if (search == "")
+                products = db.products.Include(p => p.category).Where(u => u.Type_ID == 3 || u.Type_ID == 2).ToList();
+            else
+                products = db.products.Include(p => p.category).Where(u => u.Type_ID == 3 || u.Type_ID == 2).Where(u => u.Name.Contains(search) || u.category.Name.Contains(search)).ToList();
+            return View(products);
+        }
+
         // GET: Admin/SalesPerson/OrderIndex
         public ActionResult OrderIndex()
         {
@@ -128,6 +141,14 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         {
             if (Session["admin"] == null || (Session["admin"] as user).Type_id != 4)
                 return RedirectToAction("index", "Admin");
+            ModelState.Remove("Name");
+            ModelState.Remove("Description");
+            ModelState.Remove("Post_Time");
+            ModelState.Remove("Quantity");
+            ModelState.Remove("Type_ID");
+            ModelState.Remove("User_ID");
+            ModelState.Remove("Price");
+            ModelState.Remove("Category_ID");
             if (ModelState.IsValid)
             {
                 product prod = db.products.SingleOrDefault(u => u.ID == product.ID && u.Type_ID == 1);
@@ -142,6 +163,18 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
                 return RedirectToAction("ProductsIndex");
             }
             return View(product);
+        }
+
+        public ActionResult ChangeStatus(int? id)
+        {
+            product _product = db.products.Find(id);
+            if(_product.Type_ID == 2)
+                _product.Type_ID = 3;
+            else
+                _product.Type_ID = 2;
+            db.Entry(_product).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("OffersIndex");
         }
 
         protected override void Dispose(bool disposing)

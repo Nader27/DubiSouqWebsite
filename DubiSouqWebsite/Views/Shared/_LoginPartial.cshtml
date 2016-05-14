@@ -21,12 +21,13 @@
             <li role="presentation" class="divider"></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Account", "User")">Edit Account</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Account", "User", new { id="password" })">Change Password</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Account", "User")">Mange Order</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Index", "Products")">Mange Offers</a></li>
             <li role="presentation" class="divider"></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Cart", "Shop")">My Shopping Cart</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("wishlist", "Shop")">My Wish List</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Orders", "User")">Order History</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("contact", "User")">Contact US</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("AddComplain", "User")">Make Complain</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Message", "User")">Message</a></li>
             <li role="presentation" class="divider"></li>
             @using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
             {

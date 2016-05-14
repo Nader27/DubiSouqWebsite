@@ -1,0 +1,54 @@
+﻿@model DubiSouqWebsite.Models.product_picture
+@using DubiSouqWebsite.Models
+
+@{
+    ViewBag.Title = "Product Image";
+}
+<div class="container center_div">
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Picture)
+                </th>
+                <th>
+                    Picture Path
+                </th>
+                <th></th>
+            </tr>
+            @foreach (product_picture item in ViewBag.product_pictures)
+            {
+                <tr>
+                    <td>
+                        <img src="~/@item.Picture" width="250" height="250">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Picture)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteProductImage", new { id = item.Product_ID, img = item.ID })
+                    </td>
+                </tr>
+            }
+            <tr>
+                @using (Html.BeginForm("ProductImage", "products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <td></td>
+                    <td>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="file" class="form-control" name="file" />
+                                @Html.ValidationMessageFor(model => model.Picture, "", new { @class = "text-danger" })
+                                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="submit" value="Upload" class="btn btn-default" />
+                    </td>
+                }
+            </tr>
+        </table>
+    </div>
+</div>

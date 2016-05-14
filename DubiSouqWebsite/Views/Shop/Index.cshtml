@@ -92,7 +92,7 @@
                                     <ul id="c_tab1">
                                         @foreach (category item in categories)
                                         {
-                                            <li><a href="@Url.Action("Index","Shop", new { id=item.ID })">@item.Name  (@item.products.Count)</a></li>
+                                            <li><a href="@Url.Action("Index","Shop", new { id=item.ID })">@item.Name  (@item.products.Where(p => p.Type_ID == 1).ToList().Count)</a></li>
                                         }
                                     </ul>
                                 </div>
@@ -138,7 +138,7 @@
                                 <div class="main_cat_item">
                                     <div class="item">
                                         <div class="item-img">
-                                            <img src="~/@item.product_picture.FirstOrDefault().Picture" alt="" />
+                                            <img src="~/@item.product_picture.FirstOrDefault().Picture" height="351" width="271" alt="" />
                                             <div class="tr-add-cart">
                                                 <ul>
                                                     @if (Session["user"] == null)
@@ -149,13 +149,13 @@
                                                     {
                                                         <li> @Ajax.ActionLink("Add to cart", "AddToCart", new { id = item.ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace }, new { @class = "tr_text" })</li>
                                                     }
-                                                    <li><a class="fa fa-heart tr_heart" id="addtowish" data-id="@item.ID" href="#"></a></li>
+                                                    <li><a class="fa fa-heart tr_heart addtowish" data-id="@item.ID" href="#"></a></li>
                                                     <li><a class="fa fa-search tr_search" href="@Url.Action("Product_Details", new { id = item.ID })"></a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="item-new">
-                                            @if (DateTime.Compare(item.Post_Time ?? DateTime.Now.AddMonths(-5), DateTime.Now.AddMonths(-1)) > 0)
+                                            @if (DateTime.Compare(item.Post_Time.Value, DateTime.Now.AddMonths(-1)) > 0)
                                             {
                                                 <p>New</p>
                                             }

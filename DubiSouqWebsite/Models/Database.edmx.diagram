@@ -4,35 +4,35 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e5fc867ce0d24ae0aa2ddba3dbcdded6" Name="Diagram1">
-        <EntityTypeShape EntityType="DubiSouq.comModel.additional_payment" Width="1.5" PointX="10.5" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.address" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.cart_item" Width="1.5" PointX="8.25" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.category" Width="1.5" PointX="6" PointY="22" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.Feedback" Width="1.5" PointX="5.25" PointY="18.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.order" Width="1.5" PointX="8.25" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.order_item" Width="1.5" PointX="10.5" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.order_status" Width="1.5" PointX="6" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.payment_method" Width="1.5" PointX="6" PointY="15.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.product" Width="1.5" PointX="8.25" PointY="18" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.product_picture" Width="1.5" PointX="10.5" PointY="19.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.product_type" Width="1.5" PointX="6" PointY="25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.report" Width="1.5" PointX="13.5" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.report_Type" Width="1.5" PointX="11.25" PointY="22" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.review" Width="1.5" PointX="13.5" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.user" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.user_type" Width="1.5" PointX="0.75" PointY="14.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DubiSouq.comModel.whish_list" Width="1.5" PointX="13.5" PointY="20.875" IsExpanded="true" />
-        <AssociationConnector Association="DubiSouq.comModel.FK_additional_payment_order" ManuallyRouted="false" />
+      <Diagram DiagramId="869d064f56b248d1b11f2461937feb35" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="DubiSouq.comModel.address" Width="1.5" PointX="3.625" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.cart_item" Width="1.5" PointX="6.375" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.category" Width="1.5" PointX="9.75" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.Feedback" Width="1.5" PointX="3.625" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.order" Width="1.5" PointX="8.125" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.order_item" Width="1.5" PointX="10.125" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.order_status" Width="1.5" PointX="10" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.payment_method" Width="1.5" PointX="10" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.product" Width="1.5" PointX="8.125" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.product_picture" Width="1.5" PointX="10.125" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.product_type" Width="1.5" PointX="10" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.report" Width="1.5" PointX="5.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.report_Type" Width="1.5" PointX="3.625" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.review" Width="1.5" PointX="8" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.user" Width="1.5" PointX="5.875" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.user_type" Width="1.5" PointX="3.625" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DubiSouq.comModel.whish_list" Width="1.5" PointX="4.625" PointY="20.5" IsExpanded="true" />
         <AssociationConnector Association="DubiSouq.comModel.FK_address_user" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_cart_item_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="DubiSouq.comModel.FK_cart_item_user" ManuallyRouted="false" />
+        <AssociationConnector Association="DubiSouq.comModel.FK_cart_item_user" ManuallyRouted="false" >
+        </AssociationConnector>
         <AssociationConnector Association="DubiSouq.comModel.FK_category_category" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_product_category" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_Feedback_user" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_order_item_order" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_order_order_status" ManuallyRouted="false" />
-        <AssociationConnector Association="DubiSouq.comModel.FK_order_payment_method" ManuallyRouted="false" />
+        <AssociationConnector Association="DubiSouq.comModel.FK_order_payment_method" ManuallyRouted="false" >
+        </AssociationConnector>
         <AssociationConnector Association="DubiSouq.comModel.FK_order_user" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_order_item_Product" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_product_picture_product" ManuallyRouted="false" />
@@ -40,7 +40,8 @@
         <AssociationConnector Association="DubiSouq.comModel.FK_product_user" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_report_product" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_review_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="DubiSouq.comModel.FK_whish_list_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="DubiSouq.comModel.FK_whish_list_Product" ManuallyRouted="false" >
+        </AssociationConnector>
         <AssociationConnector Association="DubiSouq.comModel.FK_report_Report_Type" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_report_user" ManuallyRouted="false" />
         <AssociationConnector Association="DubiSouq.comModel.FK_review_user" ManuallyRouted="false" />

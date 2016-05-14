@@ -95,6 +95,7 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddUser([Bind(Include = "ID,Name,Email,Mobile,Password,ConfirmPassword,Active,Type_id")] user user)
         {
+            ModelState.Remove("Picture");
             if (ModelState.IsValid)
             {
                 user.Token = null;
@@ -131,6 +132,10 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditUser([Bind(Include = "ID,Name,Mobile,Active,Type_id")] user user)
         {
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Email");
             if (ModelState.IsValid)
             {
                 user _user = db.users.Find(user.ID);
@@ -170,6 +175,8 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword([Bind(Include = "ID,Password,ConfirmPassword")] user user)
         {
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
             if (ModelState.IsValid)
             {
                 user _user = db.users.Find(user.ID);
@@ -205,10 +212,12 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeEmail([Bind(Include = "ID,Email")] user user)
         {
+            ModelState.Remove("Email");
             if (ModelState.IsValid)
             {
                 user _user = db.users.Find(user.ID);
                 _user.Email = user.Email;
+                _user.ConfirmPassword = _user.Password;
                 db.Entry(_user).State = EntityState.Modified;
                 db.SaveChanges();
                 ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, _user.ID, _user.Email);
@@ -239,6 +248,14 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangePicture([Bind(Include = "ID")] user user, HttpPostedFileBase file)
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("Mobile");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
+            ModelState.Remove("Active");
+            ModelState.Remove("Email");
             if (file != null)
             {
                 if (!HttpPostedFileBaseExtensions.IsImage(file))
@@ -282,12 +299,13 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         // POST: /Admin/Admin/ChangeAddress/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeAddress([Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)
+        public ActionResult ChangeAddress(int id,[Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)
         {
             if (ModelState.IsValid)
             {
-                address _address = db.addresses.Find(address.ID);
+                address _address = db.addresses.Include(u => u.user).SingleOrDefault(d => d.User_ID == id);
                 address.User_ID = _address.User_ID;
+                address.ID = _address.ID;
                 db.Entry(_address).CurrentValues.SetValues(address);
                 db.SaveChanges();
                 ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, _address.User_ID, _address.user.Email);
@@ -374,17 +392,19 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditMyUser([Bind(Include = "ID,Name,Mobile")] user user)
         {
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
+            ModelState.Remove("Active");
+            ModelState.Remove("Email");
             if (ModelState.IsValid)
             {
                 user _user = db.users.Find(user.ID);
-                user.Token = _user.Token;
-                user.Picture = _user.Picture;
-                user.Password = _user.Password;
-                user.ConfirmPassword = _user.Password;
-                user.Type_id = _user.Type_id;
-                user.Active = _user.Active;
-                user.Email = _user.Email;
-                db.Entry(_user).CurrentValues.SetValues(user);
+                _user.Name = user.Name;
+                _user.ConfirmPassword = _user.Password;
+                _user.Mobile = user.Mobile;
+                db.Entry(_user).State = EntityState.Modified;
                 db.SaveChanges();
                 Session["admin"] = _user;
                 ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, user.ID, user.Email);
@@ -412,6 +432,12 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeMyPassword([Bind(Include = "ID,Password,ConfirmPassword")] user user)
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Mobile");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
+            ModelState.Remove("Active");
+            ModelState.Remove("Email");
             if (ModelState.IsValid)
             {
                 user _user = db.users.Find(user.ID);
@@ -444,10 +470,18 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeMyEmail([Bind(Include = "ID,Email")] user user)
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("Mobile");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
+            ModelState.Remove("Active");
             if (ModelState.IsValid)
             {
                 user _user = db.users.Find(user.ID);
                 _user.Email = user.Email;
+                _user.ConfirmPassword = _user.Password;
                 db.Entry(_user).State = EntityState.Modified;
                 db.SaveChanges();
                 Session["admin"] = _user;
@@ -475,6 +509,14 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeMyPicture([Bind(Include = "ID")] user user, HttpPostedFileBase file)
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("Mobile");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
+            ModelState.Remove("Active");
+            ModelState.Remove("Email");
             if (file != null)
             {
                 if (!HttpPostedFileBaseExtensions.IsImage(file))
@@ -489,7 +531,8 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
                 file.SaveAs(path);
                 user _user = db.users.Find(user.ID);
                 _user.Picture = "images/Profile/" + filename;
-                db.Entry(_user).CurrentValues.SetValues(_user);
+                _user.ConfirmPassword = _user.Password;
+                db.Entry(_user).State = EntityState.Modified;
                 db.SaveChanges();
                 Session["admin"] = _user;
                 ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, _user.ID, _user.Email);

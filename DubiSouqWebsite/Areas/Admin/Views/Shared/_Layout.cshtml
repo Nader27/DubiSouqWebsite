@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@ViewBag.Title - AdminPanel DubiSouq.com</title>
+    <title>DubiSouq Admin| @ViewBag.Title</title>
     <!-- Bootstrap Core CSS -->
     <link href="~/Content/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
@@ -334,6 +334,12 @@
                     @if (ADMIN.Type_id == 4)
                     {
                         <li>
+                            <a href="@Url.Action("OffersIndex")"><i class="fa fa-dollar fa-fw"></i> Offers</a>
+                        </li>
+                    }
+                    @if (ADMIN.Type_id == 4)
+                    {
+                        <li>
                             <a href=" @Url.Action("OrderIndex") "><i class=" fa fa-shopping-cart fa-fw"></i> Order</a>
                         </li>
                     }
@@ -368,15 +374,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="~/Scripts/Admin/sb-admin-2.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#dataTables-example').DataTable({
-                responsive: true
-            });
-        });
-    </script>
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>

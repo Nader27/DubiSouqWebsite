@@ -78,12 +78,12 @@ namespace DubiSouqWebsite.Controllers
 
         public ActionResult LoginForm()
         {
-            return View();
+            return View("_LoginForm");
         }
 
         public ActionResult RegisterForm()
         {
-            return View();
+            return View("_RegisterForm");
         }
 
 

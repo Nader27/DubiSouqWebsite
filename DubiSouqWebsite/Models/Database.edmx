@@ -5,21 +5,12 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="DubiSouq.comModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="additional_payment">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Order_ID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Value" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="address">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Zipcode" Type="int" />
+          <Property Name="Zipcode" Type="int" Nullable="false" />
           <Property Name="Address" Type="text" Nullable="false" />
           <Property Name="User_ID" Type="int" Nullable="false" />
           <Property Name="Country" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -97,9 +88,9 @@
           <Property Name="Category_ID" Type="int" Nullable="false" />
           <Property Name="Price" Type="float" Nullable="false" />
           <Property Name="Description" Type="text" Nullable="false" />
-          <Property Name="Type_ID" Type="int" />
+          <Property Name="Type_ID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="Sale" Type="int" />
+          <Property Name="Sale" Type="int" Nullable="false" />
           <Property Name="Post_Time" Type="datetime" />
         </EntityType>
         <EntityType Name="product_picture">
@@ -143,9 +134,9 @@
           <Property Name="User_ID" Type="int" Nullable="false" />
           <Property Name="Product_ID" Type="int" Nullable="false" />
           <Property Name="Rate" Type="int" Nullable="false" />
-          <Property Name="Comment" Type="text" />
+          <Property Name="Comment" Type="text" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -156,7 +147,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Mobile" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Picture" Type="nvarchar(max)" />
+          <Property Name="Picture" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="Type_id" Type="int" Nullable="false" />
           <Property Name="Token" Type="int" />
@@ -176,18 +167,6 @@
           <Property Name="User_ID" Type="int" Nullable="false" />
           <Property Name="Product_ID" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_additional_payment_order">
-          <End Role="order" Type="Self.order" Multiplicity="1" />
-          <End Role="additional_payment" Type="Self.additional_payment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="order">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="additional_payment">
-              <PropertyRef Name="Order_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_address_user">
           <End Role="user" Type="Self.user" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -345,7 +324,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_product_product_type">
-          <End Role="product_type" Type="Self.product_type" Multiplicity="0..1">
+          <End Role="product_type" Type="Self.product_type" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="product" Type="Self.product" Multiplicity="*" />
@@ -473,7 +452,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DubiSouqcomModelStoreContainer">
-          <EntitySet Name="additional_payment" EntityType="Self.additional_payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="address" EntityType="Self.address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cart_item" EntityType="Self.cart_item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
@@ -491,10 +469,6 @@
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_type" EntityType="Self.user_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="whish_list" EntityType="Self.whish_list" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_additional_payment_order" Association="Self.FK_additional_payment_order">
-            <End Role="order" EntitySet="order" />
-            <End Role="additional_payment" EntitySet="additional_payment" />
-          </AssociationSet>
           <AssociationSet Name="FK_address_user" Association="Self.FK_address_user">
             <End Role="user" EntitySet="user" />
             <End Role="address" EntitySet="address" />
@@ -589,22 +563,12 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DubiSouq.comModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="additional_payment">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Order_ID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Value" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="order" Relationship="Self.FK_additional_payment_order" FromRole="additional_payment" ToRole="order" />
-        </EntityType>
         <EntityType Name="address">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Zipcode" Type="Int32" />
+          <Property Name="Zipcode" Type="Int32" Nullable="false" />
           <Property Name="Address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="User_ID" Type="Int32" Nullable="false" />
           <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -655,7 +619,6 @@
           <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="Total" Type="Double" Nullable="false" />
-          <NavigationProperty Name="additional_payment" Relationship="Self.FK_additional_payment_order" FromRole="order" ToRole="additional_payment" />
           <NavigationProperty Name="order_item" Relationship="Self.FK_order_item_order" FromRole="order" ToRole="order_item" />
           <NavigationProperty Name="order_status" Relationship="Self.FK_order_order_status" FromRole="order" ToRole="order_status" />
           <NavigationProperty Name="payment_method1" Relationship="Self.FK_order_payment_method" FromRole="order" ToRole="payment_method" />
@@ -698,9 +661,9 @@
           <Property Name="Category_ID" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Double" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Type_ID" Type="Int32" />
+          <Property Name="Type_ID" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Sale" Type="Int32" />
+          <Property Name="Sale" Type="Int32" Nullable="false" />
           <Property Name="Post_Time" Type="DateTime" Precision="3" />
           <NavigationProperty Name="cart_item" Relationship="Self.FK_cart_item_Product" FromRole="product" ToRole="cart_item" />
           <NavigationProperty Name="category" Relationship="Self.FK_product_category" FromRole="product" ToRole="category" />
@@ -759,9 +722,9 @@
           <Property Name="User_ID" Type="Int32" Nullable="false" />
           <Property Name="Product_ID" Type="Int32" Nullable="false" />
           <Property Name="Rate" Type="Int32" Nullable="false" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="product" Relationship="Self.FK_review_Product" FromRole="review" ToRole="product" />
           <NavigationProperty Name="user" Relationship="Self.FK_review_user" FromRole="review" ToRole="user" />
         </EntityType>
@@ -774,7 +737,7 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <Property Name="Type_id" Type="Int32" Nullable="false" />
           <Property Name="Token" Type="Int32" />
@@ -806,18 +769,6 @@
           <NavigationProperty Name="product" Relationship="Self.FK_whish_list_Product" FromRole="whish_list" ToRole="product" />
           <NavigationProperty Name="user" Relationship="Self.FK_whish_list_user" FromRole="whish_list" ToRole="user" />
         </EntityType>
-        <Association Name="FK_additional_payment_order">
-          <End Role="order" Type="Self.order" Multiplicity="1" />
-          <End Role="additional_payment" Type="Self.additional_payment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="order">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="additional_payment">
-              <PropertyRef Name="Order_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_address_user">
           <End Role="user" Type="Self.user" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -975,7 +926,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_product_product_type">
-          <End Role="product_type" Type="Self.product_type" Multiplicity="0..1">
+          <End Role="product_type" Type="Self.product_type" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="product" Type="Self.product" Multiplicity="*" />
@@ -1103,7 +1054,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="additional_payment" EntityType="Self.additional_payment" />
           <EntitySet Name="addresses" EntityType="Self.address" />
           <EntitySet Name="cart_item" EntityType="Self.cart_item" />
           <EntitySet Name="categories" EntityType="Self.category" />
@@ -1121,10 +1071,6 @@
           <EntitySet Name="users" EntityType="Self.user" />
           <EntitySet Name="user_type" EntityType="Self.user_type" />
           <EntitySet Name="whish_list" EntityType="Self.whish_list" />
-          <AssociationSet Name="FK_additional_payment_order" Association="Self.FK_additional_payment_order">
-            <End Role="order" EntitySet="orders" />
-            <End Role="additional_payment" EntitySet="additional_payment" />
-          </AssociationSet>
           <AssociationSet Name="FK_address_user" Association="Self.FK_address_user">
             <End Role="user" EntitySet="users" />
             <End Role="address" EntitySet="addresses" />
@@ -1220,16 +1166,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DubiSouqcomModelStoreContainer" CdmEntityContainer="Entities">
-          <EntitySetMapping Name="additional_payment">
-            <EntityTypeMapping TypeName="DubiSouq.comModel.additional_payment">
-              <MappingFragment StoreEntitySet="additional_payment">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="addresses">
             <EntityTypeMapping TypeName="DubiSouq.comModel.address">
               <MappingFragment StoreEntitySet="address">

@@ -25,7 +25,6 @@ namespace DubiSouqWebsite.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<additional_payment> additional_payment { get; set; }
         public virtual DbSet<address> addresses { get; set; }
         public virtual DbSet<cart_item> cart_item { get; set; }
         public virtual DbSet<category> categories { get; set; }

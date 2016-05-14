@@ -11,12 +11,14 @@ namespace DubiSouqWebsite.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class report
     {
         public int ID { get; set; }
         public int User_ID { get; set; }
         public Nullable<int> Product_ID { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public int Type_ID { get; set; }
         public System.DateTime Time { get; set; }

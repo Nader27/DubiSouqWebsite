@@ -83,7 +83,8 @@
                             </ul>
                         </div>
                         <div class="cart_total">
-                            <p>@Ajax.ActionLink("Add to cart", "AddToCart", new { id = item.Product_ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace })     &emsp;&emsp;  
+                            
+                            <p>@if(item.product.Type_ID == 1) { <span> @Ajax.ActionLink("Add to cart", "AddToCart", new { id = item.Product_ID }, new AjaxOptions { UpdateTargetId = "cartmenu", InsertionMode = InsertionMode.Replace }) </Span> }    &emsp;&emsp;
                             <span><a href="#" class="RemovewishLink" data-id="@item.Product_ID"><i class="fa fa-close"></i></a></span></p>
                         </div>
                     </div>

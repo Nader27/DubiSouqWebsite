@@ -17,7 +17,6 @@ namespace DubiSouqWebsite.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public order()
         {
-            this.additional_payment = new HashSet<additional_payment>();
             this.order_item = new HashSet<order_item>();
         }
     
@@ -28,8 +27,6 @@ namespace DubiSouqWebsite.Models
         public int Status { get; set; }
         public double Total { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<additional_payment> additional_payment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order_item> order_item { get; set; }
         public virtual order_status order_status { get; set; }

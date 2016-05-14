@@ -11,7 +11,7 @@ namespace DubiSouqWebsite.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class user
     {
@@ -29,14 +29,27 @@ namespace DubiSouqWebsite.Models
         }
     
         public int ID { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+        [Required]
+        [DataType(DataType.PhoneNumber)]
         public string Mobile { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
-        [NotMapped]
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [DataType(DataType.ImageUrl)]
         public string Picture { get; set; }
+        [Required]
         public bool Active { get; set; }
+        [Required]
         public int Type_id { get; set; }
         public Nullable<int> Token { get; set; }
     

@@ -7,12 +7,12 @@
 <h2>Edit User Information</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("ChangeAddress","CustomerService" , new { id = Model.ID }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>@Html.DisplayFor(model => model.ID)</h4>
+        <h4>@Html.DisplayFor(model => model.user.ID)</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)

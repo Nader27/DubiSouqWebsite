@@ -11,14 +11,22 @@ namespace DubiSouqWebsite.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class address
     {
         public int ID { get; set; }
-        public Nullable<int> Zipcode { get; set; }
+        [Required]
+        [DataType(DataType.PostalCode)]
+        public int Zipcode { get; set; }
+        [Required]
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Address")]
         public string Address1 { get; set; }
         public int User_ID { get; set; }
+        [Required]
         public string Country { get; set; }
+        [Required]
         public string City { get; set; }
     
         public virtual user user { get; set; }

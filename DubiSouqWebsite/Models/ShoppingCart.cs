@@ -89,7 +89,7 @@ namespace DubiSouqWebsite.Models
             double total = 0;
             foreach (cart_item cartItem in ct)
             {
-                total += ((cartItem.product.Price / 100) * (100 - cartItem.product.Sale) * cartItem.Quantity) ?? 0;
+                total += ((cartItem.product.Price / 100) * (100 - cartItem.product.Sale) * cartItem.Quantity);
             }
 
             return Convert.ToDecimal(total);

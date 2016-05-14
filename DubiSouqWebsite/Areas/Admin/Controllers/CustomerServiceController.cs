@@ -79,6 +79,11 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditUser([Bind(Include = "ID,Name,Mobile,Active")] user user)
         {
+            ModelState.Remove("Password");
+            ModelState.Remove("Email");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
             if (ModelState.IsValid)
             {
                 user us = db.users.Find(user.ID);
@@ -118,6 +123,12 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword([Bind(Include = "ID,Password,ConfirmPassword")] user user)
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Email");
+            ModelState.Remove("Mobile");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
+            ModelState.Remove("Active");
             if (ModelState.IsValid)
             {
                 user us = db.users.Find(user.ID);
@@ -153,6 +164,13 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeEmail([Bind(Include = "ID,Email")] user user)
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("Mobile");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
+            ModelState.Remove("Active");
             if (ModelState.IsValid)
             {
                 if (db.users.SingleOrDefault(u => u.Email == user.Email) != null)
@@ -192,25 +210,35 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangePicture([Bind(Include = "ID")] user user, HttpPostedFileBase file)
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+            ModelState.Remove("Mobile");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Type_id");
+            ModelState.Remove("Active");
+            ModelState.Remove("Picture");
+            ModelState.Remove("Email");
             if (file != null)
-            {
-                if (!HttpPostedFileBaseExtensions.IsImage(file))
                 {
-                    ModelState.AddModelError("", "File is not an Image");
-                    return View(user);
+                    if (!HttpPostedFileBaseExtensions.IsImage(file))
+                    {
+                        ModelState.AddModelError("", "File is not an Image");
+                        return View(user);
+                    }
+                    string ext = Path.GetExtension(file.FileName);
+                    string filename = user.ID.ToString() + ext;
+                    string path = Path.Combine(Server.MapPath("~/images/Profile/"), filename);
+                    // file is uploaded
+                    file.SaveAs(path);
+                    user us = db.users.Find(user.ID);
+                    us.Picture = "images/Profile/" + filename;
+                    db.Entry(us).CurrentValues.SetValues(us);
+                    db.SaveChanges();
+                    ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, us.ID, us.Email);
+                    return RedirectToAction("ChangePicture", new { id = user.ID });
                 }
-                string ext = Path.GetExtension(file.FileName);
-                string filename = user.ID.ToString() + ext;
-                string path = Path.Combine(Server.MapPath("~/images/Profile/"), filename);
-                // file is uploaded
-                file.SaveAs(path);
-                user us = db.users.Find(user.ID);
-                us.Picture= "images/Profile/" + filename;
-                db.Entry(us).CurrentValues.SetValues(us);
-                db.SaveChanges();
-                ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, us.ID, us.Email);
-                return RedirectToAction("ChangePicture", new { id = user.ID });
-            }
+            user = db.users.Find(user.ID);
             return View(user);
         }
 
@@ -235,12 +263,13 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
         // POST: Admin/CustomerService/ChangeAddress/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeAddress([Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)
+        public ActionResult ChangeAddress(int id,[Bind(Include = "ID,Address1,City,Country,Zipcode")] address address)
         {
             if (ModelState.IsValid)
             {
-                address ad = db.addresses.Find(address.ID);
+                address ad = db.addresses.SingleOrDefault(a=>a.User_ID == id);
                 address.User_ID = ad.User_ID;
+                address.ID = ad.ID;
                 db.Entry(ad).CurrentValues.SetValues(address);
                 db.SaveChanges();
                 ReportModel.CreateAdminReport((Session["admin"] as user).ID, 12, ad.User_ID, ad.user.Email);
@@ -275,6 +304,24 @@ namespace DubiSouqWebsite.Areas.Admin.Controllers
                 return HttpNotFound();
             }
             return View(report);
+        }
+
+        [HttpPost]
+        public ActionResult Reply(int? id, [Bind(Include = "Description")] report report)
+        {
+            if (Session["admin"] == null || (Session["admin"] as user).Type_id != 5)
+                return RedirectToAction("index", "Admin");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            report.Product_ID = null;
+            report.Type_ID = 4;
+            report.Time = DateTime.Now;
+            report.User_ID = id.Value;
+            db.reports.Add(report);
+            db.SaveChanges();
+            return RedirectToAction("ViewReport");
         }
 
         protected override void Dispose(bool disposing)

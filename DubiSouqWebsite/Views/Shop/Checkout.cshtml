@@ -22,10 +22,10 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="bread_box">
                     <ul class="breadcumb">
-                        <li><a href="@Url.Action("Index", "Home" )">home <span>|</span></a></li>
+                        <li><a href="@Url.Action("Index", "shop" )">home <span>|</span></a></li>
                         <li><a href="category-1.html">Shop <span>|</span></a></li>
-                        <li><a href="@Url.Action("Cart", "Home" )">Cart <span>|</span></a></li>
-                        <li class="active"><a href="@Url.Action("Checkout", "Home" )">checkout</a></li>
+                        <li><a href="@Url.Action("Cart", "shop" )">Cart <span>|</span></a></li>
+                        <li class="active"><a href="@Url.Action("Checkout", "shop" )">checkout</a></li>
                     </ul>
                 </div>
             </div>
@@ -36,115 +36,49 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9 col-sm-8 col-xs-12">
-                <div class="checkout_left">
-                    <h2>Billing Address</h2>
-                    <div class="dotted_line"></div>
+                <div class="contact_box_left">
+                    <h4>Leave A Feedback</h4>
+                    <div class="multi_line"></div>
+                    @using (@Html.BeginForm("Feedback", "shop"))
+                    {
+                    <div class="input_form">
+                        <div class="input_left">
+                            <h3>1. Overall, how well does our website meet your needs?</h3>
+                            <input type="radio" name="Q1" value="5" required> Extremely well<br>
+                            <input type="radio" name="Q1" value="4"> Very well<br>
+                            <input type="radio" name="Q1" value="3"> Somewhat well<br>
+                            <input type="radio" name="Q1" value="2"> Not so well<br>
+                            <input type="radio" name="Q1" value="1"> Not at all well<br><br>
 
-                    <div class="checkout_form">
-                        <div class="country_select">
-                            <p>Country</p>
-                            <select class="selectpicker sel_state">
-                                <option>Sate/Country</option>
-                                <option>Bangladesh</option>
-                                <option>USA</option>
-                                <option>UK</option>
-                                <option>Canda</option>
-                                <option>Australia</option>
-                            </select>
+                            <h3>3. Did it take you more or less time than you expected to find what you were looking for on our website?</h3>
+                            <input type="radio" name="Q3" value="5" required> A lot less time<br>
+                            <input type="radio" name="Q3" value="4"> A little less time<br>
+                            <input type="radio" name="Q3" value="3"> About what i expected<br>
+                            <input type="radio" name="Q3" value="2"> A little more time<br>
+                            <input type="radio" name="Q3" value="1"> A lot more time<br><br>
+
                         </div>
-                        <div class="c_name_box">
-                            <div class="c_name_box_left">
-                                <p>First Name <span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="c_name_box_right">
-                                <p>Last Name <span>*</span></p>
-                                <input type="text">
-                            </div>
+
+                        <div class="input_right">
+                            <h3>2. How easy was it to find what you were looking for on our website?</h3>
+                            <input type="radio" name="Q2" value="5" required> Extremely easy<br>
+                            <input type="radio" name="Q2" value="4"> Very easy<br>
+                            <input type="radio" name="Q2" value="3"> Somewhat easy<br>
+                            <input type="radio" name="Q2" value="2"> Not so easy<br>
+                            <input type="radio" name="Q2" value="1"> Not at all easy<br><br>
+
+                            <h3>4. Do you have any other comments about how we can improve our website?</h3>
+                            <textarea name="Q4" placeholder="Message"></textarea>
+
                         </div>
-                        <div class="company_name">
-                            <p>Company Name <span>*</span></p>
-                            <input type="text">
-                        </div>
-                        <div class="c_address">
-                            <p>Address <span>*</span></p>
-                            <input type="text" placeholder="Street Address">
-                        </div>
-                        <div class="c_state_box">
-                            <div class="c_state_box_left">
-                                <p>Town/City <span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="c_state_box_right">
-                                <p>Postcode/Zip <span>*</span></p>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="c_mail_box">
-                            <div class="c_mail_box_left">
-                                <p>Email <span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="c_mail_box_right">
-                                <p>Phone <span>*</span></p>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"> Create An Account
-                            </label><br>
-                            <label>
-                                <input type="checkbox"> Shipping to a Different Address
-                            </label>
-                        </div>
+
 
 
                     </div>
-
-                    <h2>Shiiping Address</h2>
-                    <div class="dotted_line"></div>
-
-                    <div class="shipping_form">
-                        <div class="country_select country_select2">
-                            <p>Country</p>
-                            <select class="selectpicker sel_state">
-                                <option>Sate/Country</option>
-                                <option>Bangladesh</option>
-                                <option>USA</option>
-                                <option>UK</option>
-                                <option>Canda</option>
-                                <option>Australia</option>
-                            </select>
-                        </div>
-                        <div class="c_name_box">
-                            <div class="c_name_box_left">
-                                <p>First Name <span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="c_name_box_right">
-                                <p>Last Name <span>*</span></p>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="company_name">
-                            <p>Company Name <span>*</span></p>
-                            <input type="text">
-                        </div>
-                        <div class="c_address">
-                            <p>Address <span>*</span></p>
-                            <input type="text" placeholder="Street Address">
-                        </div>
-                        <div class="s_town">
-                            <p>Town/City <span>*</span></p>
-                            <input type="text" placeholder="Town/City">
-                        </div>
-                        <div class="s_order">
-                            <p>Order Notes <span>*</span></p>
-                            <textarea name="" cols="30" rows="10"></textarea>
-                        </div>
-
+                    <div class="submit_btn form-group submitRow">
+                        <input type="submit" name="submit" value="Send" />
                     </div>
+                    }
                 </div>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-12">
@@ -163,7 +97,7 @@
                                 <p>@PROD.Name x @item.Quantity</p>
                                 <span>@( (PROD.Price / 100) * (100 - PROD.Sale) * item.Quantity)</span>
                                 @{
-                                    total += ((PROD.Price / 100) * (100 - PROD.Sale) * item.Quantity) ?? 0;
+                                    total += ((PROD.Price / 100) * (100 - PROD.Sale) * item.Quantity);
                                 }
                             </div>
                                     }
@@ -190,7 +124,7 @@
                             <p>Order Total</p>
                             <span>@total EGP</span>
                         </div>
-                        @using (Html.BeginForm("Checkout", "Home", FormMethod.Post, new { @class = "form-horizontal", id = "checkoutform", role = "form" }))
+                        @using (Html.BeginForm("Checkout", "shop", FormMethod.Post, new { @class = "form-horizontal", id = "checkoutform", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -203,7 +137,7 @@
                                     <input type="checkbox" id="licence"> I have Read & Accept <span>Terms & Conditions</span>
                                 </label>
                             </div>
-                        <input id="orderbtn"  type="submit"  value="Place order now" />
+                            <input id="orderbtn" type="submit" value="Place order now" />
                         }
                     </div>
                 </div>
@@ -212,13 +146,13 @@
     </div>
 </section>
 <script type='text/javascript'>
-$(document).ready(function(){
-    $('#licence').click(function () {
-        if($(this).attr('checked') == false){
-            $('#orderbtn').attr("disabled", "disabled");
-        } else {
-            $('#orderbtn').removeAttr('disabled');
-        }
+    $(document).ready(function () {
+        $('#licence').click(function () {
+            if ($(this).attr('checked') == false) {
+                $('#orderbtn').attr("disabled", "disabled");
+            } else {
+                $('#orderbtn').removeAttr('disabled');
+            }
+        });
     });
-});
 </script>

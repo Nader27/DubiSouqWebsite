@@ -62,7 +62,7 @@ namespace DubiSouqWebsite.Controllers
                     break;
             }
             ////////////pagination////////
-            const int PageSize = 12;
+            const int PageSize = 9;
             int count = products.Count();
             products = products.Skip(page * PageSize).Take(PageSize).ToList();
             ViewBag.MaxPage = (count / PageSize) - (count % PageSize == 0 ? 1 : 0);
@@ -138,16 +138,61 @@ namespace DubiSouqWebsite.Controllers
         //POST: /Shop/Checkout
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Checkout([Bind(Include = "Payment_Method")] order order)
+        public ActionResult Checkout([Bind(Include = "Payment_Method")] order order)
         {
-            foreach (cart_item item in ShoppingCart.GetCartItems())
+            if (ModelState.IsValid)
             {
-                if (item.Quantity > item.product.Quantity)
+                if(ShoppingCart.GetCartItems().Count == 0)
                 {
+                    ModelState.AddModelError("", "Shopping Cart is Empty");
+                    ViewBag.Payment_Method = new SelectList(db.payment_method, "ID", "Method");
+                    return View(order);
+                }
+                foreach (cart_item item in ShoppingCart.GetCartItems())
+                {
+                    if (item.Quantity > item.product.Quantity)
+                    {
+                        ModelState.AddModelError("", item.product.Name+" is not enough to buy "+item.Quantity+" only "+item.product.Quantity+ " is left");
+                        ViewBag.Payment_Method = new SelectList(db.payment_method, "ID", "Method");
+                        return View(order);
+                    }
 
                 }
+                user USER = Session["user"] as user;
+                order ORDER = new order();
+                ORDER.User_ID = USER.ID;
+                ORDER.Status = 1;
+                ORDER.Payment_Method = order.Payment_Method;
+                ORDER.Time = DateTime.Now;
+                ORDER.Total = Convert.ToDouble(ShoppingCart.GetTotal());
+                if (ORDER.Total < 1000)
+                    ORDER.Total += 50;
+                db.orders.Add(ORDER);
+                 db.SaveChanges();
+                foreach (cart_item item in ShoppingCart.GetCartItems())
+                {
+                    order_item ORDERITEM = new order_item();
+                    ORDERITEM.Product_ID = item.Product_ID;
+                    ORDERITEM.Quantity = item.Quantity;
+                    ORDERITEM.Order_ID = db.orders.Max(u => u.ID);
+                    db.order_item.Add(ORDERITEM);
+                    db.SaveChanges();
+                    product prod = db.products.Single(u => u.ID == item.Product_ID);
+                    prod.Quantity -= item.Quantity;
+                    db.Entry(prod).CurrentValues.SetValues(prod);
+                    db.SaveChanges();
+                }
+                foreach (cart_item cartItem in db.cart_item.Where(u => u.user_ID == USER.ID).ToList())
+                {
+                    db.cart_item.Remove(cartItem);
+                    db.SaveChanges();
+                }
+                ViewBag.Order = db.orders.Max(o => o.ID);
+                ReportModel.CreateUserReport(USER.ID, 71, ViewBag.Order);
+                return View("Redirect");
             }
-            return View();
+            ViewBag.Payment_Method = new SelectList(db.payment_method, "ID", "Method");
+            return View(order);
         }
 
         //GET: /Shop/Cart
@@ -202,6 +247,20 @@ namespace DubiSouqWebsite.Controllers
                 Id = id
             };
             return Json(results);
+        }
+
+        public ActionResult Feedback()
+        {
+            user user = Session["user"] as user;
+            Feedback Feedback = new Feedback();
+            Feedback.Feedback1 = int.Parse(Request["Q1"]);
+            Feedback.Feedback2 = int.Parse(Request["Q2"]);
+            Feedback.Feedback3 = int.Parse(Request["Q3"]);
+            Feedback.Comment = Request["Q4"];
+            Feedback.User_ID = user.ID;
+            db.Feedbacks.Add(Feedback);
+            db.SaveChanges();
+            return RedirectToAction("Checkout");
         }
 
         //GET: /Shop/Product_Details/5
@@ -283,5 +342,6 @@ namespace DubiSouqWebsite.Controllers
             db.SaveChanges();
             return RedirectToAction("Product_Details", new { id=id });
         }
+
     }
 }

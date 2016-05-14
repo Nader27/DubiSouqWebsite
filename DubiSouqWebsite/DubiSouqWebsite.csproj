@@ -133,18 +133,18 @@
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\CustomerServiceController.cs" />
     <Compile Include="Areas\Admin\Controllers\InventoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MangerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SalesPersonController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ordersController.cs" />
+    <Compile Include="Controllers\OffersController.cs" />
+    <Compile Include="Controllers\productsController.cs" />
+    <Compile Include="Controllers\reportsController.cs" />
     <Compile Include="Controllers\SendMailer2Controller.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\additional_payment.cs">
-      <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\address.cs">
       <DependentUpon>Database.tt</DependentUpon>
@@ -610,6 +610,8 @@
     <Content Include="Models\Database.edmx.diagram">
       <DependentUpon>Database.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\Manger\Dashboard.cshtml" />
+    <Content Include="Areas\Admin\Views\salesPerson\OffersIndex.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
@@ -726,14 +728,26 @@
     <Content Include="Views\Shop\Redirect.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shop\Product_Details.cshtml" />
-    <Content Include="Views\Home\LoginForm.cshtml" />
-    <Content Include="Views\Home\RegisterForm.cshtml" />
+    <Content Include="Views\Home\_LoginForm.cshtml" />
+    <Content Include="Views\Home\_RegisterForm.cshtml" />
     <Content Include="Scripts\rs-plugin\font\revicons90c6.eot" />
     <Content Include="Scripts\rs-plugin\font\revicons90c6.ttf" />
     <Content Include="Scripts\rs-plugin\font\revicons90c6.woff" />
     <Content Include="Views\User\Account.cshtml" />
-    <Content Include="Views\Shop\_Review.cshtml" />
     <Content Include="Scripts\lightbox\lightbox.min.map" />
+    <Content Include="Views\Offers\offers.cshtml" />
+    <Content Include="Views\Offers\Product_Details.cshtml" />
+    <Content Include="Views\Offers\index.cshtml" />
+    <Content Include="Views\products\Create.cshtml" />
+    <Content Include="Views\products\Delete.cshtml" />
+    <Content Include="Views\products\Edit.cshtml" />
+    <Content Include="Views\products\Index.cshtml" />
+    <Content Include="Views\products\ProductImage.cshtml" />
+    <Content Include="Views\User\AddComplain.cshtml" />
+    <Content Include="Views\User\Orders.cshtml" />
+    <Content Include="Views\User\OrderDetails.cshtml" />
+    <Content Include="Views\User\Message.cshtml" />
+    <Content Include="Views\User\Viewmessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

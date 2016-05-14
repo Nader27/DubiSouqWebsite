@@ -7,7 +7,7 @@
 <h2>Edit User Information</h2>
 <div class="container center_div">
     <div class="col-md-6 col-md-offset-3">
-        @using (Html.BeginForm("ChangePicture", "CustomerService", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("ChangeMyPicture", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary("", new { @class = "text-danger" })

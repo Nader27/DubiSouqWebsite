@@ -1,27 +1,4 @@
-﻿@model IEnumerable<DubiSouqWebsite.Models.product>
-@using DubiSouqWebsite.Models;
-@functions{
-    public string getproductimage(int id)
-    {
-        Entities db = new Entities();
-        product_picture pp = db.product_picture.FirstOrDefault(u => u.Product_ID == id);
-        if (pp != null)
-            return pp.Picture;
-        else
-            return "images/t_item1.jpg";
-    }
-}
-@{
-    List<product> PRODUCTS = ViewBag.products as List<product>;
-    List<product_picture> PRODUCTPICS = ViewBag.products as List<product_picture>;
-    category categ = ViewBag.categ as category;
-    category parent = ViewBag.parent as category;
-    Dictionary<category, int> CATEGORIES = ViewBag.categories as Dictionary<category, int>;
-    ViewBag.Title = "Shop";
-
-}
-
-<section class="breadcumb_top_area">
+﻿<section class="breadcumb_top_area">
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">

@@ -11,7 +11,8 @@ namespace DubiSouqWebsite.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -27,13 +28,20 @@ namespace DubiSouqWebsite.Models
     
         public int ID { get; set; }
         public int User_ID { get; set; }
+        [Required]
         public string Name { get; set; }
         public int Category_ID { get; set; }
+        [Required]
+        [DataType(DataType.Currency)]
         public double Price { get; set; }
+        [Required]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-        public Nullable<int> Type_ID { get; set; }
+        public int Type_ID { get; set; }
+        [Required]
         public int Quantity { get; set; }
-        public Nullable<int> Sale { get; set; }
+        [Required]
+        public int Sale { get; set; }
         public Nullable<System.DateTime> Post_Time { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

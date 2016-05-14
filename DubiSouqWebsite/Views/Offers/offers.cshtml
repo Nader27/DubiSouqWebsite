@@ -1,0 +1,261 @@
+﻿@model IEnumerable<DubiSouqWebsite.Models.product>
+@using DubiSouqWebsite.Models;
+@{
+    List<category> categories = ViewBag.categories as List<category>;
+    category category = ViewBag.category as category;
+    ViewBag.Title = "Offers";
+
+}
+<section class="breadcumb_top_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="bread_top_box">
+                    <h2>@ViewBag.Parent_Category</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="breadcumb_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="bread_box">
+                    <ul class="breadcumb">
+                        <li><a href="@Url.Action("Home","Home")">Home <span>|</span></a></li>
+                        <li><a href="@Url.Action("index")">Offers <span>|</span></a></li>
+                        <li class="active"><a href="@Url.Action("Offers","Offers",new { id=category.ID })">@category.Name</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="filter_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-8 col-xs-12">
+                <div class="filter_box_left">
+                    <p>FILTERING:</p>
+                    <div class="filter_cont">
+                        <ul>
+                            <li><a href="#">on</a></li>
+                            <li><img src="~/images/filter_ico.png" alt="" /></li>
+                            <li><a href="#">off</a></li>
+                        </ul>
+                    </div>
+                    <div class="s_results">
+                        <p>
+                            <span>|</span> showing @(((ViewBag.MaxPage) * (ViewBag.page + 1)) + 1) - @if (ViewBag.productscount >= (ViewBag.MaxPage * (ViewBag.page + 1)) + ViewBag.size)
+                            { @(ViewBag.MaxPage * (ViewBag.page + 1)) }
+                            else
+                            {@ViewBag.productscount } of @ViewBag.productscount results
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-4 col-xs-12">
+                <div class="filter_box_right">
+                    <a class="dropdown-toggle" id="sort" data-toggle="dropdown" href="#'">sort Alphabetically<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a name="s" href="?sort='abc'">Alphabetically</a></li>
+                        <li><a name="s" href="?sort='sale'">Highest Sale</a></li>
+                        <li><a name="s" href="?sort='cheap'">Cheapest</a></li>
+                        <li><a name="s" href="?sort='exp'">Highest Price</a></li>
+                        <li><a name="s" href="?sort='new'">Newer First</a></li>
+                        <li><a name="s" href="?sort='old'">Older First</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="main_category_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <div class="main_category_left">
+
+                    <div class="panel-group" id="home-accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#home-accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        CATEGORIES
+                                        <span class="floatright"><i class="fa fa-minus"></i></span>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <ul id="c_tab1">
+                                        @foreach (category item in categories)
+                                        {
+                                            <li><a href="@Url.Action("offers","offers", new { id=item.ID })">@item.Name  (@item.products.Where(p=>p.Type_ID==2).ToList().Count)</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#home-accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        PRICE FILTER
+                                        <span class="floatright"><i class="fa fa-plus"></i></span>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <div id="slider-range"></div>
+                                    <div class="cat_filter_box ">
+                                        <form method="get" id="amountform">
+                                            <p>
+                                                <label for="amount" onclick="javascript: document.getElementById('amountform').submit()">Filter</label>
+                                                <input type="text" id="amount" readonly style="border:0; color:#000; font-weight:bold;" name="amount">
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-8 col-xs-12">
+                <div class="main_category_right">
+                    <div class="row">
+                        @if (Model.Count() == 0)
+                        {
+                            <h2>No Product Found</h2>
+                        }
+                        @foreach (product item in Model)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="main_cat_item">
+                                    <div class="item">
+                                        <div class="item-img">
+                                            <img src="~/@item.product_picture.FirstOrDefault().Picture" alt=""  height="351" width="271" />
+                                            <div class="tr-add-cart">
+                                                <ul>
+                                                    <li> @Html.ActionLink("Go Details", "Product_Details", new { id = item.ID }, new { @class = "tr_text" })</li>
+                                                    <li><a class="fa fa-heart tr_heart addtowish" data-id="@item.ID" href="#"></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="item-new">
+                                            @if (DateTime.Compare(item.Post_Time.Value, DateTime.Now.AddMonths(-1)) > 0)
+                                                {
+                                                    <p>New</p>
+                                                }
+                                                @if (item.Sale > 0)
+                                                {
+                                                    <span> - @item.Sale %</span>
+                                                }
+                                        </div>
+                                        <div class="item-sub">
+                                            <a href="@Url.Action("Product_Details", new { id = item.ID })"><h5>@item.Name</h5></a>
+                                                @if (item.Sale > 0)
+                                                {
+                                                    <p>
+                                                        @((item.Price / 100) * (100 - item.Sale)) EGP
+                                                        <span><del>@item.Price EGP</del></span>
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@item.Price EGP</p>
+                                                }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="pagi_line"></div>
+                            <div class="pagi_ul">
+                                <ul id="pagination">
+                                    @if (ViewBag.Page > 0)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page - 1 })">Previous</a></li>
+                                    }
+                                    @if (ViewBag.Page - 3 >= 0)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page - 3 })">@(ViewBag.page - 2)</a></li>
+                                    }
+                                    @if (ViewBag.Page - 2 >= 0)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page - 2 })">@(ViewBag.page - 1)</a></li>
+                                    }
+                                    @if (ViewBag.Page - 1 >= 0)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page - 1 })">@ViewBag.page</a></li>
+                                    }
+                                    <li><a href="@Url.Action("offers", new { page = ViewBag.Page })">@(ViewBag.page + 1)</a></li>
+                                    @if (ViewBag.Page + 1 <= ViewBag.MaxPage)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page + 1 })">@(ViewBag.page + 2)</a></li>
+                                    }
+                                    @if (ViewBag.Page + 2 <= ViewBag.MaxPage)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page + 2 })">@(ViewBag.page + 3)</a></li>
+                                    }
+                                    @if (ViewBag.Page + 3 <= ViewBag.MaxPage)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page + 3 })">@(ViewBag.page + 4)</a></li>
+                                    }
+                                    @if (ViewBag.Page + 4 <= ViewBag.MaxPage)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page + 4 })">@(ViewBag.page + 5)</a></li>
+                                    }
+                                    @if (ViewBag.Page < ViewBag.MaxPage)
+                                    {
+                                        <li><a href="@Url.Action("offers", new { page = ViewBag.Page + 1 })">Next</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+    var sort = getUrlParameter('sort');
+    var els = document.getElementsByName("s");
+    for (var i = 0, l = els.length; i < l; i++) {
+        var el = els[i];
+        if (el.href == location.protocol + '//' + location.host + location.pathname + "?sort=" + sort) {
+            var sorthtml = el.innerHTML;
+        }
+    }
+    var ss = document.getElementById("sort")
+    if (sorthtml == null)
+        sorthtml = "Alphabetically";
+    ss.innerHTML = "Sort " + sorthtml + " <span class='caret'></span>";
+</script>
+<script>
+    $(document).ready(function () {
+        $("li#offers").addClass("current-page-item");
+    });
+</script>

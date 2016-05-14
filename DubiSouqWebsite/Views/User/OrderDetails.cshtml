@@ -1,0 +1,55 @@
+﻿@model DubiSouqWebsite.Models.order
+
+@{
+    ViewBag.Title = "Order Details";
+}
+<div class="container center_div">
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table">
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Sale
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+
+            @foreach (var item in Model.order_item)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.product.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.product.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.product.Sale)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @(((float)item.product.Price - (((float)item.product.Sale / 100) * (float)item.product.Price)) * item.Quantity)
+                    </td>
+                </tr>
+            }
+        </table>
+        @if (Model.Status == 1)
+        {
+            <p>
+                @Html.ActionLink("Cancel Order", "cancel", new { id = Model.ID })
+            </p>
+        }
+    </div>
+</div>

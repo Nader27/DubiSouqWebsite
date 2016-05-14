@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - DubiSouq.com</title>
+    <title>DubiSouq | @ViewBag.Title</title>
     <!-- fonts files -->
     <link href='http://fonts.googleapis.com/css?family=Cabin:400,500,400italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -74,10 +74,9 @@
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <div class="header_left floatleft">
                         <a class="fa fa-search" onclick="javascript: document.getElementById('searchform').submit()"></a>
-                        @using (Html.BeginForm("Index", "Shop", FormMethod.Get, new { id = "searchform" }))
-                        {
+                        <form method="get">
                             <input type="text" placeholder="search" name="search" />
-                        }
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-5 col-xs-12">
@@ -102,7 +101,7 @@
     <div class="nav_area" id="nav">
         <div class="container">
             <div class="nav_left floatleft">
-                <a href="@Url.Action("Home","Shop")">category<i class="fa fa-bars"></i></a>
+                <a href="@Url.Action("Shop","Shop")">category<i class="fa fa-bars"></i></a>
                 <div class="cat_mega_menu">
                     <div class="cat_left">
                         <h5>Clothing</h5>
@@ -143,7 +142,7 @@
                             @Html.ActionLink("Shop", "Shop", "Shop")
                         </li>
                         <li id="offers">
-                            @Html.ActionLink("Offers", "Home", "Offers")
+                            @Html.ActionLink("Offers", "index", "Offers")
                         </li>
                         <li id="faq">
                             @Html.ActionLink("FAQ", "FAQ", "Home")
@@ -261,10 +260,10 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href='@Url.Action("Home", "Shop")'><span>shop</span></a>
+                                <a href='@Url.Action("Shop", "Shop")'><span>Shop</span></a>
                             </li>
                             <li>
-                                <a href='@Url.Action("Home", "Offers")'><span>Offers</span></a>
+                                <a href='@Url.Action("Index", "Offers")'><span>Offers</span></a>
                             </li>
                             <li>
                                 <a href='@Url.Action("FAQ", "Home")'><span>FAQ</span></a>
@@ -477,7 +476,7 @@
     <script type="text/javascript">
         $(function () {
             // Document.ready -> link up remove event handler
-            $("#addtowish").click(function (e) {
+            $(".addtowish").click(function (e) {
                 e.preventDefault();
                 // Get the id from the link
                 var recordToAdd = $(this).attr("data-id");
